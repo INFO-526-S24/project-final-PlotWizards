@@ -6,7 +6,7 @@ website:
   navbar:
     right:
       - icon: github
-        href: https://github.com/INFO-526-S24/project-final # Needs to be changed to your project repo
+        href: https://github.com/INFO-526-S24/project-final-PlotWizards
     left:
       - text: Project
         href: index.qmd
