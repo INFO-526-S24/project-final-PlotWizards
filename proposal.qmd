@@ -53,7 +53,7 @@ We'll use two datasets:
 
 ### Research questions :
 
-Below we have the questions we would like to answer with our dashboard along with what we will need to answer them including variables, plot representations, and insights we can extract from the visuals.
+Below we have the questions we would like to answer with our dashboard along with what we will need to answer them including variables, plot representations, and insights we can extract from the visuals. We chose these two questions as we believe they would provide helpful real-time insights on a current cricket match.
 
 1.  **How did the (a) scoring rate, (b) player batting performances, and (c) bowlers' economy rates, evolve throughout the match?**
 
