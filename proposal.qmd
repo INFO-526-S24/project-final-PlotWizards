@@ -77,9 +77,11 @@ We'll use two datasets:
 
 ### Research questions :
 
-Below we have the questions we would like to answer with our dashboard along with what we will need to answer them including variables, plot representations, and insights we can extract from the visuals. We chose these two questions as we believe they would provide helpful real-time insights on a current cricket match.
+Below we have the questions we would like to answer with our dashboard along with what we will need to answer them including variables, plot representations, and insights we can extract from the visuals.
 
 1.  **How did the (a) scoring rate, (b) player batting performances, and (c) bowlers' economy rates, evolve throughout the match?**
+
+    We chose this question because it encompasses critical aspects of a cricket match, including scoring dynamics, standout individual performances, bowling efficiency, partnerships' influence on runs, and overall player contributions, providing a holistic view of the match progression.
 
     a\. **Scorecard summary:**
 
@@ -108,6 +110,8 @@ Below we have the questions we would like to answer with our dashboard along wit
     Insights: Shows the distribution of economy rates among bowlers, indicating variations in performance.
 
 2.  **How did (a) partnerships influence total runs, and (b) what insights do team performances, player contributions and live updates provide about the match dynamics?**
+
+    We selected this question to highlight the significance of partnerships in contributing to total runs, while also delving into team performances and individual player contributions, offering insights into strategic game play and the match's overall dynamics.
 
     a\. **Partnerships Overview:**
 
