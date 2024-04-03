@@ -26,21 +26,115 @@ execute:
 library(tidyverse)
 ```
 
-## Dataset
+## High-level Goal
+
+In this project we will create a dashboard of a live, ongoing cricket match that updates its plots at regular, automatic intervals.
+
+## Goal Details
+
+### Motivation:
+
+For this project we wanted to showcase our data visualization skill-set with the challenge of a live dataset, and what better live dataset to use than sports, so we went with our favorite sport - cricket. For the purposes of demonstration we won't use an actual real-time data as we found that there would be unwanted associated costs, so we will instead use a large historical dataset where our back-end server will automatically update the data table for the front-end at regular intervals, essentially mocking a live match.
+
+### Description of datasets:
+
+We'll use two datasets:
+
+1.  **ODI_Match_Data.csv**: Provides facts about the location
+    and season of the cricket matches along with team information and the
+    play results from each team member. We'll need this one to investigate partnerships between batsmen. It's dimensions are 155432 rows of data by 23 variable columns
+
+2.  **ODI_Match_info.csv**: Overlaps in data with the above but provides information on the umpire, performance, and the city the match took place. We'll need this one to analyze the batting and bowling performance of each player. It's dimensions are 2380 rows of data by 18 variable columns.
 
 ```{r}
 #| label: load-dataset
 #| message: false
 ```
 
-Embark on an enthralling journey through the world of One Day International (ODI) cricket with our meticulously curated ODI Cricket Match Data (Male) dataset. This comprehensive collection of cricket match information features male cricket teams, providing a treasure trove of insights for cricket enthusiasts, researchers, and data analysts alike. Explore match details, innings data, player performances, match outcomes, and umpire details, uncovering trends, visualizing team performance, and even predicting match results. Continuously updated from Cricsheet, this dataset ensures access to the latest ODI cricket data, making it an invaluable resource for enhancing cricket knowledge, conducting research, and sharpening data analysis skills, ideal for both cricket aficionados and data enthusiasts alike.
+### Research questions :
 
-## Questions
+Below we have the questions we would like to answer with our dashboard along with what we will need to answer them including variables, plot representations, and insights we can extract from the visuals.
 
-Question1 - How did the scoring rate, top performers, bowlers' economy rates, partnerships, and player performances evolve throughout the match?
+1.  **How did the (a) scoring rate, (b) player batting performances, and (c) bowlers' economy rates, evolve throughout the match?**
 
-Question2 - How did partnerships influence total runs, and what insights do team performances, player contributions and live updates provide about the match dynamics?
+    a\. Scorecard summary:
 
-## Analysis plan
+    Variables: Overs (X-axis), Runs Scored per Over (Y-axis) - from ODI_Match_info.csv
 
--   A plan for answering each of the questions including the variables involved, variables to be created (if any), external data to be merged in (if any).
+    Plot Representation: Line chart or bar chart
+
+    Insights: Visualize the scoring rate throughout the innings, show periods of acceleration or deceleration in runs scored.
+
+    b\. Batting Performance:
+
+    Variables: Batsman Name (X-axis), Runs Scored (Y-axis) - from ODI_Match_info.csv
+
+    Plot Representation: Bar chart or stacked bar chart
+
+    Insights: Compares runs scored by each batsman, highlighting top performers.
+
+    For data wrangling: season, batsman, runs scored..
+
+    c\. Bowler's economy rates:
+
+    Variables: Bowler Name (X-axis), Economy Rate (Y-axis)
+
+    Plot Representation: Box plot or violin plot
+
+    Insights: Shows the distribution of economy rates among bowlers, indicating variations in performance.
+
+2.  **How did (a) partnerships influence total runs, and (b) what insights do team performances, player contributions and live updates provide about the match dynamics?**
+
+    a\. Partnerships Overview:
+
+    Variables: Batsman Pair (X-axis), Partnership Runs (Y-axis)
+
+    Plot Representation: Network graph or line chart
+
+    Insights: Highlights significant partnerships and their impact on total runs.
+
+    b\.
+
+    -   Player Comparison (merged from other questions):
+
+        Variables: Player Name (X-axis), Batting/Bowling Statistics (Y-axis)
+
+        Plot Representation: Radar chart or spider chart
+
+        Insights: Provides a comprehensive comparison of players' performances across multiple metrics.
+
+    -   Team Comparison (merged from other questions):
+
+        Variables: Team Name (X-axis), Runs Scored/Wickets Taken (Y-axis)
+
+        Plot Representation: Pie chart or half-eye plot
+
+        Insights: Visualizes the proportion of runs scored or wickets taken by each team, offering a quick comparison view.
+
+    -   Dynamic Updates (merged from other questions):
+
+        Variables: Live Data (e.g., Score, Commentary, Player Stats)
+
+        Plot Representation: Live dashboard with real-time updates
+
+        Insights: Access to latest match information for enhanced engagement.
+
+## Plan of Attack
+
+|                                                         |            |                                     |                  |              |                                                                                          |
+|---------------------------------------------------------|------------|-------------------------------------|------------------|--------------|------------------------------------------------------------------------------------------|
+| **Task Name**                                           | **Status** | **Assigned to**                     | **Due**          | **Priority** | **Task Summary**                                                                         |
+| Backend: JDBC Connectivity                              |            | Srinivasan, Mohit                   | April 5th        | High         | Connect the database, MySQL, to JAVA using JDBC Connectivity                             |
+| Back-end: API Creativity                                |            | Srinivasan, Mohit                   | April 12th       | High         | Create all the necessary APIs mentioned in the proposal. Addition/changes could be made. |
+| Converting Dataset into dataset                         |            | Tejas, Mohit                        | April 7th        | High         | Merge both the .csv files and put that data in MySQL                                     |
+| Mocking live data                                       |            | Mohit, Tejas                        | April 12th       | Low          | Try to mock the data from 2023 as live data                                              |
+| Data Wrangling                                          |            | Anjani, Nandini, Alex               | April 5th        | High         | Merging datasets and cleaning them                                                       |
+| Designing the initial draft of the plots (Question 1)   |            | Alex, Navya                         | April 10th       | High         | Designing basic plots for Question 1(complex plots will be done later)                   |
+| Designing the initial draft of the plots (Question 2)   |            | Anjani, Nandini                     | April 10th       | High         | Designing basic plots for Question 2(complex plots will be done later)                   |
+| Deciding on more complex plots                          |            | All                                 | April 15th-22th  | High         | Complex plots will be planned and crafted for both the questions                         |
+| Integrating frontend with the backend through API calls |            | Srinivasan, Mohit                   | April 15th -17th | Low          | Calling APIs hosted on the backend in the frontend.                                      |
+| Quarto Dashboards for the initial draft plots           |            | Tejas, Anjani, Nandini, Navya, Alex | April 17th       | High         | Create dashboards for all the plots (simple and complex) using quarto dashboards.        |
+
+## Repository Organization
+
+Our github repository will remain mostly unchaged from the defualt. We will insert our data files into the data/ folder along with a corresponding readme.md file. The frontend of the project will be saved under index.qmd. The final repository will deployed on github pages.
