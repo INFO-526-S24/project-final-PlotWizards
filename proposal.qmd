@@ -1,11 +1,11 @@
 ---
-title: "Proposal title"
+title: "Analyzing Trends in Cricket Games"
 subtitle: "Proposal"
 author: 
-  - name: "Team Name - Team member 1, Team member 2,..."
+  - name: "PlotWizards - Srinivasan Poonkundran, Mohit Rakesh Taparia, Anjani Sowmya Bollapragada, Nandhini Anne, Alexander Berliner, Tejas Bhawari, Sai Navya Reddy Busireddy"
     affiliations:
       - name: "School of Information, University of Arizona"
-description: "Project description"
+description: "Analyzing cricket match data to understand team performances and match outcomes."
 format:
   html:
     code-tools: true
@@ -16,6 +16,8 @@ editor: visual
 code-annotations: hover
 execute:
   warning: false
+  message: false
+  error: false
 ---
 
 ```{r}
@@ -31,13 +33,13 @@ library(tidyverse)
 #| message: false
 ```
 
-A brief description of your dataset including its provenance, dimensions, etc. as well as the reason why you chose this dataset.
-
-Make sure to load the data and use inline code for some of this information.
+Embark on an enthralling journey through the world of One Day International (ODI) cricket with our meticulously curated ODI Cricket Match Data (Male) dataset. This comprehensive collection of cricket match information features male cricket teams, providing a treasure trove of insights for cricket enthusiasts, researchers, and data analysts alike. Explore match details, innings data, player performances, match outcomes, and umpire details, uncovering trends, visualizing team performance, and even predicting match results. Continuously updated from Cricsheet, this dataset ensures access to the latest ODI cricket data, making it an invaluable resource for enhancing cricket knowledge, conducting research, and sharpening data analysis skills, ideal for both cricket aficionados and data enthusiasts alike.
 
 ## Questions
 
-The two questions you want to answer.
+Question1 - How did the scoring rate, top performers, bowlers' economy rates, partnerships, and player performances evolve throughout the match?
+
+Question2 - How did partnerships influence total runs, and what insights do team performances, player contributions and live updates provide about the match dynamics?
 
 ## Analysis plan
 
