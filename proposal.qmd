@@ -2,18 +2,18 @@
 title: "Analyzing Trends in Cricket Games"
 subtitle: "Proposal"
 author: 
-  - name: "PlotWizards - Srinivasan Poonkundran, Mohit Rakesh Taparia,
-  Anjani Sowmya Bollapragada, Nandhini Anne, 
-  Alexander Berliner, Tejas Bhawari, Sai Navya Reddy Busireddy"
+  - name: "PlotWizards"
 affiliations:
-      - name: "School of Information, University of Arizona"
-description: "Analyzing cricket match data to understand team performances and match outcomes."
+  - name: "School of Information, University of Arizona"
+  - description: "Analyzing cricket match data to understand team performances 
+and match outcomes."
 format:
   html:
     code-tools: true
     code-overflow: wrap
     code-line-numbers: true
     embed-resources: true
+    code-fold: true
 editor: visual
 code-annotations: hover
 execute:
@@ -21,12 +21,6 @@ execute:
   message: false
   error: false
 ---
-
-```{r}
-#| label: load-pkgs
-#| message: false
-library(tidyverse)
-```
 
 ## High-level Goal
 
@@ -119,10 +113,18 @@ Below we have the questions we would like to answer with our dashboard along wit
 
         Insights: Access to latest match information for enhanced engagement.
 
+## Methodology Block Diagram
+
+\<image.\>
+
+\<description of methodology, refrencing image\>
+
+\<include apis\>
+
 ## Plan of Attack
 
 |                                                         |            |                                     |                  |              |                                                                                          |
-|-----------|-----------|-----------|-----------|-----------|--------------------|
+|---------------------------------------------------------|------------|-------------------------------------|------------------|--------------|------------------------------------------------------------------------------------------|
 | **Task Name**                                           | **Status** | **Assigned to**                     | **Due**          | **Priority** | **Task Summary**                                                                         |
 | Backend: JDBC Connectivity                              |            | Srinivasan, Mohit                   | April 5th        | High         | Connect the database, MySQL, to JAVA using JDBC Connectivity                             |
 | Back-end: API Creativity                                |            | Srinivasan, Mohit                   | April 12th       | High         | Create all the necessary APIs mentioned in the proposal. Addition/changes could be made. |
