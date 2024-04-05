@@ -7,12 +7,36 @@
 suppressWarnings(library(tidyverse))
 library(knitr)
 library(lubridate)
+library(dplyr)
 
 ```
 
 
 ## Dataset Setup
 ```{r}
+data <- read.csv("./data/ODI_Match_info.csv")
+glimpse(data)
+# Convert 'season' to character type if it's not already
+data$season <- as.character(data$season)
+data$date <- as.Date(data$date)
+
+# Loop through each year from 2002 to 2023
+for (year in 2002:2023) {
+  # Modify 'season' based on the condition (start dates in the next year and '/' symbol in 'season')
+  data <- data %>% 
+    mutate(season = ifelse(substr(date, 1, 4) == as.character(year + 1) & str_detect(season, "/"), 
+                           paste0(substr(season, 1, 4), "/00"), 
+                           season))
+}
+
+# View the updated data
+head(data)
+
+# View the updated data
+data$season
+
+head(data)
+
 
 
 ```
