@@ -36,7 +36,8 @@ head(data)
 data$season
 
 head(data)
-
+cleaned_data <- data[,!names(data) %in% c("umpire1","umpire2","umpire3")]
+head(cleaned_data)
 
 
 ```
