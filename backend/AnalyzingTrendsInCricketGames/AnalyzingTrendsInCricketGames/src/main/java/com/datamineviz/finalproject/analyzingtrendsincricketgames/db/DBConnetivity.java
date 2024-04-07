@@ -1,4 +1,4 @@
-package com.datamineviz.finalproject.analyzingtrendsincricketgames.DB;
+package com.datamineviz.finalproject.analyzingtrendsincricketgames.db;
 
 import java.io.FileInputStream;
 import java.io.IOException;

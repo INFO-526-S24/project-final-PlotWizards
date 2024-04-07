@@ -1,8 +1,14 @@
-package com.datamineviz.finalproject.analyzingtrendsincricketgames.Repository;
+package com.datamineviz.finalproject.analyzingtrendsincricketgames.repository;
 
-@org.springframework.stereotype.Repository
-public class Repository {
 
-	
-	
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.datamineviz.finalproject.analyzingtrendsincricketgames.model.CricketMatch;
+
+@Repository
+public interface MatchRepository extends JpaRepository<CricketMatch, Integer>{
+
 }
