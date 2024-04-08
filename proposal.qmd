@@ -151,6 +151,12 @@ Below we have the questions we would like to answer with our dashboard along wit
 
 ## Plan of Attack
 
+### Mocking Live Data :
+
+To avoid unnecessary costs associated with real-time data, we will split the data into two parts: past data and live data.
+
+The past data will include information from years 2002 to 2022, while the live data will consist of data from the year 2023. Each entry from 2023 will be read from the actual CSV file and entered into a database table with an interval of 10 to 20 seconds between two consecutive entries. These entries will be considered as live data and will be sent to the API caller.
+
 ### Diagram of plan:
 
 ![](images/Capture.PNG)
