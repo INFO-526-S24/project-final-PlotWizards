@@ -1,6 +1,4 @@
-
-
-```{r}
+```{r, warning=FALSE, message=FALSE}
 #| label: load-pkgs
 #| message: false
 
@@ -8,44 +6,371 @@ suppressWarnings(library(tidyverse))
 library(knitr)
 library(lubridate)
 library(dplyr)
-
+library(shiny)
+library(plotly)
 ```
-
-
-## Dataset Setup
-```{r}
-data <- read.csv("./data/ODI_Match_info.csv")
-glimpse(data)
-# Convert 'season' to character type if it's not already
-data$season <- as.character(data$season)
-data$date <- as.Date(data$date)
-
-# Loop through each year from 2002 to 2023
-for (year in 2002:2023) {
-  # Modify 'season' based on the condition (start dates in the next year and '/' symbol in 'season')
-  data <- data %>% 
-    mutate(season = ifelse(substr(date, 1, 4) == as.character(year + 1) & str_detect(season, "/"), 
-                           paste0(substr(season, 1, 4), "/00"), 
-                           season))
-}
-
-# View the updated data
-head(data)
-
-# View the updated data
-data$season
-
-head(data)
-cleaned_data <- data[,!names(data) %in% c("umpire1","umpire2","umpire3")]
-head(cleaned_data)
-
-
-```
-
 
 
 ## Plots
-```{r}
+
+#### Player Comparision
+
+```{r, warning=FALSE, message=FALSE}
+#| label: player-comp-batsman
+
+
+# Load necessary libraries
+
+filtered_data_5years <- read.csv("../data/filtered_data_5years.csv")
+
+# Define UI for the Shiny app
+ui <- fluidPage(
+  
+  # Dropdown menu for selecting players
+  selectInput(inputId = "player1", label = "Select Player 1:",
+              choices = unique(filtered_data_5years$striker),
+              selected = NULL, multiple = FALSE),
+  
+  selectInput(inputId = "player2", label = "Select Player 2:",
+              choices = unique(filtered_data_5years$striker),
+              selected = NULL, multiple = FALSE),
+  
+  # Plot output
+  plotOutput(outputId = "batting_performance_plot")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Reactive function to filter data based on selected players
+  player1_data <- reactive({
+    filtered_data_5years %>%
+      filter(striker == input$player1) %>%
+      group_by(season) %>%
+      summarise(total_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop')
+  })
+  
+  player2_data <- reactive({
+    filtered_data_5years %>%
+      filter(striker == input$player2) %>%
+      group_by(season) %>%
+      summarise(total_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop')
+  })
+  
+  # Render the plot
+  output$batting_performance_plot <- renderPlot({
+    
+    # Filter and aggregate data for selected players
+    player1 <- player1_data()
+    player2 <- player2_data()
+    
+    # Plot batting performance as bar plots
+    plot1 <- ggplot(player1, aes(x = season, y = total_runs)) +
+      geom_bar(stat = "identity", fill = "blue") +
+      labs(title = paste("Batting Performance of", input$player1),
+           x = "Season",
+           y = "Total Runs")
+    
+    plot2 <- ggplot(player2, aes(x = season, y = total_runs)) +
+      geom_bar(stat = "identity", fill = "red") +
+      labs(title = paste("Batting Performance of", input$player2),
+           x = "Season",
+           y = "Total Runs")
+    
+    # Arrange plots side by side
+    gridExtra::grid.arrange(plot1, plot2, ncol = 2)
+  })
+}
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+
+```
+
+```{r, warning=FALSE, message=FALSE}
+#| label: player-comp-bowlers
+# b. Bowlers Performance - Player Comparision
+
+# Define UI for the Shiny app
+ui <- fluidPage(
+  
+  # Dropdown menu for selecting players
+  selectInput(inputId = "player1", label = "Select Player 1:",
+              choices = unique(filtered_data_5years$bowler),
+              selected = NULL, multiple = FALSE),
+  
+  selectInput(inputId = "player2", label = "Select Player 2:",
+              choices = unique(filtered_data_5years$bowler),
+              selected = NULL, multiple = FALSE),
+  
+  # Plot output
+  plotOutput(outputId = "bowling_performance_plot")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Reactive function to filter data based on selected players
+  player1_data <- reactive({
+    filtered_data_5years %>%
+      filter(bowler == input$player1) %>%
+      group_by(season) %>%
+      summarise(total_wickets = sum(as.numeric(win_by_wickets, na.rm = TRUE)), .groups = 'drop')
+  })
+  
+  player2_data <- reactive({
+    filtered_data_5years %>%
+      filter(bowler == input$player2) %>%
+      group_by(season) %>%
+      summarise(total_wickets = sum(as.numeric(win_by_wickets, na.rm = TRUE)), .groups = 'drop')
+  })
+  
+  # Render the plot
+  output$bowling_performance_plot <- renderPlot({
+    
+    # Filter and aggregate data for selected players
+    player1 <- player1_data()
+    player2 <- player2_data()
+    
+    # Plot bowling performance as bar plots
+    plot1 <- ggplot(player1, aes(x = season, y = total_wickets)) +
+      geom_bar(stat = "identity", fill = "blue") +
+      labs(title = paste("Bowling Performance of", input$player1),
+           x = "Season",
+           y = "Total Wickets")
+    
+    plot2 <- ggplot(player2, aes(x = season, y = total_wickets)) +
+      geom_bar(stat = "identity", fill = "red") +
+      labs(title = paste("Bowling Performance of", input$player2),
+           x = "Season",
+           y = "Total Wickets")
+    
+    # Arrange plots side by side
+    gridExtra::grid.arrange(plot1, plot2, ncol = 2)
+  })
+}
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+
+```
+
+```{r, warning=FALSE, message=FALSE}
+#| label: team-comp
+
+# c. Team Comparison
+
+# Define UI for the Shiny app
+ui <- fluidPage(
+  
+  # Dropdown menu for selecting season
+  selectInput(inputId = "season", label = "Select Season:",
+              choices = unique(filtered_data_5years$season),
+              selected = NULL, multiple = FALSE),
+  
+  # Table output
+  tableOutput(outputId = "team_performance_table")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Reactive function to filter data based on selected season
+  season_data <- reactive({
+    filtered_data_5years %>%
+      filter(season == input$season) %>%
+      group_by(match_id, team1, team2, winner) %>%
+      summarise(runs_made = sum(runs_off_bat, na.rm = TRUE),  
+                player_of_match = player_of_match[1], 
+                .groups = 'drop') %>%
+      drop_na() %>%  # Drop rows with NA values
+      distinct(match_id, .keep_all = TRUE)  # Keep only unique match IDs
+  })
+  
+  # Render the table
+  output$team_performance_table <- renderTable({
+    season_data()
+  })
+}
+
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+
+```
+
+
+```{r, warning=FALSE, message=FALSE}
+#| label: map
+
+# bubble map - Team Comparision
+
+# Load necessary libraries
+library(plotly)
+library(dplyr)
+
+# Define UI for the Shiny app
+ui <- fluidPage(
+  # Dropdown menu for selecting seasons
+  selectInput(inputId = "selected_season", label = "Select Season:",
+              choices = unique(filtered_data_5years$season),
+              selected = NULL),
+  
+  # Plot output
+  plotlyOutput(outputId = "choropleth_map")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Filter data for the selected season
+  filtered_season_data <- reactive({
+    filtered_data_5years %>%
+      filter(season == input$selected_season) %>%
+      group_by(team1) %>%
+      summarise(total_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop')
+  })
+  
+  # Create choropleth map using plotly
+  output$choropleth_map <- renderPlotly({
+    # Access filtered data
+    data <- filtered_season_data()
+    
+    # Load world map data
+    world_map <- map_data("world")
+    
+    # Merge data with world map
+    merged_data <- merge(world_map, data, by.x = "region", by.y = "team1", all.x = TRUE)
+    
+    # Create choropleth map
+    plot_ly(merged_data, z = ~total_runs, locations = ~region, locationmode = "country names",
+            type = "choropleth", colors = "Blues", marker = list(line = list(color = "rgb(255,255,255)", width = 2))) %>%
+      layout(title = paste("Total Runs Scored by Countries in", input$selected_season),
+             geo = list(scope = "world", projection = list(type = "natural earth")))
+  })
+}
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
 
 
 ```
+
+
+```{r, warning=FALSE, message=FALSE}
+#| label: donut
+
+
+# half-eye-plot (donut) - team comparision
+
+# Define UI for the Shiny app
+ui <- fluidPage(
+  # Dropdown menu for selecting seasons
+  selectInput(inputId = "selected_season", label = "Select Season:",
+              choices = unique(filtered_data_5years$season),
+              selected = NULL),
+  
+  # Plot output
+  plotlyOutput(outputId = "team_comparison_plot")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Filter data for the selected season
+  filtered_season_data <- reactive({
+    filtered_data_5years %>%
+      filter(season == input$selected_season) %>%
+      group_by(team1) %>%
+      summarise(total_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop')
+  })
+  
+  # Create pie chart or half eye plot
+  output$team_comparison_plot <- renderPlotly({
+    # Access filtered data
+    data <- filtered_season_data()
+    
+    # Create pie chart
+    # pie_chart <- plot_ly(data, labels = ~team1, values = ~total_runs, type = "pie",
+     #                    marker = list(colors = rainbow(nrow(data)))) %>%
+     # layout(title = paste("Total Runs Scored by Countries in", input$selected_season),
+     #        showlegend = FALSE)
+    
+    # Alternatively, create half eye plot
+    half_eye_plot <- plot_ly(data, labels = ~team1, values = ~total_runs, type = "pie",
+                             marker = list(colors = rainbow(nrow(data))),
+                             hole = 0.4) %>%
+      layout(title = paste("Total Runs Scored by Countries in", input$selected_season),
+             showlegend = FALSE)
+    
+    # Return the plot based on selection
+    # pie_chart
+    half_eye_plot
+  })
+}
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+
+```
+
+#### Batsman Partnership
+
+```{r, warning=FALSE, message=FALSE}
+#| label: partnership
+
+
+# stacked-bar-plot - Batsman Partnerships
+
+# Define UI for the Shiny app
+ui <- fluidPage(
+  
+  # Dropdown menu for selecting the season
+  selectInput(inputId = "selected_season", label = "Select Season:",
+              choices = unique(filtered_data_5years$season), selected = NULL),
+  
+  # Plot output
+  plotOutput(outputId = "partnership_plot")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Reactive function to filter data based on selected season
+  partnership_data <- reactive({
+    selected_data <- filtered_data_5years %>%
+      filter(season == input$selected_season) %>%
+      group_by(striker, non_striker) %>%
+      summarise(partnership_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop') %>%
+      arrange(desc(partnership_runs)) %>%
+      top_n(10)
+    return(selected_data)
+  })
+  
+  # Render the plot
+  output$partnership_plot <- renderPlot({
+    
+    # Filter data based on selected season
+    data <- partnership_data()
+    
+    # Create stacked bar plot for top batting partnerships
+    ggplot(data, aes(x = reorder(paste(striker, non_striker, sep = " & "), -partnership_runs), y = partnership_runs, fill = striker)) +
+      geom_bar(stat = "identity") +
+      coord_flip() +
+      labs(title = paste("Top 10 Batting Partnerships in", input$selected_season),
+           x = "Batsman Pair",
+           y = "Partnership Runs",
+           fill = "Batsman") +
+      theme_minimal() +
+      theme(legend.position = "none")
+  })
+}
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+
+
+```
+
+
+
