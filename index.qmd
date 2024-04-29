@@ -1,0 +1,27 @@
+---
+title: "Analyzing Trends in Cricket Games"
+subtitle: "INFO 526 - Project Final"
+author: 
+  - name: "Plot Wizards"
+    affiliations:
+      - name: "School of Information, University of Arizona"
+      - description: "Analyzing cricket match data to understand team performances 
+and match outcomes."
+format:
+   html:
+    code-tools: true
+    code-overflow: wrap
+    embed-resources: true
+editor: visual
+execute:
+  warning: false
+  echo: false
+---
+
+## Abstract
+
+This project aims to create a dashboard for a live cricket match using historical data and API mock-ups. The motivation stems from showcasing data visualization skills within the context of a dynamic, real-time dataset, albeit simulated through historical data updates. Our data provides comprehensive information about cricket matches, including team performance, player statistics, and match outcomes. The project's research questions focus on analyzing scoring rates, player batting and bowling performances, partnerships' influence on total runs, and team dynamics throughout the match.
+
+The backend APIs play a crucial role in providing real-time or pseudo-real-time data updates for batting performance, bowling performance, partnerships, and player performance tracking. The team is organized into tasks such as JDBC connectivity, API creation, data wrangling, mock data creation, and frontend-backend integration. The GitHub repository structure includes a data folder for datasets, a readme.md file, and index.qmd for the frontend, with deployment planned on GitHub Pages.
+
+Overall, this project showcases a comprehensive approach to data visualization, backend API integration, and dashboard creation for a live cricket match experience, blending historical data insights with dynamic dashboard updates.
