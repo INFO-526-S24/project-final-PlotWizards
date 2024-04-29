@@ -1,6 +1,11 @@
 package com.datamineviz.finalproject.analyzingtrendsincricketgames.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,38 +26,58 @@ public class Controller {
 		return x + id;
 	}
 	
-	@GetMapping("/addstaticdata")
-	public void addStaticData() {
+	@GetMapping("/addstaticdata/{passcode}")
+	public ResponseEntity<String> addStaticData(@PathVariable String passcode) {
 		
-		CricketMatch match = new CricketMatch(
-                1389389,             // match_id
-                "2023/24",          // season
-                "24-09-2023",       // start_date
-                "Holkar Cricket Stadium, Indore", // venue
-                1,                  // innings
-                1,                  // ball
-                "India",            // batting_team
-                "Australia",        // bowling_team
-                "RD Gaikwad",       // striker
-                "Shubman Gill",     // non_striker
-                "SH Johnson",       // bowler
-                4,                  // runs_off_bat
-                0,                  // extras
-                0,                  // wides
-                0,                  // noballs
-                0,                  // byes
-                0,                  // legbyes
-                0,                  // penalty
-                "",                 // wicket_type
-                "",                 // player_dismissed
-                "",                 // other_wicket_type
-                "",                 // other_player_dismissed
-                1389389             // cricsheet_id
-        );
+//		if(passcode.contentEquals("eclipseWhisper24")) {
+//			
+//			if(matchService.addMatchToDataBase()) {
+//				return new ResponseEntity<>("Match Data Added!", HttpStatus.OK);
+//			}
+//			return new ResponseEntity<>("Error in adding match data", HttpStatus.INTERNAL_SERVER_ERROR);
+//		}else {
+//			return new ResponseEntity<>("Wrong Passcode", HttpStatus.FORBIDDEN);
+//		}
 		
-		
-		matchService.insertDataInMatchTable(match);
+		return null;
+//		
 		
 	}
+	
+	
+	@GetMapping("/getmatchbyid/{id}")
+	public ResponseEntity<Optional<CricketMatch>> getMatchById(@PathVariable String id) {
+		
+		
+		
+		return new ResponseEntity<>(matchService.getMatchDataById(Long.parseLong(id)), HttpStatus.OK);		
+		
+	}
+	
+	
+	@GetMapping("/getallmatchdata")
+	public ResponseEntity<List<CricketMatch>> getAllMatchData(){
+		
+		
+		return new ResponseEntity<>(matchService.getAllMatchData(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/startlivematch/{matchid}/{passcode}")
+	public ResponseEntity<String> startLiveMatch(@PathVariable long matchid, @PathVariable String passcode){
+		
+	if(passcode.contentEquals("eclipseWhisper24")) {
+			
+		matchService.startLiveMatchData(matchid);
+		return new ResponseEntity<>("Live Match Started", HttpStatus.OK);
+	}else {
+		return new ResponseEntity<>("Wrong Passcode", HttpStatus.FORBIDDEN);
+	}
+		
+		
+		
+	}
+	
+
+
 
 }
