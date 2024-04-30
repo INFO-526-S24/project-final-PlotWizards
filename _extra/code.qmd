@@ -8,12 +8,214 @@ library(lubridate)
 library(dplyr)
 library(shiny)
 library(plotly)
+library(ggplot2)
 ```
-
 
 ## Plots
 
-#### Player Comparision
+```{r}
+# Define the user interface
+ui <- fluidPage(
+  titlePanel("Cricket Match Dashboard"),
+  
+  # Dropdown selection for countries
+  selectInput(inputId = "bowling_team",
+              label = "Choose a Country:",
+              choices = c("India", "Australia", "England", "South Africa","Pakistan","West Indies","Ireland","Scotland","Nepal","Canada","United States","Oman","United Arab Emirates","Zimbabwe","Afghanistan","Netherlands"), 
+              selected = "India"),
+  
+  # Output plot
+  plotOutput(outputId = "scorePlot")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Read the complete dataset outside the reactive context to improve performance
+  odi_data <- read.csv("../data/filtered_data_5years.csv")
+
+  # Assume 'odi_data' has a 'Country' column. If not, add it to your dataset accordingly.
+  
+  # Reactive expression to filter the data based on selected country
+  filteredData <- reactive({
+    odi_data %>%
+      filter(bowling_team == input$bowling_team) %>%
+      group_by(innings, ball) %>%
+      summarise(Runs_Scored = sum(runs_off_bat) + sum(extras), .groups = "drop") %>%
+      group_by(innings, over = ceiling(ball)) %>%
+      summarise(Total_Runs = sum(Runs_Scored), .groups = "drop")
+  })
+  
+  # Render the plot based on the filtered data
+  output$scorePlot <- renderPlot({
+    ggplot(filteredData(), aes(x = over, y = Total_Runs, color = factor(innings))) +
+      geom_line() +
+      labs(x = "Overs", y = "Runs Scored per Over", title = "Scoring Rate Evolution") +
+      theme_minimal()
+  })
+}
+
+# Run the app
+shinyApp(ui = ui, server = server)
+```
+
+```{r}
+library(shiny)
+library(ggplot2)
+library(dplyr)
+
+# Read the dataset only once to improve performance
+  odi_data <- read.csv("../data/filtered_data_5years.csv")
+
+# Define the UI for the application
+ui <- fluidPage(
+  titlePanel("Top Batsmen by Total Runs Scored"),
+
+  # Dropdown for selecting the season
+  selectInput(inputId = "season",
+              label = "Select Season:",
+              choices = unique(odi_data$season), # Assuming 'season' column exists in odi_data
+              selected = unique(odi_data$season)[1]),
+
+  # Plot output
+  plotOutput("batsmanPlot")
+)
+
+# Server logic to generate the plot based on the selected season
+server <- function(input, output) {
+  
+  
+  # Reactive expression to filter data based on selected season and calculate the top batsmen
+  topBatsmenData <- reactive({
+    odi_data %>%
+      filter(season == input$season) %>%
+      group_by(striker) %>%
+      summarise(Total_Runs = sum(runs_off_bat), .groups = "drop") %>%
+      top_n(10, Total_Runs) %>% # Adjust the number 10 to show more or fewer top batsmen
+      arrange(desc(Total_Runs))
+  })
+  
+  # Render the plot output
+  output$batsmanPlot <- renderPlot({
+    ggplot(topBatsmenData(), aes(x = reorder(striker, Total_Runs), y = Total_Runs)) +
+      geom_bar(stat = "identity", fill = "skyblue") +
+      labs(x = "Batsman", y = "Total Runs Scored", title = "Top Batsmen by Total Runs Scored") +
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  })
+}
+
+# Run the app
+shinyApp(ui = ui, server = server)
+```
+
+```{r}
+library(shiny)
+library(ggplot2)
+library(dplyr)
+
+# Read the dataset only once to improve performance
+  odi_data <- read.csv("../data/filtered_data_5years.csv")
+
+# Define the UI for the application
+ui <- fluidPage(
+  titlePanel("Bowling Performance Dashboard"),
+
+  # Dropdown for selecting the season
+  selectInput(inputId = "season",
+              label = "Select Season:",
+              choices = NULL, # Choices will be updated in server logic
+              selected = NULL),
+
+  # Plot output
+  plotOutput("bowlerPlot")
+)
+
+server <- function(input, output, session) {
+  # Update dropdown choices based on available seasons in the dataset
+  observe({
+    # Make sure 'season' column exists in 'odi_data' and the name is spelled correctly
+    seasons <- sort(unique(odi_data$season))
+    # Use 'seasons' variable for choices, not 'season'
+    updateSelectInput(session, "season", choices = seasons, selected = seasons[1])
+  })
+  
+  # Reactive expression for filtering data based on the selected season
+  filteredData <- reactive({
+    # Again, make sure 'season' is the correct column name in 'odi_data'
+    odi_data %>%
+      filter(season == input$season) %>%
+      group_by(bowler) %>%
+      summarise(
+        econ_rate = sum(runs_off_bat) / ceiling(max(ball)),
+        .groups = "drop"
+      ) %>%
+      # Ensure 'bowler' is the correct column name for bowlers in 'odi_data'
+      filter(bowler %in% unique(bowler)[1:8]) # Adjust the filtering as needed
+  })
+
+  # Render the violin plot
+  output$bowlerPlot <- renderPlot({
+    ggplot(filteredData(), aes(x = bowler, y = econ_rate)) +
+      geom_violin() +
+      labs(
+        x = "Bowler",
+        y = "Economy Rate",
+        title = "Distribution of Economy Rates",
+        subtitle = "for selected Season"
+      ) +
+      theme_light()
+  })
+}
+
+#Run the shiny app
+shinyApp(ui=ui,server=server)
+```
+
+```{r}
+server <- function(input, output, session) {
+  # Update dropdown choices based on available seasons in the dataset
+  observe({
+    seasons <- sort(unique(odi_data$season))
+    updateSelectInput(session, "season", choices = seasons, selected = seasons[1])
+  })
+
+  # Reactive expression for filtering data based on the selected season
+  filteredData <- reactive({
+    data <- odi_data %>%
+      filter(season == input$season) %>%
+      group_by(bowler) %>%
+      summarise(
+        econ_rate = sum(runs_off_bat) / ceiling(max(ball)),
+        .groups = "drop"
+      )
+    print(data) # Debug: print the filtered data to the R console
+    return(data)
+  })
+
+  # Render the violin plot
+  output$bowlerPlot <- renderPlot({
+    data_to_plot <- filteredData()
+    if(nrow(data_to_plot) == 0) {
+      print("No data available for the selected season.") # Debug: print a message if no data is available
+      return(NULL)
+    }
+    ggplot(data_to_plot, aes(x = bowler, y = econ_rate)) +
+      geom_violin() +
+      labs(
+        x = "Bowler",
+        y = "Economy Rate",
+        title = "Distribution of Economy Rates",
+        subtitle = "for selected Season"
+      ) +
+      theme_light()
+  })
+}
+
+#Run the shiny app
+shinyApp(ui=ui,server=server)
+```
+
+## Player Comparision
 
 ```{r, warning=FALSE, message=FALSE}
 #| label: player-comp-batsman
@@ -199,7 +401,6 @@ shinyApp(ui = ui, server = server)
 
 ```
 
-
 ```{r, warning=FALSE, message=FALSE}
 #| label: map
 
@@ -255,7 +456,6 @@ shinyApp(ui = ui, server = server)
 
 
 ```
-
 
 ```{r, warning=FALSE, message=FALSE}
 #| label: donut
@@ -371,6 +571,3 @@ shinyApp(ui = ui, server = server)
 
 
 ```
-
-
-
