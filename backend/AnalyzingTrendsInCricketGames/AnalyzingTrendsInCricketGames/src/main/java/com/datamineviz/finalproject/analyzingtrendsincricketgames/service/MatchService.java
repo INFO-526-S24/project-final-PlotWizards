@@ -74,13 +74,21 @@ public class MatchService {
 	
 			
 			System.out.println(entry);
-//            try {
-//                Thread.sleep(100); // Sleep for 10 seconds (10000 milliseconds)
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Thread.sleep(1000); // Sleep for 10 seconds (10000 milliseconds)
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 		}
 		
+	}
+	
+	public CricketMatchLive getCurrentLiveData() {
+		return matchRepositoryLive.getSCurrentScoreEntry();
+	}
+	
+	public List<CricketMatchLive> getEntireLiveData() {
+		return matchRepositoryLive.findAll();
 	}
 	
 	

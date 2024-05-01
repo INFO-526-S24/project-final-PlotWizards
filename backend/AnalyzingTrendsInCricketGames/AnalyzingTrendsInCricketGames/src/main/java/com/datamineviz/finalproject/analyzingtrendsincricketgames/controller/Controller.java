@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.datamineviz.finalproject.analyzingtrendsincricketgames.model.CricketMatch;
+import com.datamineviz.finalproject.analyzingtrendsincricketgames.model.CricketMatchLive;
 import com.datamineviz.finalproject.analyzingtrendsincricketgames.service.MatchService;
 
 @RestController
@@ -65,16 +66,28 @@ public class Controller {
 	@GetMapping("/startlivematch/{matchid}/{passcode}")
 	public ResponseEntity<String> startLiveMatch(@PathVariable long matchid, @PathVariable String passcode){
 		
-	if(passcode.contentEquals("eclipseWhisper24")) {
+		if(passcode.contentEquals("eclipseWhisper24")) {
+				
+			matchService.startLiveMatchData(matchid);
+			return new ResponseEntity<>("Live Match Started", HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>("Wrong Passcode", HttpStatus.FORBIDDEN);
+		}
 			
-		matchService.startLiveMatchData(matchid);
-		return new ResponseEntity<>("Live Match Started", HttpStatus.OK);
-	}else {
-		return new ResponseEntity<>("Wrong Passcode", HttpStatus.FORBIDDEN);
+			
+		
 	}
+	
+	@GetMapping("/getcurrentlivedata")
+	public ResponseEntity<CricketMatchLive> getCurrentEntry(){
 		
+		return new ResponseEntity<>(matchService.getCurrentLiveData(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getentirelivedata")
+	public ResponseEntity<List<CricketMatchLive>> getEntireLiveData(){
 		
-		
+		return new ResponseEntity<>(matchService.getEntireLiveData(), HttpStatus.OK);
 	}
 	
 
