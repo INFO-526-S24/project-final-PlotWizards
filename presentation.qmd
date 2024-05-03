@@ -1,16 +1,15 @@
 ---
-title: "Project title"
-subtitle: "INFO 526 - Fall 2023 - Project Final"
-author: "Author names"
+title: "Cricket Metrics"
+subtitle: "INFO 526 - spring 2024 - Project Final"
+author: "Anjani Sowmya, Alexander Berliner, Navya Reddy, Nandhani Anne, Srinivasan Poonkundran, Tejas Bhawari, Mohit Taparia"
 title-slide-attributes:
-  data-background-image: images/watercolour_sys02_img34_teacup-ocean.jpg
+  data-background-image: images/king.jpg
   data-background-size: stretch
-  data-background-opacity: "0.7"
+  data-background-opacity: "0.8"
   data-slide-number: none
 format:
   revealjs:
     theme:  ['data/customtheming.scss']
-  
 editor: visual
 execute:
   echo: false
@@ -46,58 +45,34 @@ knitr::opts_chunk$set(
 #| label: load-data
 #| include: false
 # Load data here
-data(mtcars)
-mtcars$speed <- mtcars$hp / mtcars$wt
-
-data("penguins")
+odi_data <- read.csv("data/filtered_data_5years.csv")
 ```
 
-# Using Quarto for presentations
+# Introduction
 
-## Quarto
+This project aims to create a dashboard for a live cricket match using historical data and API mock-ups. The motivation stems from showcasing data visualization skills within the context of a dynamic, real-time dataset, albeit simulated through historical data updates.
 
--   The presentation is created using the Quarto CLI
+## **Research Questions**
 
--   `##` sets the start of a new slide
+-   How did the scoring rate, player batting performances, and bowlers' economy rates evolve throughout the match?
 
-## Layouts
+    ###### 
 
-You can use plain text
-
-::: columns
-::: {.column width="40%"}
--   or bullet points[^1]
-:::
-
-::: {.column width="60%"}
-or in two columns
-:::
-:::
-
-[^1]: And add footnotes
-
--   like
-
--   this
+-   How did partnerships influence total runs, and what insights do team performances, player contributions, and live updates provide about the match dynamics?
 
 ## Code
 
 ```{r, echo=FALSE}
-model <- lm(mpg ~ speed, data = mtcars) 
 
-model |> tidy()
-
-model |> glance()
 
 ```
 
 ## Plots
 
+![](images/newplot.png){fig-align="center"}
+
 ```{r}
-penguins |>
-  mutate(species = ifelse(species == "Adelie", "Adelie", "Other")) |>
-  ggplot(aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
-  geom_point()
+
 ```
 
 ## Plot and text
@@ -111,12 +86,7 @@ penguins |>
 
 ::: {.column width="50%"}
 ```{r, warning=FALSE, fig.width=5.5}
-penguins |>
-  ggplot(aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot(linewidth = 0.75,
-               outlier.size = 2.5) +
-  theme_minimal(base_size = 15) +
-  theme(legend.key.size = unit(0.8, "cm"))
+
 ```
 :::
 :::
