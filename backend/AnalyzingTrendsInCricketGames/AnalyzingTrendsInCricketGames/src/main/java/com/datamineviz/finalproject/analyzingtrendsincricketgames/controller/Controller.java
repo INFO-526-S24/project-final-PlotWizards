@@ -90,7 +90,17 @@ public class Controller {
 		return new ResponseEntity<>(matchService.getEntireLiveData(), HttpStatus.OK);
 	}
 	
-
+	@GetMapping("/getallseasons")
+	public ResponseEntity<List<String>> getAllSeasons(){
+		
+		return new ResponseEntity<List<String>>(matchService.getAllSeasons(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/getmatchidsbyseason/{season}")
+	public ResponseEntity<List<String>> getMatchIdsBySeason(@PathVariable String season){
+		
+		return new ResponseEntity<List<String>>(matchService.getMatchIdListBySeason(season), HttpStatus.OK);
+	}
 
 
 }

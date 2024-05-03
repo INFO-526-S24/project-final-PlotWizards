@@ -91,5 +91,13 @@ public class MatchService {
 		return matchRepositoryLive.findAll();
 	}
 	
+	public List<String> getAllSeasons(){
+		return matchRepository.getAllSeasons();
+	}
+
+	public List<String> getMatchIdListBySeason(String season) {
+		return matchRepository.getMatchIdListBySeason(season);
+	}
+	
 	
 }
