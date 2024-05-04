@@ -4,6 +4,7 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
@@ -21,7 +22,7 @@ library(leaflet)
 library(quarto)
 
 # Read the complete dataset outside the reactive context to improve performance
-odi_data <- read.csv("D:/Spring 2024/filtered_data_5years.csv")
+odi_data <- read.csv("../data/filtered_data_5years.csv")
 ```
 
 Column {data-width=550}

@@ -75,7 +75,7 @@ public class MatchService {
 			
 			System.out.println(entry);
             try {
-                Thread.sleep(1000); // Sleep for 10 seconds (10000 milliseconds)
+                Thread.sleep(300); // Sleep for 10 seconds (10000 milliseconds)
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -16,6 +16,37 @@ library(ggplot2)
 ### Question 1
 
 ```{r}
+
+odi_data <- read.csv("../data/filtered_data_5years.csv")
+
+
+filteredData <- odi_data %>%
+      filter(match_id == 1389389) |>
+  mutate(over = floor(ball)) |>
+  group_by(batting_team) |>
+  mutate(runs = cumsum(runs_off_bat + extras))
+  
+ggplot(filteredData, aes(x = ball, y = runs, color = batting_team)) +
+  geom_line() +
+  labs(x = "Overs", 
+       y = "Runs", 
+       title = "Scoring Rate Evolution",
+       color = "Innings") +
+  theme_minimal() 
+
+
+```
+
+```{r}
+t = odi_data |> filter(season == "2023/00")
+
+idList = unique(t$match_id)
+
+```
+
+
+
+```{r}
 # Define the user interface
 ui <- fluidPage(
   titlePanel("Cricket Match Dashboard"),
@@ -546,3 +577,145 @@ shinyApp(ui = ui, server = server)
 
 
 ```
+
+
+
+
+
+
+```{r}
+library(jsonlite)
+library(httr)
+
+# API endpoint URL
+apiUrl = "http://127.0.0.1:8100/analyzingtrends/getentirelivedata"
+
+# Make GET request to the API
+response = GET(apiUrl) 
+
+
+
+# Reference [2]
+# Check if the request was successful
+if (http_status(response)$category == "Success") {
+  
+  # Reference [3]
+  # Parse JSON content
+  jsonContent = content(response, "text", encoding = "UTF-8")
+  
+  # Convert JSON to list
+  dataList = fromJSON(jsonContent, simplifyVector = FALSE)
+   
+  # Flatten the nested lists
+  flatten_list <- lapply(dataList, unlist)
+  
+  # Convert to dataframe
+  liveData <- as.data.frame(do.call(rbind, flatten_list))
+  
+} else {
+  # Print error message if request failed
+  print("Failed to retrieve data from the API.")
+}
+
+
+liveData <- liveData %>%
+  mutate(over = floor(as.double(ball))) |>
+  group_by(battingTeam) |>
+  mutate(runs = cumsum(as.integer(runsOffBat) + as.integer(extras)))
+  
+ggplot(liveData, aes(x = as.double(ball), y = runs, color = battingTeam)) +
+  geom_line() +
+  labs(x = "Overs", 
+       y = "Runs", 
+       title = "Scoring Rate Evolution",
+       color = "Innings") +
+  theme_minimal() 
+
+```
+
+```{r}
+
+
+library(shiny)
+
+apiUrl = "http://127.0.0.1:8100/analyzingtrends/getentirelivedata"
+# Define UI
+ui <- fluidPage(
+  titlePanel("Live Data Plot"),
+  
+  # Output for the plot
+  plotOutput("livePlot")
+)
+
+# Define server logic
+server <- function(input, output, session) {
+  
+  # Reactive timer to trigger data updates every 5 seconds
+  autoInvalidate <- reactiveTimer(1000)
+  
+  # Function to generate random data
+  generateData <- function() {
+      
+      
+      # Make GET request to the API
+      response = GET(apiUrl) 
+      
+    
+      # Check if the request was successful
+      if (http_status(response)$category == "Success") {
+    
+        # Parse JSON content
+        jsonContent = content(response, "text", encoding = "UTF-8")
+        
+        # Convert JSON to list
+        dataList = fromJSON(jsonContent, simplifyVector = FALSE)
+         
+        # Flatten the nested lists
+        flatten_list <- lapply(dataList, unlist)
+        
+        # Convert to dataframe
+        liveData <- as.data.frame(do.call(rbind, flatten_list))
+        return(liveData)
+        
+      } else {
+      # Print error message if request failed
+        print("Failed to retrieve data from the API.")
+        return(NULL)
+      }
+  }
+  
+  # Reactive expression to update data at fixed intervals
+  liveData <- reactive({
+    autoInvalidate()
+    generateData()
+  })
+  
+  # Render the plot
+  output$livePlot <- renderPlot({
+    data <- liveData()
+    liveData <- data %>%
+      mutate(over = floor(as.double(ball))) |>
+      group_by(battingTeam) |>
+      mutate(runs = cumsum(as.integer(runsOffBat) + as.integer(extras)))
+    
+    ggplot(liveData, aes(x = as.double(ball), y = runs, color = battingTeam)) +
+      geom_line() +
+      xlim(0, 50) +
+      ylim(0, 500) +
+      labs(
+        x = "Overs",
+        y = "Runs",
+        title = "Scoring Rate Evolution",
+        color = "Innings"
+      ) +
+      theme_minimal() 
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+
+
+
+```
+

@@ -4,7 +4,44 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+runtime: shiny
 ---
+
+```{r}
+
+if (!require("pacman")) 
+  install.packages("pacman")
+
+# use this line for installing/loading
+pacman::p_load(devtools) 
+
+pacman::p_load(tidyverse,
+           openintro,
+           gridextra,
+           dsbox,
+           gtable,
+           ggpubr,
+           ggmap,
+           ggrepel,
+           patchwork,
+           units,
+           lubridate,
+           pander,
+           gridExtra,
+           ggrepel,
+           glue,
+           here,
+           flexdashboard,
+           highcharter,
+           htmltools,
+           knitr,
+           lubridate,
+           shiny,
+           knitr)
+
+
+```
+
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
@@ -27,43 +64,53 @@ Column {data-width=650}
 ```{r, echo=FALSE}
 
 # Read the complete dataset outside the reactive context to improve performance
-odi_data <- read.csv("data/filtered_data_5years.csv")
+odi_data <- read.csv("../data/filtered_data_5years.csv")
 
-# Define the choices for the dropdown
-country_choices <- c("India", "Australia", "England", "South Africa", "Pakistan", "West Indies", "Ireland", "Scotland", "Nepal", "Canada", "United States", "Oman", "United Arab Emirates", "Zimbabwe", "Afghanistan", "Netherlands")
-
-# Define UI
+# Define the user interface
 ui <- fluidPage(
-  titlePanel("Scoring Rate Evolution Dashboard"),
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("country", "Select Country:", choices = country_choices)
-    ),
-    mainPanel(
-      highchartOutput("scoring_rate_plot")
-    )
-  )
+  titlePanel("Cricket Match Dashboard"),
+  
+  # Dropdown selection for countries
+  selectInput(inputId = "bowling_team",
+              label = "Choose a Country:",
+              choices = c("India", "Australia", "England", "South Africa","Pakistan","West Indies","Ireland","Scotland","Nepal","Canada","United States","Oman","United Arab Emirates","Zimbabwe","Afghanistan","Netherlands"), 
+              selected = "India"),
+  
+  # Output plot
+  plotOutput(outputId = "scorePlot")
 )
 
 # Define server logic
 server <- function(input, output) {
-  output$scoring_rate_plot <- renderHighchart({
-    filteredData <- odi_data %>%
-      filter(bowling_team == input$country) %>%
+  
+  # Read the complete dataset outside the reactive context to improve performance
+  odi_data <- read.csv("../data/filtered_data_5years.csv")
+
+  # Assume 'odi_data' has a 'Country' column. If not, add it to your dataset accordingly.
+  
+  # Reactive expression to filter the data based on selected country
+  filteredData <- reactive({
+    odi_data %>%
+      filter(bowling_team == input$bowling_team) %>%
       group_by(innings, ball) %>%
-      summarise(Runs_Scored = sum(runs_off_bat), .groups = "drop") %>%
-      group_by(innings, over = ceiling(ball)) %>%
-      summarise(Total_Runs = Runs_Scored, .groups = "drop")
-    
-    highchart() %>%
-      hc_title(text = "Scoring Rate Evolution") %>%
-      hc_xAxis(title = list(text = "Overs")) %>%
-      hc_yAxis(title = list(text = "Runs Scored per Over")) %>%
-      hc_add_series(data = filteredData$Total_Runs, type = "line", name = "Runs Scored")
+      summarise(Runs_Scored = mean(runs_off_bat), .groups = "drop") %>%
+      group_by(innings, over = floor(ball)) %>%
+      summarise(Total_Runs = sum(Runs_Scored), .groups = "drop")
+  })
+  
+  # Render the plot based on the filtered data
+  output$scorePlot <- renderPlot({
+    ggplot(filteredData(), aes(x = over, y = Total_Runs, color = factor(innings))) +
+      geom_line() +
+      labs(x = "Overs", 
+           y = "Runs given to opponent / Over", 
+           title = "Scoring Rate Evolution",
+           color = "Innings") +
+      theme_minimal() 
   })
 }
 
-# Run the application
+# Run the app
 shinyApp(ui = ui, server = server)
 ```
 
@@ -123,55 +170,171 @@ shinyApp(ui = ui_top_batsmen, server = server_top_batsmen)
 ### Chart C
 
 ```{r}
-# Define the choices for the dropdown
+# # Define the choices for the dropdown
+# season_choices <- unique(odi_data$season)
+# 
+# # Define UI for the top bowlers dashboard
+# ui_top_bowlers <- fluidPage(
+#   titlePanel("Distribution of Economy Rates by Season"),
+#   sidebarLayout(
+#     sidebarPanel(
+#       selectInput("season",
+#                   "Select Season:",
+#                   choices = season_choices,
+#                   selected = season_choices[1])
+#     ),
+#     mainPanel(
+#       highchartOutput("bowlerPlot")
+#     )
+#   )
+# )
+# 
+# # Define server logic for the top bowlers dashboard with a pie chart
+# server_top_bowlers <- function(input, output) {
+#   # Reactive expression to filter data based on selected season and calculate the top bowlers
+#   topBowlersData <- reactive({
+#     odi_data %>%
+#       filter(season == input$season) %>%
+#       group_by(bowler) %>%
+#       summarise(Total_Runs = sum(runs_off_bat), .groups = "drop") %>%
+#       top_n(10, Total_Runs) %>%
+#       arrange(desc(Total_Runs))
+#   })
+#   
+#   # Render the interactive plot output for top bowlers as a pie chart
+#   output$bowlerPlot <- renderHighchart({
+#     top_bowlers <- topBowlersData()
+#     
+#     highchart() %>%
+#       hc_title(text = "Top Bowlers by Total Runs Scored") %>%
+#       hc_plotOptions(pie = list(
+#         allowPointSelect = TRUE,
+#         cursor = "pointer",
+#         dataLabels = list(enabled = TRUE, format = "<b>{point.name}</b>: {point.percentage:.1f}%")
+#       )) %>%
+#       hc_add_series(data = list_parse(top_bowlers), type = "pie", name = "Total Runs", dataLabels = TRUE)
+#   })
+# }
+# 
+# # Run the top bowlers dashboard with the pie chart
+# shinyApp(ui = ui_top_bowlers, server = server_top_bowlers)
+
+
+
+# Read the complete dataset outside the reactive context to improve performance
+odi_data <- read.csv("../data/filtered_data_5years.csv")
+
+
 season_choices <- unique(odi_data$season)
 
-# Define UI for the top bowlers dashboard
-ui_top_bowlers <- fluidPage(
-  titlePanel("Distribution of Economy Rates by Season"),
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("season",
-                  "Select Season:",
-                  choices = season_choices,
-                  selected = season_choices[1])
-    ),
-    mainPanel(
-      highchartOutput("bowlerPlot")
-    )
-  )
+# Define the user interface
+ui <- fluidPage(
+  titlePanel("Cricket Match Dashboard"),
+
+  # Dropdown selection for countries
+  selectInput(inputId = "seasons",
+              label = "Choose a Season:",
+              choices = season_choices,
+              selected = season_choices[1]),
+  uiOutput("selectIdDropDown"),
+  # Output plot
+  plotOutput(outputId = "scorePlot")
 )
 
-# Define server logic for the top bowlers dashboard with a pie chart
-server_top_bowlers <- function(input, output) {
-  # Reactive expression to filter data based on selected season and calculate the top bowlers
-  topBowlersData <- reactive({
-    odi_data %>%
-      filter(season == input$season) %>%
-      group_by(bowler) %>%
-      summarise(Total_Runs = sum(runs_off_bat), .groups = "drop") %>%
-      top_n(10, Total_Runs) %>%
-      arrange(desc(Total_Runs))
+# Define server logic
+server <- function(input, output) {
+  
+  output$selectIdDropDown = renderUi({
+    season = input$seasons
+    t = odi_data |> filter(season == season)
+    idList = unique(t$match_id)
+    selectInput("subCategoryIdList", "Select Match", choices = idList)
   })
   
-  # Render the interactive plot output for top bowlers as a pie chart
-  output$bowlerPlot <- renderHighchart({
-    top_bowlers <- topBowlersData()
-    
-    highchart() %>%
-      hc_title(text = "Top Bowlers by Total Runs Scored") %>%
-      hc_plotOptions(pie = list(
-        allowPointSelect = TRUE,
-        cursor = "pointer",
-        dataLabels = list(enabled = TRUE, format = "<b>{point.name}</b>: {point.percentage:.1f}%")
-      )) %>%
-      hc_add_series(data = list_parse(top_bowlers), type = "pie", name = "Total Runs", dataLabels = TRUE)
+  
+
+
+  # Assume 'odi_data' has a 'Country' column. If not, add it to your dataset accordingly.
+
+  # Reactive expression to filter the data based on selected country
+  filteredData <- reactive({
+    odi_data %>%
+      filter(match_id == input$subCategoryIdList) |>
+      mutate(over = floor(ball)) |>
+      group_by(batting_team) |>
+      mutate(runs = cumsum(runs_off_bat + extras))
+  })
+
+  # Render the plot based on the filtered data
+  output$scorePlot <- renderPlot({
+      ggplot(filteredData, aes(x = ball, y = runs, color = batting_team)) +
+        geom_line() +
+        labs(x = "Overs",
+             y = "Runs",
+             title = "Scoring Rate Evolution",
+             color = "Innings") +
+        theme_minimal()
   })
 }
 
-# Run the top bowlers dashboard with the pie chart
-shinyApp(ui = ui_top_bowlers, server = server_top_bowlers)
-
-
+# Run the app
+# shinyApp(ui = ui, server = server)
 ```
+
+```{r}
+library(shiny)
+
+odi_data <- read.csv("../data/filtered_data_5years.csv")
+
+
+season_choices <- unique(odi_data$season)
+
+
+ui <- fluidPage(
+  selectInput("category", "Select season:", choices = season_choices),
+  uiOutput("subCategorySelection"),
+  plotOutput(outputId = "scorePlot")
+)
+
+server <- function(input, output, session) {
+  
+  output$subCategorySelection <- renderUI({
+    category <- input$category
+    
+    t = odi_data |> filter(season == input$category)
+    idList = unique(t$match_id)
+    # Define sub-categories based on the selected category
+    subCategories <- idList
+    
+    # Create a select input for sub-categories
+    selectInput("subCategory", "Select Match:", choices = subCategories)
+  })
+  
+  
+  filteredData <- reactive({
+    odi_data %>%
+      filter(match_id == input$subCategory) |>
+      mutate(over = floor(ball)) |>
+      group_by(batting_team) |>
+      mutate(runs = cumsum(runs_off_bat + extras))
+  })
+  
+  output$scorePlot <- renderPlot({
+    ggplot(data = filteredData(), aes(x = ball, y = runs, color = batting_team)) +
+      geom_line() +
+      labs(x = "Overs",
+           y = "Runs",
+           title = "Scoring Rate Evolution",
+           color = "Innings") +
+      theme_minimal()
+  })
+}
+
+shinyApp(ui, server)
+```
+
+
+
+
+
 

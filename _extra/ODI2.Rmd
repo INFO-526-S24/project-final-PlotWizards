@@ -4,6 +4,7 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
@@ -17,9 +18,9 @@ library(lubridate)
 library(dplyr)
 library(ggplot2)
 library(shiny)
+library(jsonlite)
+library(httr)
 
-# Read the complete dataset outside the reactive context to improve performance
-odi_data <- read.csv("D:/Spring 2024/filtered_data_5years.csv")
 ```
 
 Column {data-width=500}
@@ -28,149 +29,88 @@ Column {data-width=500}
 ### Chart A
 
 ```{r}
-# Load the plotly library
-library(plotly)
 
-# Define UI for the Shiny app
+library(shiny)
+
+apiUrl = "http://127.0.0.1:8100/analyzingtrends/getentirelivedata"
+# Define UI
 ui <- fluidPage(
+  titlePanel("Live Data Plot"),
   
-  # Dropdown menu for selecting players
-  selectInput(inputId = "player1", label = "Select Player 1:",
-              choices = unique(odi_data$striker),
-              selected = NULL, multiple = FALSE),
-  
-  selectInput(inputId = "player2", label = "Select Player 2:",
-              choices = unique(odi_data$striker),
-              selected = NULL, multiple = FALSE),
-  
-  # Plot output
-  plotlyOutput(outputId = "batting_performance_plot", height = "400px")
+  # Output for the plot
+  plotOutput("livePlot")
 )
 
 # Define server logic
-server <- function(input, output) {
+server <- function(input, output, session) {
   
-  # Reactive function to filter data based on selected players
-  player1_data <- reactive({
-    odi_data %>%
-      filter(striker == input$player1) %>%
-      group_by(season) %>%
-      summarise(total_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop')
+
+  autoInvalidate <- reactiveTimer(300)
+  
+  # Function to generate random data
+  generateData <- function() {
+      
+      
+      # Make GET request to the API
+      response = GET(apiUrl) 
+      
+    
+      # Check if the request was successful
+      if (http_status(response)$category == "Success") {
+    
+        # Parse JSON content
+        jsonContent = content(response, "text", encoding = "UTF-8")
+        
+        # Convert JSON to list
+        dataList = fromJSON(jsonContent, simplifyVector = FALSE)
+         
+        # Flatten the nested lists
+        flatten_list <- lapply(dataList, unlist)
+        
+        # Convert to dataframe
+        liveData <- as.data.frame(do.call(rbind, flatten_list))
+        return(liveData)
+        
+      } else {
+      # Print error message if request failed
+        print("Failed to retrieve data from the API.")
+        return(NULL)
+      }
+  }
+  
+  # Reactive expression to update data at fixed intervals
+  liveData <- reactive({
+    autoInvalidate()
+    generateData()
   })
   
-  player2_data <- reactive({
-    odi_data %>%
-      filter(striker == input$player2) %>%
-      group_by(season) %>%
-      summarise(total_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop')
-  })
-  
-  # Render the interactive plot using plotly
-  output$batting_performance_plot <- renderPlotly({
+  # Render the plot
+  output$livePlot <- renderPlot({
+    data <- liveData()
+    liveData <- data %>%
+      mutate(over = floor(as.double(ball))) |>
+      group_by(battingTeam) |>
+      mutate(runs = cumsum(as.integer(runsOffBat) + as.integer(extras)))
     
-    # Filter and aggregate data for selected players
-    player1 <- player1_data()
-    player2 <- player2_data()
-    
-    # Plot batting performance as bar plots using plotly
-    plot1 <- ggplot(player1, aes(x = season, y = total_runs)) +
-      geom_bar(stat = "identity", fill = "blue") +
-      labs(title = paste("Batting Performance of", input$player1),
-           x = "Season",
-           y = "Total Runs") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Adjust x-axis label angle
-    
-    plot2 <- ggplot(player2, aes(x = season, y = total_runs)) +
-      geom_bar(stat = "identity", fill = "red") +
-      labs(title = paste("Batting Performance of", input$player2),
-           x = "Season",
-           y = "Total Runs") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Adjust x-axis label angle
-    
-    # Convert ggplot plots to plotly for interactivity
-    plotly::subplot(plot1, plot2, nrows = 1)
+    ggplot(liveData, aes(x = as.double(ball), y = runs, color = battingTeam)) +
+      geom_line() +
+      xlim(0, 50) +
+      ylim(0, 500) +
+      labs(
+        x = "Overs",
+        y = "Runs",
+        title = "Scoring Rate Evolution",
+        color = "Innings"
+      ) +
+      theme_minimal()
   })
 }
 
-# Run the Shiny app
+# Run the application
 shinyApp(ui = ui, server = server)
 
 
 ```
 
-Column {data-width=500}
------------------------------------------------------------------------
-
-### Chart B
-
-```{r}
-# Load the plotly library
-library(plotly)
-
-# Define UI for the Shiny app
-ui <- fluidPage(
-  
-  # Dropdown menu for selecting players
-  selectInput(inputId = "player1", label = "Select Player 1:",
-              choices = unique(odi_data$bowler),
-              selected = NULL, multiple = FALSE),
-  
-  selectInput(inputId = "player2", label = "Select Player 2:",
-              choices = unique(odi_data$bowler),
-              selected = NULL, multiple = FALSE),
-  
-  # Plot output
-  plotlyOutput(outputId = "bowling_performance_plot", height = "400px")
-)
-
-# Define server logic
-server <- function(input, output) {
-  
-  # Reactive function to filter data based on selected players
-  player1_data <- reactive({
-    odi_data %>%
-      filter(bowler == input$player1) %>%
-      group_by(season) %>%
-      summarise(total_wickets = sum(as.numeric(win_by_wickets, na.rm = TRUE)), .groups = 'drop')
-  })
-  
-  player2_data <- reactive({
-    odi_data %>%
-      filter(bowler == input$player2) %>%
-      group_by(season) %>%
-      summarise(total_wickets = sum(as.numeric(win_by_wickets, na.rm = TRUE)), .groups = 'drop')
-  })
-  
-  # Render the interactive plot using plotly
-  output$bowling_performance_plot <- renderPlotly({
-    
-    # Filter and aggregate data for selected players
-    player1 <- player1_data()
-    player2 <- player2_data()
-    
-    # Plot bowling performance as bar plots using plotly
-    plot1 <- ggplot(player1, aes(x = season, y = total_wickets)) +
-      geom_bar(stat = "identity", fill = "blue") +
-      labs(title = paste("Bowling Performance of", input$player1),
-           x = "Season",
-           y = "Total Wickets") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Adjust x-axis label angle
-    
-    plot2 <- ggplot(player2, aes(x = season, y = total_wickets)) +
-      geom_bar(stat = "identity", fill = "red") +
-      labs(title = paste("Bowling Performance of", input$player2),
-           x = "Season",
-           y = "Total Wickets") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Adjust x-axis label angle
-    
-    # Convert ggplot plots to plotly for interactivity
-    plotly::subplot(plot1, plot2, nrows = 1)
-  })
-}
-
-# Run the Shiny app
-shinyApp(ui = ui, server = server)
-
-```
 
 
