@@ -13,6 +13,8 @@ library(ggplot2)
 
 ## Plots
 
+### Question 1
+
 ```{r}
 # Define the user interface
 ui <- fluidPage(
@@ -108,112 +110,85 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 
-```{r}
-library(shiny)
-library(ggplot2)
-library(dplyr)
-
-# Read the dataset only once to improve performance
-  odi_data <- read.csv("../data/filtered_data_5years.csv")
-
-# Define the UI for the application
-ui <- fluidPage(
-  titlePanel("Bowling Performance Dashboard"),
-
-  # Dropdown for selecting the season
-  selectInput(inputId = "season",
-              label = "Select Season:",
-              choices = NULL, # Choices will be updated in server logic
-              selected = NULL),
-
-  # Plot output
-  plotOutput("bowlerPlot")
-)
-
-server <- function(input, output, session) {
-  # Update dropdown choices based on available seasons in the dataset
-  observe({
-    # Make sure 'season' column exists in 'odi_data' and the name is spelled correctly
-    seasons <- sort(unique(odi_data$season))
-    # Use 'seasons' variable for choices, not 'season'
-    updateSelectInput(session, "season", choices = seasons, selected = seasons[1])
-  })
-  
-  # Reactive expression for filtering data based on the selected season
-  filteredData <- reactive({
-    # Again, make sure 'season' is the correct column name in 'odi_data'
-    odi_data %>%
-      filter(season == input$season) %>%
-      group_by(bowler) %>%
-      summarise(
-        econ_rate = sum(runs_off_bat) / ceiling(max(ball)),
-        .groups = "drop"
-      ) %>%
-      # Ensure 'bowler' is the correct column name for bowlers in 'odi_data'
-      filter(bowler %in% unique(bowler)[1:8]) # Adjust the filtering as needed
-  })
-
-  # Render the violin plot
-  output$bowlerPlot <- renderPlot({
-    ggplot(filteredData(), aes(x = bowler, y = econ_rate)) +
-      geom_violin() +
-      labs(
-        x = "Bowler",
-        y = "Economy Rate",
-        title = "Distribution of Economy Rates",
-        subtitle = "for selected Season"
-      ) +
-      theme_light()
-  })
-}
-
-#Run the shiny app
-shinyApp(ui=ui,server=server)
-```
+### Alex's PLots
 
 ```{r}
-server <- function(input, output, session) {
-  # Update dropdown choices based on available seasons in the dataset
-  observe({
-    seasons <- sort(unique(odi_data$season))
-    updateSelectInput(session, "season", choices = seasons, selected = seasons[1])
-  })
+#| label: read data
+runs_per_over <- odi_data |>
+  group_by(innings, ball) |>
+    summarise(
+      Runs_Scored = sum(runs_off_bat) + sum(extras), 
+      .groups = "drop"
+    ) |>
+  group_by(innings, over = ceiling(ball)) |>
+  summarise(
+    Total_Runs = sum(Runs_Scored), 
+    .groups = "drop"
+  )
+runs_per_over
 
-  # Reactive expression for filtering data based on the selected season
-  filteredData <- reactive({
-    data <- odi_data %>%
-      filter(season == input$season) %>%
-      group_by(bowler) %>%
-      summarise(
-        econ_rate = sum(runs_off_bat) / ceiling(max(ball)),
-        .groups = "drop"
-      )
-    print(data) # Debug: print the filtered data to the R console
-    return(data)
-  })
+# Plot scoring rate evolution
+ggplot(runs_per_over, aes(x = over, y = Total_Runs, color = factor(innings))) +
+  geom_line() +
+  labs(
+    x = "Overs",
+    y = "Runs Scored per Over",
+    title = "Scoring Rate Evolution"
+  )
 
-  # Render the violin plot
-  output$bowlerPlot <- renderPlot({
-    data_to_plot <- filteredData()
-    if(nrow(data_to_plot) == 0) {
-      print("No data available for the selected season.") # Debug: print a message if no data is available
-      return(NULL)
-    }
-    ggplot(data_to_plot, aes(x = bowler, y = econ_rate)) +
-      geom_violin() +
-      labs(
-        x = "Bowler",
-        y = "Economy Rate",
-        title = "Distribution of Economy Rates",
-        subtitle = "for selected Season"
-      ) +
-      theme_light()
-  })
-}
+batsman_runs <- cric |>
+  group_by(striker) |>
+  summarise(
+    Total_Runs = sum(runs_off_bat), .groups = "drop"
+  )# Sort batsmen by total runs scored
 
-#Run the shiny app
-shinyApp(ui=ui,server=server)
+batsman_runs <- batsman_runs |>
+  arrange(desc(Total_Runs))
+
+batsman_runs = batsman_runs[1:10,]
+batsman_runs
+
+ggplot(batsman_runs, aes(x = reorder(striker,Total_Runs), y = Total_Runs))+
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(
+    x = "Batsman",
+    y = "Total Runs Scored",
+    title = "Top Batsmen by Total Runs Scored"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
+bowler_rates <- cric |>
+  group_by(bowler) |>
+  mutate(
+    econ_rate = sum(runs_off_bat)/ceiling(ball),
+  )
+
+bowler_rates <- subset(bowler_rates, season == "2022/23")
+bowler_rates <- bowler_rates|>
+  group_by(bowler)|>
+  arrange(desc(econ_rate))
+bowler_rates <- subset(bowler_rates, bowler %in% unique(bowler)[1:10])
+bowler_rates
+
+ggplot(bowler_rates, aes(x = fct_inorder(bowler),
+                         y = econ_rate)) +
+  geom_boxplot() +
+  labs(
+    x = "Bowler",
+    y = "Econ Rate",
+    title= 'Distribution of Economy Rates by season',
+    subtitle = "for top 5 Bowlers"
+  )+
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(hjust = 0, face = "bold")
+  )
+
 ```
+
+### QUestion 2
 
 ## Player Comparision
 
