@@ -4,6 +4,7 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+runtime: shiny
 ---
 
 ```{r}
@@ -56,11 +57,11 @@ library(shiny)
 ```
 
 Tabset {.tabset}
--------------------------------------
+
 
 ### Tab Group 1
-
-#### Tab A
+#### Column {data-width=500}
+-------------------------------------
 
 ```{r, echo=FALSE, .split-right}
 
@@ -104,8 +105,8 @@ server <- function(input, output) {
 # Run the application
 shinyApp(ui = ui, server = server)
 ```
+#### Column {data-width=650}
 
-#### Tab B
 
 ```{r}
 # Define the choices for the dropdowns
