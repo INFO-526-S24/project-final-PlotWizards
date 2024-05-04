@@ -69,14 +69,27 @@ server <- function(input, output) {
     # Merge data with world map
     merged_data <- merge(world_map, data, by.x = "region", by.y = "team1", all.x = TRUE)
     
-    # Create choropleth map
+# Create choropleth map with a different color palette
     plot_ly(merged_data, z = ~total_runs, locations = ~region, locationmode = "country names",
-            type = "choropleth", colors = "Blues", marker = list(line = list(color = "rgb(255,255,255)", width = 2))) %>%
+            type = "choropleth", colors = "YlGnBu",  # Changed color palette to YlGnBu
+            marker = list(line = list(color = "rgb(255,255,255)", width = 2))) %>%
       layout(title = paste("Total Runs Scored by Countries in", input$selected_season),
-             geo = list(scope = "world", projection = list(type = "natural earth")))
+             geo = list(
+               scope = "world",
+               projection = list(type = "natural earth"),
+               showframe = FALSE,  # Remove frame around map
+               showcoastlines = TRUE,  # Show coastlines
+               showocean = TRUE,  # Show ocean
+               showland = TRUE,  # Show land
+               showcountries = TRUE,  # Show country borders
+               countrycolor = "rgb(255, 255, 255)",  # Country border color
+               countrywidth = 0.5  # Country border width
+             ),
+             dragmode = "pan",  # Enable panning
+             margin = list(l = 0, r = 0, t = 30, b = 0)  # Adjust margins for better display
+      )
   })
 }
-
 # Run the Shiny app
 shinyApp(ui = ui, server = server)
 
