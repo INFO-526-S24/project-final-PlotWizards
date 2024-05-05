@@ -227,6 +227,7 @@ server <- function(input, output, session) {
       summarise(total_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop')
   })
   
+  
   # Create choropleth map using plotly
   output$choropleth_map <- renderPlotly({
     # Access filtered data
