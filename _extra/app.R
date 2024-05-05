@@ -33,7 +33,11 @@ pacman::p_load(tidyverse,
 # Read the complete dataset outside the reactive context to improve performance
 odi_data <- read.csv("../data/filtered_data_5years.csv")
 
-apiUrl = "http://127.0.0.1:8100/analyzingtrends/getentirelivedata"
+y = read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vSd_HEZE5_vyvgzAcOIXqaCvgefTD-B8suE03j46W_pryfgcHBNAne_mVSKNHTIAbB03BkjxbvXFHlr/pub?gid=0&single=true&output=csv")
+
+url = toString(y[1, "local"])
+
+apiUrl = paste0(url, "/analyzingtrends/getentirelivedata")
 
 ui <- fluidPage(
   titlePanel(title = "Cricket Metrics"),
@@ -261,7 +265,7 @@ server <- function(input, output, session) {
   })
   
   
-  autoInvalidate <- reactiveTimer(300)
+  autoInvalidate <- reactiveTimer(500)
   
   # Function to generate random data
   generateData <- function() {
