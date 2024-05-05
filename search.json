@@ -1,0 +1,177 @@
+[
+  {
+    "objectID": "proposal.html",
+    "href": "proposal.html",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "",
+    "text": "In this project we will create a dashboard of a live, ongoing cricket match that updates its plots at regular, automatic intervals."
+  },
+  {
+    "objectID": "proposal.html#high-level-goal",
+    "href": "proposal.html#high-level-goal",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "",
+    "text": "In this project we will create a dashboard of a live, ongoing cricket match that updates its plots at regular, automatic intervals."
+  },
+  {
+    "objectID": "proposal.html#goal-details",
+    "href": "proposal.html#goal-details",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "Goal Details",
+    "text": "Goal Details\n\nMotivation:\nFor this project we wanted to showcase our data visualization skill-set with the challenge of a live dataset, and what better live dataset to use than sports, so we went with our favorite sport - cricket. For the purposes of demonstration we won’t use an actual real-time data as we found that there would be unwanted associated costs, so we will instead use a large historical dataset where our back-end server will automatically update the data table for the front-end at regular intervals, essentially mocking a live match.\n\n\nDescription of datasets:\nWe’ll use two datasets:\n\nODI_Match_Data.csv: Provides facts about the location and season of the cricket matches along with team information and the play results from each team member. We’ll need this one to investigate partnerships between batsmen. It’s dimensions are 155432 rows of data by 23 variable columns\nVariables that we’ll use:\n\n\n\n\n\n\n\n\nVariable Name\nData type\nDescription\n\n\n\n\nmatch_id\ndouble\nA unique identifier for each ODI cricket match.\n\n\nseason\ncharacter\nThe season in which the match took place\n\n\nstart_date\ncharacter\nThe date on which the match started.\n\n\ninnings\ndouble\nThe innings number (1st innings or 2nd innings).\n\n\nball\ndouble\nA numeric representation of the ball number bowled in the innings.\n\n\nbatting_team\ncharacter\nThe name of the batting team for the current innings.\n\n\nbowling_team\ncharacter\nThe name of the bowling team for the current innings.\n\n\nstriker\ncharacter\nThe batsman who is currently facing the ball.\n\n\nnon_striker\ncharacter\nThe batsman at the non-striker’s end.\n\n\nbowler\ncharacter\nThe bowler who is delivering the ball.\n\n\nruns_off_bat\ndouble\nThe number of runs scored off the bat (excluding extras).\n\n\nextras\ndouble\nThe total number of extra runs (wides, no-balls, byes, leg-byes, penalty) in the current ball.\n\n\nwides\ndouble\nThe number of wide deliveries bowled in the current ball.\n\n\nnoballs\ndouble\nThe number of no-ball deliveries bowled in the current ball.\n\n\nbyes\ndouble\nThe number of byes scored in the current ball.\n\n\nlegbyes\ndouble\nThe number of leg-byes scored in the current ball.\n\n\n\nODI_Match_info.csv: Overlaps in data with the above but provides information on the umpire, performance, and the city the match took place. We’ll need this one to analyze the batting and bowling performance of each player. It’s dimensions are 2380 rows of data by 18 variable columns.\nVariables that we’ll use:\n\n\n\n\n\n\n\n\nVariable Name\nData type\nDescription\n\n\n\n\nid\ndouble\nA unique identifier for each cricket match.\n\n\nseason\ncharacter\nThe season in which the match took place\n\n\ndate\ndate\nThe date on which the match was played.\n\n\nteam1\ncharacter\nThe name of the first cricket team participating in the match.\n\n\nteam2\ncharacter\nThe name of the second cricket team participating in the match.\n\n\nresult\ncharacter\nThe result of the match (e.g., “normal,” “tie,” “no result”).\n\n\nwinner\ncharacter\nThe winning team of the match.\n\n\nwin_by_runs\ndouble\nThe margin of victory in runs (0 for wickets, if not applicable).\n\n\nwin_by_wickets\ndouble\nThe margin of victory in wickets (0 for runs, if not applicable).\n\n\n\n\n\n\nResearch questions :\nBelow we have the questions we would like to answer with our dashboard along with what we will need to answer them including variables, plot representations, and insights we can extract from the visuals.\n\nHow did the (a) scoring rate, (b) player batting performances, and (c) bowlers’ economy rates, evolve throughout the match?\nWe chose this question because it encompasses critical aspects of a cricket match, including scoring dynamics, standout individual performances, bowling efficiency, partnerships’ influence on runs, and overall player contributions, providing a holistic view of the match progression.\na. Scorecard summary:\nVariables: Overs (X-axis), Runs Scored per Over (Y-axis) - from ODI_Match_info.csv\nPlot Representation: Line chart or bar chart\nInsights: Visualize the scoring rate throughout the innings, show periods of acceleration or deceleration in runs scored.\nb. Batting Performance:\nVariables: Batsman Name (X-axis), Runs Scored (Y-axis) - from ODI_Match_info.csv\nPlot Representation: Bar chart or stacked bar chart\nInsights: Compares runs scored by each batsman, highlighting top performers.\nFor data wrangling: season, batsman, runs scored..\nc. Bowler’s economy rates:\nVariables: Bowler Name (X-axis), Economy Rate (Y-axis)\nPlot Representation: Box plot or violin plot\nInsights: Shows the distribution of economy rates among bowlers, indicating variations in performance.\nHow did (a) partnerships influence total runs, and (b) what insights do team performances, player contributions and live updates provide about the match dynamics?\nWe selected this question to highlight the significance of partnerships in contributing to total runs, while also delving into team performances and individual player contributions, offering insights into strategic game play and the match’s overall dynamics.\na. Partnerships Overview:\nVariables: Batsman Pair (X-axis), Partnership Runs (Y-axis)\nPlot Representation: Network graph or line chart\nInsights: Highlights significant partnerships and their impact on total runs.\nb.\n\nPlayer Comparison (merged from other questions):\nVariables: Player Name (X-axis), Batting/Bowling Statistics (Y-axis)\nPlot Representation: Radar chart or spider chart\nInsights: Provides a comprehensive comparison of players’ performances across multiple metrics.\nTeam Comparison (merged from other questions):\nVariables: Team Name (X-axis), Runs Scored/Wickets Taken (Y-axis)\nPlot Representation: Pie chart or half-eye plot\nInsights: Visualizes the proportion of runs scored or wickets taken by each team, offering a quick comparison view.\nDynamic Updates (merged from other questions):\nVariables: Live Data (e.g., Score, Commentary, Player Stats)\nPlot Representation: Live dashboard with real-time updates\nInsights: Access to latest match information for enhanced engagement.\n\n\nThe data visualization methods are subject to change while we analyze the data."
+  },
+  {
+    "objectID": "proposal.html#plan-of-attack",
+    "href": "proposal.html#plan-of-attack",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "Plan of Attack",
+    "text": "Plan of Attack\n\nMocking Live Data :\nTo avoid unnecessary costs associated with real-time data, we will split the data into two parts: past data and live data.\nThe past data will include information from years 2002 to 2022, while the live data will consist of data from the year 2023. Each entry from 2023 will be read from the actual CSV file and entered into a database table with an interval of 10 to 20 seconds between two consecutive entries. These entries will be considered as live data and will be sent to the API caller.\n\n\nDiagram of plan:\n\nFigure 1: Diagram of the methodology we’ll implement in this project.\n\n\nBack-end APIs:\n1) Batting Performance API:\nEndpoint: /batting-performance\nParameters:\n\nmatch_id: Filter data for a specific match.\nplayer_name: Filter data for a specific player.\n\nResponse:\n\nReturns data for batting performance including runs scored by each batsman.\n\nAPI:\n\nGET /batting-performance?match_id={id}&player_name={pname}\n\n2) Bowling Performance API:\nEndpoint: /bowling-performance\nParameters:\n\nmatch_id: Filter data for a specific match.\nplayer_name: Filter data for a specific player.\n\nResponse:\n\nReturns data for bowling performance including wickets taken by each bowler and their economy rate.\n\nAPI:\n\nGET /bowling-performance?match_id={id}&player_name={pname}\n\n3) Partnerships API:\nEndpoint: /partnerships Parameters:\n\nmatch_id: Filter data for a specific match.\n\nResponse:\n\nReturns data for partnerships between batsmen.\n\nAPI:\n\nGET /partnerships?match_id={id}\n\n4) Player Performance Tracking API:\nEndpoint: /player-performance\nParameters:\n\nmatch_id: The ongoing match ID.\nplayer_name: The name of the player.\n\nResponse:\n\nReturns real-time updates for the player’s performance including runs scored, wickets taken, strike rate, economy rate, etc.\n\nAPI:\n\nGET /player-performance?match_id={ongoing-id}&player_name={pname}\n\nThese APIs are subject to change, additions, or removals as we analyze the data.\n\n\n\n\n\n\n\n\n\n\n\nTask Name\nStatus\nAssigned to\nDue\nPriority\nTask Summary\n\n\nBackend: JDBC Connectivity\n\nSrinivasan, Mohit\nApril 5th\nHigh\nConnect the database, MySQL, to JAVA using JDBC Connectivity\n\n\nBack-end: API Creativity\n\nSrinivasan, Mohit\nApril 12th\nHigh\nCreate all the necessary APIs mentioned in the proposal. Addition/changes could be made.\n\n\nConverting Dataset into database entries\n\nTejas, Mohit\nApril 7th\nHigh\nMerge both the .csv files and put that data in MySQL\n\n\nMocking live data\n\nMohit, Tejas\nApril 12th\nLow\nTry to mock the data from 2023 as live data\n\n\nData Wrangling\n\nAnjani, Nandini, Alex\nApril 5th\nHigh\nMerging datasets and cleaning them\n\n\nDesigning the initial draft of the plots (Question 1)\n\nAlex, Navya\nApril 10th\nHigh\nDesigning basic plots for Question 1(complex plots will be done later)\n\n\nDesigning the initial draft of the plots (Question 2)\n\nAnjani, Nandini\nApril 10th\nHigh\nDesigning basic plots for Question 2(complex plots will be done later)\n\n\nDeciding on more complex plots\n\nAll\nApril 15th-22th\nHigh\nComplex plots will be planned and crafted for both the questions\n\n\nIntegrating frontend with the backend through API calls\n\nSrinivasan, Mohit\nApril 15th -17th\nLow\nCalling APIs hosted on the backend in the frontend.\n\n\nQuarto Dashboards for the initial draft plots\n\nTejas, Anjani, Nandini, Navya, Alex\nApril 17th\nHigh\nCreate dashboards for all the plots (simple and complex) using quarto dashboards."
+  },
+  {
+    "objectID": "proposal.html#repository-organization",
+    "href": "proposal.html#repository-organization",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "Repository Organization",
+    "text": "Repository Organization\nOur github repository will remain mostly unchaged from the defualt. We will insert our data files into the data/ folder along with a corresponding readme.md file. The frontend of the project will be saved under index.qmd. The final repository will deployed on github pages."
+  },
+  {
+    "objectID": "proposal.html#references",
+    "href": "proposal.html#references",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "References",
+    "text": "References\n\nUtkarsh Tomar. (2023). ODI Men’s Cricket Match Data (2002-2023) [Data set]. Kaggle. https://doi.org/10.34740/KAGGLE/DS/3780212"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "",
+    "text": "This project aims to create a dashboard for a live cricket match using historical data and API mock-ups. The motivation stems from showcasing data visualization skills within the context of a dynamic, real-time dataset, albeit simulated through historical data updates. Our data provides comprehensive information about cricket matches, including team performance, player statistics, and match outcomes. The project’s research questions focus on analyzing scoring rates, player batting and bowling performances, partnerships’ influence on total runs, and team dynamics throughout the match.\nThe backend APIs play a crucial role in providing real-time or pseudo-real-time data updates for batting performance, bowling performance, partnerships, and player performance tracking. The team is organized into tasks such as JDBC connectivity, API creation, data wrangling, mock data creation, and frontend-backend integration. The GitHub repository structure includes a data folder for datasets, a readme.md file, and index.qmd for the frontend, with deployment planned on GitHub Pages.\nOverall, this project showcases a comprehensive approach to data visualization, backend API integration, and dashboard creation for a live cricket match experience, blending historical data insights with dynamic dashboard updates."
+  },
+  {
+    "objectID": "index.html#abstract",
+    "href": "index.html#abstract",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "",
+    "text": "This project aims to create a dashboard for a live cricket match using historical data and API mock-ups. The motivation stems from showcasing data visualization skills within the context of a dynamic, real-time dataset, albeit simulated through historical data updates. Our data provides comprehensive information about cricket matches, including team performance, player statistics, and match outcomes. The project’s research questions focus on analyzing scoring rates, player batting and bowling performances, partnerships’ influence on total runs, and team dynamics throughout the match.\nThe backend APIs play a crucial role in providing real-time or pseudo-real-time data updates for batting performance, bowling performance, partnerships, and player performance tracking. The team is organized into tasks such as JDBC connectivity, API creation, data wrangling, mock data creation, and frontend-backend integration. The GitHub repository structure includes a data folder for datasets, a readme.md file, and index.qmd for the frontend, with deployment planned on GitHub Pages.\nOverall, this project showcases a comprehensive approach to data visualization, backend API integration, and dashboard creation for a live cricket match experience, blending historical data insights with dynamic dashboard updates."
+  },
+  {
+    "objectID": "index.html#introduction",
+    "href": "index.html#introduction",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "Introduction",
+    "text": "Introduction\n“Analyzing Trends in Cricket Games” aims to develop a dynamic dashboard that visualizes cricket match data to simulate a live game experience. This initiative will utilize a large historical dataset to create an environment that mirrors real-time data feeds without the associated costs. By mocking live data updates, our dashboard will provide insights into various match aspects such as scoring rates, player performances, and team dynamics. The project highlights our proficiency in data visualization and addresses the challenge of working with live datasets by implementing innovative solutions like automated data refreshes and API-driven analytics. This approach not only enhances our understanding of cricket game trends but also showcases the potential of real-time sports analytics in a cost-effective manner."
+  },
+  {
+    "objectID": "index.html#question1",
+    "href": "index.html#question1",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "Question1",
+    "text": "Question1\nHow did the (a) scoring rate, (b) player batting performances, and (c) bowlers’ economy rates, evolve throughout the match?"
+  },
+  {
+    "objectID": "index.html#approach",
+    "href": "index.html#approach",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "Approach",
+    "text": "Approach\nTo analyze how scoring rates, player batting performances, and bowlers’ economy rates evolve throughout a cricket match, we’ll start by importing and cleaning our datasets, ensuring data integrity and consistency. We’ll then process the data to calculate runs per over, total runs by each batsman, and economy rates for bowlers, adjusting for factors like incomplete overs. Visualizations will be crafted to display these metrics effectively: scoring rates will be shown via line or bar charts, batting performances through bar charts, and bowlers’ economy rates with box or violin plots. These visual tools will allow us to explore key performance trends and insights, providing a holistic view of the match’s strategic dynamics."
+  },
+  {
+    "objectID": "index.html#a.-scorecard-summary",
+    "href": "index.html#a.-scorecard-summary",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "1a. Scorecard Summary",
+    "text": "1a. Scorecard Summary\n\n\nShiny applications not supported in static R Markdown documents\n\n\nInsights : The “Scoring Rate Evolution” graph depicts the number of runs provided to the opponent per over throughout two different innings of a cricket match. The red line depicts the scoring rate in the first innings, while the blue line indicates the scoring rate in the second innings. The graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring."
+  },
+  {
+    "objectID": "index.html#b.-batting-performance",
+    "href": "index.html#b.-batting-performance",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "1b. Batting Performance",
+    "text": "1b. Batting Performance\n\n\nShiny applications not supported in static R Markdown documents\n\n\nInsights : The bar chart depicts ranks for batsmen based on the total runs they scored during the selected cricket season (2023/24). The batsmen, including M. Labuschagne, D. Warner, and others, are displayed along the x-axis with their corresponding runs on the y-axis, highlighting M. Labuschagne as the highest scorer with around 380 runs, while the others have scored between 100 to 350 runs."
+  },
+  {
+    "objectID": "index.html#question2",
+    "href": "index.html#question2",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "Question2",
+    "text": "Question2\nHow did (a) partnerships influence total runs, and (b) what insights do team performances, player contributions and live updates provide about the match dynamics?"
+  },
+  {
+    "objectID": "index.html#approach-1",
+    "href": "index.html#approach-1",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "Approach",
+    "text": "Approach\nTo explore the impact of batting partnerships on total runs and extract insights from team and player performances in cricket matches, we’ll analyze and aggregate data to highlight contributions made by player pairs and overall team efforts. Using player and match identifiers, we’ll sum runs for each partnership to assess their influence on scoring. Additionally, we’ll compile team performance metrics to discern trends and outliers over various matches. To simulate a live match experience, our approach will also include real-time data updates, providing a dynamic view of ongoing match dynamics. This method will offer a detailed perspective on both the strategic role of partnerships and the evolving nature of game play."
+  },
+  {
+    "objectID": "index.html#a.-partnerships-overview",
+    "href": "index.html#a.-partnerships-overview",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "2a. Partnerships Overview",
+    "text": "2a. Partnerships Overview\n\n\nShiny applications not supported in static R Markdown documents\n\n\nInsights : This bar chart represents the top 10 batting partnerships in terms of runs scored during the 2023/24 cricket season. Each pair of batsmen is represented by a different color and labeled under the chart. The pair of K. Klaasen and D.A. Miller leads with the highest number of runs, reaching around 160, while other partnerships, like Q. de Kock & T. Bavuma and M. Labuschagne & D.A. Warner, also have significant contributions, all scoring over 100 runs. The chart effectively shows the variability and success of different batting combinations in contributing significant runs to their teams totals."
+  },
+  {
+    "objectID": "index.html#b.-team-comparision",
+    "href": "index.html#b.-team-comparision",
+    "title": "Analyzing Trends in Cricket Games",
+    "section": "2b. Team Comparision",
+    "text": "2b. Team Comparision\n\n\nShiny applications not supported in static R Markdown documents\n\n\nInsights : The donut chart represents the percentage distribution of total cricket runs scored by different teams in the 2023/24 season. The blue segment, representing 54% of the total runs, indicates a team that significantly outperformed others in terms of runs scored. The red segment, accounting for 30.6%, and the green segment, accounting for 15.4%, represent the second and third most scoring teams, respectively. This visualization highlights the dominance of the leading team in run-scoring compared to the others."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This project was developed by PlotWizards For INFO 526 - Data Analysis & Visualization at the University of Arizona, taught by Dr. Greg Chism. The team is comprised of the following team members.\n\nAlexander Berliner: Phd student in statistics & data science\nAnjani Sowmya Bollapragada - Master’s Student in Data Science\nSrinivasan Poonkundran - Master’s Student in Data Science\nMohit T - Master’s Student in Data Science\nTejas Bhawari - Master’s Student in Data Science\nSai Navya Reddy Busireddy - Master’s Student in Data Science\nNandhini Anne - Master’s Student in Data Science"
+  },
+  {
+    "objectID": "presentation.html#question-1",
+    "href": "presentation.html#question-1",
+    "title": "Cricket Metrics",
+    "section": "Question 1:",
+    "text": "Question 1:\n‎How does the (A) Scoring evolution over the match and Top 10 batsman for each match (B) The runs scores by different countries over the years"
+  },
+  {
+    "objectID": "presentation.html#question-1---part-a",
+    "href": "presentation.html#question-1---part-a",
+    "title": "Cricket Metrics",
+    "section": "Question 1 - Part A",
+    "text": "Question 1 - Part A\n\nPlot APlot BInsights\n\n\n\n\n\nThe change in score based on each over for the whole match:\n\n\n\n\n\n\n\nThis plot shows the batting performance of Top 10 Batsman for the Match:\n\n\n\n\n\n\nThe “Scoring Rate Evolution” graph shows the number of runs provided to the opponent per over throughout two different innings of a cricket match. The red line shows the scoring rate in the first innings, while the blue line indicates the scoring rate in the second innings.\nThe graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring.\nThe bar chart shows ranks for batsmen based on the total runs they scored during the selected cricket season (2023/24).\nThe batsmen, including M. Labuschagne, D. Warner, and others, are displayed along the x-axis with their corresponding runs on the y-axis, highlighting M. Labuschagne as the highest scorer with around 380 runs, while the others have scored between 100 to 350 runs.\nThis could allow for inferences concerning whether specific genres of media are inherently built with introverted or extroverted characters (i.e. action should presumably comprise of more extroverts)."
+  },
+  {
+    "objectID": "presentation.html#question-1---part-b",
+    "href": "presentation.html#question-1---part-b",
+    "title": "Cricket Metrics",
+    "section": "Question 1 - Part B",
+    "text": "Question 1 - Part B\n\nPlot AInsights\n\n\n\n\n\nRuns scored by different countries:\n\n\n\n\n\nThe map illustrate the total runs scored by countries in the 2023/24 cricket season, using a color gradient to represent the data.\nThe color scale ranges from light yellow (1000 runs) to dark blue (2000 runs), indicating the volume of runs scored.\nAustralia is notably highlighted in dark blue, suggesting it has one of the highest totals, approximately 2000 runs, while other countries are in lighter shades, indicating fewer runs scored during the season."
+  },
+  {
+    "objectID": "presentation.html#question-2",
+    "href": "presentation.html#question-2",
+    "title": "Cricket Metrics",
+    "section": "Question 2:",
+    "text": "Question 2:\n‎\nWhat is the (A) Total Runs scored by Countries (B) Top 10 Batting percentage for each year"
+  },
+  {
+    "objectID": "presentation.html#question-2---part-a",
+    "href": "presentation.html#question-2---part-a",
+    "title": "Cricket Metrics",
+    "section": "Question 2 - Part A",
+    "text": "Question 2 - Part A\n\nPlot AInsights\n\n\n\n\n\n\n\nThe Donut chart represents the percentage distribution of total cricket runs scored by different teams in the 2023/24 season.\nThe blue segment, representing 54% of the total runs, indicates a team that significantly outperformed others in terms of runs scored.\nThe red segment, accounting for 30.6%, and the green segment, accounting for 15.4%, represent the second and third most scoring teams, respectively.\nThis visualization highlights the dominance of the leading team in run-scoring compared to the others."
+  },
+  {
+    "objectID": "presentation.html#question-2---part-b",
+    "href": "presentation.html#question-2---part-b",
+    "title": "Cricket Metrics",
+    "section": "Question 2 - Part B",
+    "text": "Question 2 - Part B\n\nPlot BInsights\n\n\n\n\n\n\nThis bar chart represents the top 10 batting partnerships in terms of runs scored during the 2023/24 cricket season. Each pair of batsmen is represented by a different color and labeled under the chart.\nThe pair of K. Klaasen and D.A. Miller leads with the highest number of runs, reaching around 160, while other partnerships, like Q. de Kock & T. Bavuma and M. Labuschagne & D.A. Warner, also have significant contributions, all scoring over 100 runs.\nThe chart effectively shows the variability and success of different batting combinations in contributing significant runs to their teams’ totals."
+  },
+  {
+    "objectID": "presentation.html#section-2",
+    "href": "presentation.html#section-2",
+    "title": "Cricket Metrics",
+    "section": "",
+    "text": "🏏 Plot Wizards"
+  }
+]
