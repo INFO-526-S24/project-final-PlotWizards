@@ -134,6 +134,37 @@ public class CricketMatchLive {
 			this.totalRuns = totalRuns;
 		}
 		
+		public CricketMatchLive(CricketMatch entry, int totalRuns) {
+			super();
+			this.matchId = entry.getMatchId();
+			this.season = entry.getSeason();
+			this.venue = entry.getVenue();
+			this.innings = entry.getInnings();
+			this.ball = entry.getBall();
+			this.battingTeam = entry.getBattingTeam();
+			this.bowlingTeam = entry.getBowlingTeam();
+			this.striker = entry.getStriker();
+			this.nonStriker = entry.getNonStriker();
+			this.bowler = entry.getBowler();
+			this.runsOffBat = entry.getRunsOffBat();
+			this.extras = entry.getExtras();
+			this.wides = entry.getWides();
+			this.noballs = entry.getNoballs();
+			this.city = entry.getCity();
+			this.date = entry.getDate();
+			this.team1 = entry.getTeam1();
+			this.team2 = entry.getTeam2();
+			this.tossWinner = entry.getTossWinner();
+			this.tossDecision = entry.getTossDecision();
+			this.result = entry.getResult();
+			this.dlApplied = entry.getDlApplied();
+			this.winner = entry.getWinner();
+			this.winByRuns = entry.getWinByRuns();
+			this.winByWickets = entry.getWinByWickets();
+			this.playerOfMatch = entry.getPlayerOfMatch();
+			this.totalRuns = totalRuns;
+		}
+		
 		
 
 		public int getTotalRuns() {

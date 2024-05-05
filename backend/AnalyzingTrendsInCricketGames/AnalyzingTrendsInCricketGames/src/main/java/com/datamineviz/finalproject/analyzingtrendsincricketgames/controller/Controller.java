@@ -73,6 +73,19 @@ public class Controller {
 		}else {
 			return new ResponseEntity<>("Wrong Passcode", HttpStatus.FORBIDDEN);
 		}
+				
+	}
+	
+	@GetMapping("/startlivematchold/{matchid}/{passcode}")
+	public ResponseEntity<String> startLiveMatchNon2023(@PathVariable long matchid, @PathVariable String passcode){
+		
+		if(passcode.contentEquals("eclipseWhisper24")) {
+				
+			matchService.startLiveMatchDataNon2023(matchid);
+			return new ResponseEntity<>("Live Match Started?", HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>("Wrong Passcode", HttpStatus.FORBIDDEN);
+		}
 			
 			
 		
