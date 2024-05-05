@@ -1,246 +1,135 @@
 ---
 title: "Cricket Metrics"
-<<<<<<< HEAD
-subtitle: "INFO 526 - Spring 2024 - Project Final"
-author: "Anjani Sowmya, Alexander Berliner, Navya Reddy, Nandhani Anne, Srinivasan Poonkundran, Tejas Bhawari, Mohit Rakesh Taparia"
-=======
 subtitle: "INFO 526 - spring 2024 - Project Final"
 author: "Anjani Sowmya, Alexander Berliner, Navya Reddy, Nandhini Anne, Srinivasan Poonkundran, Tejas Bhawari, Mohit Taparia"
-<<<<<<< Updated upstream
-=======
->>>>>>> c40865670732dd9f2886fd7b715fcb9b86a6723e
->>>>>>> Stashed changes
 title-slide-attributes:
-  data-background-image: images/Background.jpg
+  data-background-image: images/king.jpg
   data-background-size: stretch
-<<<<<<< Updated upstream
   data-background-opacity: "0.5"
-=======
-<<<<<<< HEAD
-  data-background-opacity: "0.6"
-=======
-  data-background-opacity: "0.5"
->>>>>>> c40865670732dd9f2886fd7b715fcb9b86a6723e
->>>>>>> Stashed changes
   data-slide-number: none
 format:
   revealjs:
-    theme:  [simple,data/customtheming.scss]
-    transition: slide
-    background-transition: fade
-    logo: images/logo.jpg
-    footer: "[💲 Plot Wizards](https://github.com/INFO-526-S24/project-final-PlotWizards/)"
-    scrollable: true
-
+    theme:  ['data/customtheming.scss']
 editor: visual
 execute:
-  warning: false
   echo: false
 ---
 
-```{r load_packages, message=FALSE, include=FALSE}
-# GETTING THE LIBRARIES
-#devtools::install_github("choonghyunryu/dlookr")
+```{r}
+#| label: load-packages
+#| include: false
 
-if (!require(pacman))
-  install.packages(pacman)
+# Load packages here
+pacman::p_load(tidymodels,
+               tidyverse)
 
-# Loading the libraries
-pacman::p_load(tidyverse,
-               tidytuesdayR,
-               dlookr,
-               ggthemes,
-               ggplot2,
-               gganimate,
-               dplyr,
-               ggridges,
-               formattable,
-               plotly,
-               broom,
-               cowplot,
-               gifski,
-               here,
-               magick)
 ```
 
-```{r ggplot_setup, message=FALSE, include=FALSE}
-# Setting theme for ggplot2
-ggplot2::theme_set(ggplot2::theme_minimal(base_size = 14, base_family = "sans"))
+```{r}
+#| label: setup
+#| include: false
 
-# Setting width of code output
-options(width = 65)
+# Plot theme
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 11))
 
-# Setting figure parameters for knitr
+# For better figure resolution
 knitr::opts_chunk$set(
-  fig.width = 8,        # 8" width
-  fig.asp = 0.618,      # the golden ratio
-  fig.retina = 1,       # dpi multiplier for displaying HTML output on retina
-  fig.align = "center", # center align figures
-  dpi = 300             # higher dpi, sharper image
-)
+  fig.retina = 3, 
+  dpi = 300, 
+  fig.width = 6, 
+  fig.asp = 0.618 
+  )
 ```
 
-## Introduction {.smaller auto-animate="true"}
-
-::: incremental
-This project aims to create a dashboard for a live cricket match using historical data and API mock-ups. The motivation stems from showcasing data visualization skills within the context of a dynamic, real-time data-set, albeit simulated through historical data updates.
-:::
-
-## Objective {auto-animate="true"}
-
-::: columns
-::: {.column width="70%"}
-::: {style="font-size: 75%;"}
--   
-
--   **Question 1**: How did the scoring rate, player batting performances, and bowlers' economy rates evolve throughout the match?
-
--   **Question 2**: How did partnerships influence total runs, and what insights do team performances, player contributions, and live updates provide about the match dynamics?
-:::
-:::
-
-::: {.column width="30%"}
-![](images/king.jpg){fig-align="right" height="450" width="450"}
-:::
-:::
-
-## Question 1 {.smaller}
-
-**Add changes**
-
-::: incremental
-::: columns
-::: {.column width="30%"}
-### Plot1
-
-::: {style="font-size: 70%;"}
--   For season 2022/23,the donut chart illustrates the distribution of total runs scored by different countries, represented as percentages of the total runs scored worldwide.
-
--   The largest segment with 13.5% indicates the country that contributed the most to the global total, highlighting its dominant performance in that season.
-
--   Smaller segments represent other countries' contributions, with varying degrees of impact on the total runs scored, showing a diverse range of performances across different cricket-playing nations.
-:::
-:::
-
-::: {.column width="30%"}
-### Plot2
-
-::: {style="font-size: 70%;"}
--   The graphs compare the batting performances of cricketers RD Gaikwad and KL Rahul over multiple seasons.
-
--   RD Gaikwad shows a sharp increase in runs in the 2023/24 season, indicating a significant improvement, while KL Rahul displays more variability with a peak in the 2020/21 season.
-
--   These visualizations help us assess player progression and form, offering insights valuable for team management and strategy development.
-:::
-:::
-
-::: {.column width="30%"}
-### Plot3
-
-::: {style="font-size: 70%;"}
--   The dashboard compares the performances of two bowlers. Let's consider an example of two bowlers Mohammed Shami and A Zampa.
-
--   The plot shows that shami's wickets have peaked during the 2019/20 season but showed a significant decline in the following seasons, suggesting a drop in bowling effectiveness or fewer games played.
-
--   Zampa had his highest wicket totals in the early seasons shown, particularly in 2018/19 and 2019/20, with a gradual decline in the subsequent years, reflecting changes in his bowling impact or match participation.
-:::
-:::
-:::
-:::
-
-## CHanges
-
-::: panel-tabset
-### Plot1 {.smaller}
-
-```{r load_data, message=FALSE, include=FALSE}
-
+```{r}
+#| label: load-data
+#| include: false
+# Load data here
+odi_data <- read.csv("data/filtered_data_5years.csv")
 ```
 
-```{r Plot_1, message=FALSE, echo=FALSE}
+# Introduction
 
-```
+This project aims to create a dashboard for a live cricket match using historical data and API mock-ups. The motivation stems from showcasing data visualization skills within the context of a dynamic, real-time dataset, albeit simulated through historical data updates.
 
-### Plot2 {.smaller}
+## **Research Questions**
 
-```{r Plot_2, message=FALSE, echo=FALSE}
-#| fig.asp: 0.5
+-   How did the scoring rate, player batting performances, and bowlers' economy rates evolve throughout the match?
+
+    ###### 
+
+-   How did partnerships influence total runs, and what insights do team performances, player contributions, and live updates provide about the match dynamics?
+
+## Code
+
+```{r, echo=FALSE}
 
 
 ```
 
-### Plot3 {.smaller}
+## Plots
 
-```{r Plot_3, message=FALSE, echo=FALSE}
-#| fig.asp: 0.5
+![](images/newplot.png){fig-align="center"}
 
-
+```{r}
 
 ```
-:::
 
-## Discussion
+## Plot and text
 
-::: {style="font-size: 75%;"}
--   Changes
-:::
-
-## Question 2: {.smaller}
-
-**Add changes**
-
-::: incremental
 ::: columns
 ::: {.column width="50%"}
-### Plot1:
+-   Some text
 
-::: {style="font-size: 75%;"}
--   Changes
-:::
+-   goes here
 :::
 
 ::: {.column width="50%"}
-### Plot2:
-
-::: {style="font-size: 75%;"}
--   CHanges
-:::
-:::
-:::
-:::
-
-## Changes {.smaller}
-
-::: panel-tabset
-### Plot1
-
-```{r Q2_Plot_1, message=FALSE}
-
-```
-
-```{r Q2_Plot_1_animate, message=FALSE}
-#| fig.asp: 0.5
-
-
-```
-
-### Plot2
-
-```{r Q2_Plot_2, message=FALSE, echo=FALSE}
-#| fig.height: 6
-#| fig.width: 10
-#| fig.asp: 0.5
-
+```{r, warning=FALSE, fig.width=5.5}
 
 ```
 :::
-
-## Discussion
-
-::: {style="font-size: 75%;"}
--   Changes
 :::
 
-::: {style="text-align: center;"}
-# THANK YOU
-:::
+# A new section...
+
+## Tables
+
+If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
+
+```{r}
+penguins |> 
+  head() |>
+  kableExtra::kable() |>
+  kableExtra::kable_styling()
+```
+
+## Images
+
+![Image credit: Danielle Navarro, Percolate.](images/watercolour_sys02_img34_teacup-ocean.png){fig-align="center" width="500"}
+
+## Math Expressions {.smaller}
+
+You can write LaTeX math expressions inside a pair of dollar signs, e.g. \$\\alpha+\\beta\$ renders $\alpha + \beta$. You can use the display style with double dollar signs:
+
+```         
+$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
+```
+
+$$
+\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i
+$$
+
+Limitations:
+
+1.  The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
+
+2.  There should not be spaces after the opening `$` or before the closing `$`.
+
+# Wrap up
+
+## Feeling adventurous?
+
+-   You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
+
+-   But some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs.
