@@ -83,6 +83,43 @@ public class MatchService {
 		
 	}
 	
+	
+	public void startLiveMatchDataNon2023(long id) {
+		
+		try {
+			matchRepositoryLive.deleteAll();
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		List<CricketMatch> matchList = matchRepository.getSpectficMatchList(id);
+		
+		int totalRunsInning1 = 0;
+		
+		int totalRunsInning2 = 0;
+		
+		for (CricketMatch entry : matchList) {
+			if(entry.getInnings() == 1) {
+				totalRunsInning1 += entry.getRunsOffBat() + entry.getExtras();
+				matchRepositoryLive.save((new CricketMatchLive(entry, totalRunsInning1)));
+			}else {
+				totalRunsInning2 += entry.getRunsOffBat() + entry.getExtras();
+				matchRepositoryLive.save(new CricketMatchLive(entry, totalRunsInning2));
+			}
+	
+			
+			System.out.println(entry);
+            try {
+                Thread.sleep(300); // Sleep for 10 seconds (10000 milliseconds)
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+		}
+		
+	}
+	
+	
+	
 	public CricketMatchLive getCurrentLiveData() {
 		return matchRepositoryLive.getSCurrentScoreEntry();
 	}

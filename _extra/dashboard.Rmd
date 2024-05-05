@@ -4,6 +4,7 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+runtime: shiny
 ---
 
 ```{r}
@@ -48,6 +49,7 @@ library(tidyverse)
 library(highcharter)
 library(htmltools)
 library(viridis)
+
 library(knitr)
 library(lubridate)
 library(dplyr)
@@ -56,14 +58,19 @@ library(shiny)
 ```
 
 Tabset {.tabset}
--------------------------------------
+
 
 ### Tab Group 1
+<<<<<<< HEAD
 
 Column {data-width=650}
 -----------------------------------------------------------------------
 
 #### Chart A
+=======
+#### Column {data-width=500}
+-------------------------------------
+>>>>>>> 26f9fee0cd25feb08f18151c095d4d3b0b9d6e9b
 
 ```{r, echo=FALSE, .split-right}
 
@@ -107,11 +114,15 @@ server <- function(input, output) {
 # Run the application
 shinyApp(ui = ui, server = server)
 ```
+#### Column {data-width=650}
 
+<<<<<<< HEAD
 Column {data-width=350}
 -----------------------------------------------------------------------
 
 #### Chart B
+=======
+>>>>>>> 26f9fee0cd25feb08f18151c095d4d3b0b9d6e9b
 
 ```{r}
 # Define the choices for the dropdowns
