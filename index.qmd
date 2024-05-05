@@ -38,6 +38,8 @@ How did the (a) scoring rate, (b) player batting performances, and (c) bowlers�
 
 To analyze how scoring rates, player batting performances, and bowlers’ economy rates evolve throughout a cricket match, we'll start by importing and cleaning our datasets, ensuring data integrity and consistency. We'll then process the data to calculate runs per over, total runs by each batsman, and economy rates for bowlers, adjusting for factors like incomplete overs. Visualizations will be crafted to display these metrics effectively: scoring rates will be shown via line or bar charts, batting performances through bar charts, and bowlers' economy rates with box or violin plots. These visual tools will allow us to explore key performance trends and insights, providing a holistic view of the match's strategic dynamics.
 
+## 1a. Scorecard Summary
+
 ```{r}
 library(flexdashboard)
 library(tidyverse)
@@ -49,9 +51,6 @@ library(lubridate)
 library(dplyr)
 library(ggplot2)
 library(shiny)
-```
-
-```{r}
 # Read the complete dataset outside the reactive context to improve performance
 odi_data <- read.csv("data/filtered_data_5years.csv")
 
@@ -103,3 +102,167 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 
 ```
+
+**Insights :** The "Scoring Rate Evolution" graph depicts the number of runs provided to the opponent per over throughout two different innings of a cricket match. The red line depicts the scoring rate in the first innings, while the blue line indicates the scoring rate in the second innings. The graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring.
+
+## **1b. Batting Performance**
+
+```{r}
+# Define the choices for the dropdowns
+season_choices <- unique(odi_data$season)
+
+# Define UI for the top batsmen dashboard
+ui_top_batsmen <- fluidPage(
+  titlePanel("Top Batsmen by Total Runs Scored"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("season",
+                  "Select Season:",
+                  choices = season_choices,
+                  selected = season_choices[1])
+    ),
+    mainPanel(
+      highchartOutput("batsmanPlot")
+    )
+  )
+)
+
+# Define server logic for the top batsmen dashboard
+server_top_batsmen <- function(input, output) {
+  # Reactive expression to filter data based on selected season and calculate the top batsmen
+  topBatsmenData <- reactive({
+    odi_data %>%
+      filter(season == input$season) %>%
+      group_by(striker) %>%
+      summarise(Total_Runs = sum(runs_off_bat), .groups = "drop") %>%
+      top_n(10, Total_Runs) %>%
+      arrange(desc(Total_Runs))
+  })
+  
+  # Render the interactive plot output for top batsmen
+  output$batsmanPlot <- renderHighchart({
+    top_batsmen <- topBatsmenData()
+    
+    highchart() %>%
+      hc_title(text = "Top Batsmen by Total Runs Scored") %>%
+      hc_xAxis(categories = top_batsmen$striker) %>%
+      hc_yAxis(title = list(text = "Total Runs Scored")) %>%
+      hc_add_series(name = "Total Runs", data = top_batsmen$Total_Runs, type = "column")
+  })
+}
+
+# Run the top batsmen dashboard
+shinyApp(ui = ui_top_batsmen, server = server_top_batsmen)
+```
+
+**Insights :** The bar chart depicts ranks for batsmen based on the total runs they scored during the selected cricket season (2023/24). The batsmen, including M. Labuschagne, D. Warner, and others, are displayed along the x-axis with their corresponding runs on the y-axis, highlighting M. Labuschagne as the highest scorer with around 380 runs, while the others have scored between 100 to 350 runs.
+
+## Question2
+
+How did (a) partnerships influence total runs, and (b) what insights do team performances, player contributions and live updates provide about the match dynamics?
+
+## Approach
+
+To explore the impact of batting partnerships on total runs and extract insights from team and player performances in cricket matches, we'll analyze and aggregate data to highlight contributions made by player pairs and overall team efforts. Using player and match identifiers, we'll sum runs for each partnership to assess their influence on scoring. Additionally, we'll compile team performance metrics to discern trends and outliers over various matches. To simulate a live match experience, our approach will also include real-time data updates, providing a dynamic view of ongoing match dynamics. This method will offer a detailed perspective on both the strategic role of partnerships and the evolving nature of game play.
+
+## 2a. Partnerships Overview
+
+```{r}
+# Load the necessary libraries
+library(shiny)
+library(dplyr)
+library(plotly)
+
+# Define UI for the Shiny app
+ui <- fluidPage(
+  # Dropdown menu for selecting the season
+  selectInput(inputId = "selected_season", label = "Select Season:",
+              choices = unique(odi_data$season), selected = NULL),
+  
+  # Plot output
+  plotlyOutput(outputId = "partnership_plot")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Reactive function to filter data based on selected season
+  partnership_data <- reactive({
+    selected_data <- odi_data %>%
+      filter(season == input$selected_season) %>%
+      group_by(striker, non_striker) %>%
+      summarise(partnership_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop') %>%
+      arrange(desc(partnership_runs)) %>%
+      top_n(10)
+    return(selected_data)
+  })
+  
+  # Render the plot as an interactive Plotly plot
+  output$partnership_plot <- renderPlotly({
+    
+    # Filter data based on selected season
+    data <- partnership_data()
+    
+    # Create Plotly plot for top batting partnerships
+    plot_ly(data, x = ~reorder(paste(striker, non_striker, sep = " & "), -partnership_runs), y = ~partnership_runs, type = "bar", color = ~striker) %>%
+      layout(title = paste("Top 10 Batting Partnerships in", input$selected_season),
+             xaxis = list(title = "Batsman Pair"),
+             yaxis = list(title = "Partnership Runs"),
+             barmode = "stack")
+  })
+}
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+
+```
+
+**Insights :** This bar chart represents the top 10 batting partnerships in terms of runs scored during the 2023/24 cricket season. Each pair of batsmen is represented by a different color and labeled under the chart. The pair of K. Klaasen and D.A. Miller leads with the highest number of runs, reaching around 160, while other partnerships, like Q. de Kock & T. Bavuma and M. Labuschagne & D.A. Warner, also have significant contributions, all scoring over 100 runs. The chart effectively shows the variability and success of different batting combinations in contributing significant runs to their teams totals.
+
+## 2b. Team Comparision
+
+```{r}
+# Define UI for the Shiny app
+ui <- fluidPage(
+  # Dropdown menu for selecting seasons
+  selectInput(inputId = "selected_season", label = "Select Season:",
+              choices = unique(odi_data$season),
+              selected = NULL),
+  
+  # Plot output
+  plotlyOutput(outputId = "team_comparison_plot")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Filter data for the selected season
+  filtered_season_data <- reactive({
+    odi_data %>%
+      filter(season == input$selected_season) %>%
+      group_by(team1) %>%
+      summarise(total_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop')
+  })
+  
+  # Create pie chart or half eye plot using plotly
+  output$team_comparison_plot <- renderPlotly({
+    # Access filtered data
+    data <- filtered_season_data()
+    
+    # Create half eye plot using plotly
+    half_eye_plot <- plot_ly(data, labels = ~team1, values = ~total_runs, type = "pie",
+                             marker = list(colors = rainbow(nrow(data))),
+                             hole = 0.4) %>%
+      layout(title = paste("Total Runs Scored by Countries in", input$selected_season),
+             showlegend = FALSE)
+    
+    # Return the half eye plot
+    half_eye_plot
+  })
+}
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+```
+
+**Insights :** The donut chart represents the percentage distribution of total cricket runs scored by different teams in the 2023/24 season. The blue segment, representing 54% of the total runs, indicates a team that significantly outperformed others in terms of runs scored. The red segment, accounting for 30.6%, and the green segment, accounting for 15.4%, represent the second and third most scoring teams, respectively. This visualization highlights the dominance of the leading team in run-scoring compared to the others.
