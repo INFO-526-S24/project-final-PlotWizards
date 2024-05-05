@@ -37,7 +37,9 @@ pacman::p_load(tidyverse,
            knitr,
            lubridate,
            shiny,
-           knitr)
+           knitr,
+           httr,
+           json)
 
 
 ```
@@ -57,12 +59,13 @@ library(ggplot2)
 library(shiny)
 ```
 
-Tabset {.tabset}
-
+## Tabset {.tabset}
 
 ### Tab Group 1
-#### Column {data-width=500}
+
+#### Column {data-width=550}
 -------------------------------------
+
 
 ```{r, echo=FALSE, .split-right}
 
@@ -106,7 +109,9 @@ server <- function(input, output) {
 # Run the application
 shinyApp(ui = ui, server = server)
 ```
-#### Column {data-width=650}
+
+#### Column {data-width=450}
+-------------------------------------
 
 
 ```{r}
@@ -157,7 +162,7 @@ server_top_batsmen <- function(input, output) {
 shinyApp(ui = ui_top_batsmen, server = server_top_batsmen)
 ```
 
-#### Tab C
+
 
 ```{r}
 season_choices <- unique(odi_data$season)
@@ -210,7 +215,6 @@ shinyApp(ui, server)
 
 ### Tab Group 2
 
-#### Tab D
 
 ```{r}
 # Load necessary libraries
@@ -277,7 +281,6 @@ shinyApp(ui = ui, server = server)
 
 ```
 
-#### Tab E
 
 ```{r}
 # Define UI for the Shiny app
@@ -323,7 +326,6 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 
-#### Tab F
 
 ```{r}
 # Load the necessary libraries
