@@ -60,7 +60,10 @@ Tabset {.tabset}
 
 ### Tab Group 1
 
-#### Tab A
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+#### Chart A
 
 ```{r, echo=FALSE, .split-right}
 
@@ -105,7 +108,10 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 
-#### Tab B
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+#### Chart B
 
 ```{r}
 # Define the choices for the dropdowns
@@ -155,7 +161,7 @@ server_top_batsmen <- function(input, output) {
 shinyApp(ui = ui_top_batsmen, server = server_top_batsmen)
 ```
 
-#### Tab C
+#### Chart C
 
 ```{r}
 season_choices <- unique(odi_data$season)
@@ -208,7 +214,10 @@ shinyApp(ui, server)
 
 ### Tab Group 2
 
-#### Tab D
+Column {data-width=550}
+-----------------------------------------------------------------------
+
+#### Chart D
 
 ```{r}
 # Load necessary libraries
@@ -275,7 +284,10 @@ shinyApp(ui = ui, server = server)
 
 ```
 
-#### Tab E
+Column {data-width=450}
+-----------------------------------------------------------------------
+
+#### Chart E
 
 ```{r}
 # Define UI for the Shiny app
@@ -321,7 +333,7 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 
-#### Tab F
+#### Chart F
 
 ```{r}
 # Load the necessary libraries
