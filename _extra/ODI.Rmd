@@ -130,8 +130,8 @@ ui_top_batsmen <- fluidPage(
     sidebarPanel(
       selectInput("season",
                   "Select Season:",
-                  choices = season_choices,
-                  selected = season_choices[1])
+                  choices = unique(odi_data$season),
+                  selected = unique(odi_data$season)[1])
     ),
     mainPanel(
       highchartOutput("batsmanPlot")
@@ -292,8 +292,7 @@ season_choices <- unique(odi_data$season)
 
 ui <- fluidPage(
   selectInput("category", "Select season:", choices = season_choices),
-  uiOutput("subCategorySelection"),
-  plotOutput(outputId = "scorePlot")
+   
 )
 
 server <- function(input, output, session) {

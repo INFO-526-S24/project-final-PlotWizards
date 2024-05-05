@@ -43,6 +43,13 @@ t = odi_data |> filter(season == "2023/00")
 idList = unique(t$match_id)
 
 ```
+```{r}
+
+
+
+
+
+```
 
 
 
@@ -717,5 +724,16 @@ shinyApp(ui = ui, server = server)
 
 
 
+```
+```{r}
+library(googlesheets4)
+
+# x = read.csv("https://drive.google.com/file/d/10z2Yr202-lckVqJCnsm3fet7yWq4RaWR/view?usp=sharing")
+
+y = read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vSd_HEZE5_vyvgzAcOIXqaCvgefTD-B8suE03j46W_pryfgcHBNAne_mVSKNHTIAbB03BkjxbvXFHlr/pub?gid=0&single=true&output=csv")
+
+url = toString(y[1, "local"])
+
+print(url)
 ```
 
