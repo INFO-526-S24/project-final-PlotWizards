@@ -9,7 +9,7 @@ title-slide-attributes:
   data-slide-number: none
 format:
   revealjs:
-    theme:  [Sky,data/customtheming.scss]
+    theme:  [white,data/customtheming.scss]
     transition: concave
     background-transition: fade
     logo: images/logo.jpg
