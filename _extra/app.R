@@ -77,17 +77,18 @@ ui <- fluidPage(
     mainPanel(
       tabsetPanel(
         type = "tabs",
-        tabPanel("Tab A", 
-                 plotOutput(outputId = "scorePlot"),
-                 highchartOutput(outputId = "batsmanPlot")),
-        tabPanel("Tab B", 
+        tabPanel("Score Evolution", 
                  uiOutput("subCategorySelection"),
                  plotOutput(outputId = "bowlingplot"),
-                 plotlyOutput(outputId = "dougnut")),
-        tabPanel("Tab C",
+                 plotOutput(outputId = "scorePlot"),
+                 ),
+        tabPanel("Team Performance", 
                  plotlyOutput(outputId = "choropleth_map"),
+                 plotlyOutput(outputId = "dougnut")),
+        tabPanel("Batsmen Performance",
+                 highchartOutput(outputId = "batsmanPlot"),
                  plotlyOutput(outputId = "partnership")),
-        tabPanel("Live",
+        tabPanel("Live Match",
                  plotOutput("livePlot", height = 800))
       )
     )
@@ -247,7 +248,7 @@ server <- function(input, output, session) {
       )
   })
   
-  filtered_season_data <- reactive({
+  filtered_season_data_map <- reactive({
     odi_data %>%
       filter(season == input$season) %>%
       group_by(team1) %>%
