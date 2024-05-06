@@ -1,7 +1,7 @@
 ---
 title: "Cricket Metrics"
 subtitle: "INFO 526 - Spring 2024 - Project Final"
-author: "Anjani Sowmya, Alexander Berliner, Navya Reddy, Nandhani Anne, Srinivasan Poonkundran, Tejas Bhawari, Mohit Rakesh Taparia"
+author: "Anjani Sowmya, Alexander Berliner, Navya Reddy, Nandhini Anne, Srinivasan Poonkundran, Tejas Bhawari, Mohit Rakesh Taparia"
 title-slide-attributes:
   data-background-image: images/Background.jpg
   data-background-size: stretch
