@@ -1,20 +1,26 @@
 ---
 title: "Cricket Metrics"
 subtitle: "INFO 526 - Spring 2024 - Project Final"
-author: "Anjani Sowmya, Alexander Berliner, Navya Reddy, Nandhani Anne, Srinivasan Poonkundran, Tejas Bhawari, Mohit Rakesh Taparia"
+author: "Anjani Sowmya, Alexander Berliner, Navya Reddy, Nandhini Anne, Srinivasan Poonkundran, Tejas Bhawari, Mohit Rakesh Taparia"
 title-slide-attributes:
   data-background-image: images/Background.jpg
   data-background-size: stretch
   data-background-opacity: "0.5"
   data-slide-number: none
+##format:
+##  revealjs:
+##    theme:  [white,data/customtheming.scss]
+##    transition: concave
+##    background-transition: fade
 format:
   revealjs:
-    theme:  [Sky,data/customtheming.scss]
+    theme: sky
     transition: concave
     background-transition: fade
     logo: images/logo.jpg
     footer: "[🏏 Plot Wizards](https://github.com/INFO-526-S24/project-final-PlotWizards/)"
     scrollable: true
+
 editor: visual
 execute:
   warning: false
@@ -28,6 +34,10 @@ execute:
 # Load packages here
 pacman::p_load(tidymodels,
                tidyverse)
+
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 11))
+
+
 
 ```
 
@@ -83,9 +93,11 @@ B. Top 10 batting percentage for each year?
 
 How do the running scores differ by countries over the years?
 
-A. The Total runs scored by each country?
+A. The total runs scored by each country?
 
 B. The runs scores by different countries over the years?
+
+C. The partnership of different batsman over each season.
 
 ## **Question 1 - A** {.smaller transition="slide-in convex-out"}
 
@@ -100,8 +112,20 @@ B. The runs scores by different countries over the years?
 -   The red line shows the scoring rate in the first innings, while the blue line indicates the scoring rate in the second innings.
 -   The graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring.
 :::
-
 ## **Question 1 - B**
+
+::: panel-tabset
+#### Plot B
+
+![](images/Plot_2.jpeg){fig-align="center" width="1078"}
+
+#### Insights {.smaller auto-animate="true"}
+
+-   The bar chart shows ranks for batsmen based on the total runs they scored during the selected cricket season (2022/23).
+-   The batsmen are displayed along the x-axis with their corresponding runs on the y-axis.
+-   This could allow for inferences concerning whether specific genres of media are inherently built with introverted or extroverted characters.
+:::
+## **Question 2 - A**
 
 ::: panel-tabset
 #### Plot A
@@ -114,10 +138,12 @@ B. The runs scores by different countries over the years?
 -   The color scale ranges from light yellow (1000 runs) to dark blue (2000 runs), indicating the volume of runs scored.
 :::
 
-## **Question 2 - A**
+
+
+## **Question 2 - B**
 
 ::: panel-tabset
-#### Plot A
+#### Plot B
 
 ![](images/Plot_4.jpeg){width="1078"}
 
@@ -127,10 +153,10 @@ B. The runs scores by different countries over the years?
 -   This visualization highlights the dominance of the leading team in run-scoring compared to the others in different seasons.
 :::
 
-## **Question 2 - B**
+## **Question 2 - C**
 
 ::: panel-tabset
-#### Plot B
+#### Plot C
 
 ![](images/Plot_5.jpeg){width="1078"}
 
