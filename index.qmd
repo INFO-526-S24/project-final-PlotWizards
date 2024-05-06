@@ -1,17 +1,14 @@
 ---
 title: "Analyzing Trends in Cricket Games"
 subtitle: "INFO 526 - Project Final"
-author: 
-  - name: "*Plot Wizards*" - Nandhini  Anne, Sai Navya Reddy Busireddy, Srinivasan Poonkundran, Tejas Bhawari, Anjani Sowmya Bollapragada, Mohit Rakesh Taparia, Alexander Berliner
-    affiliations:
-      - name: "School of Information, University of Arizona"
-      - description: "Analyzing cricket match data to understand team performances
-and match outcomes."
+author: "*Plot Wizards*"
+affiliations: "School of Information, University of Arizona"
 format:
    html:
-    code-tools: true
-    code-overflow: wrap
-    embed-resources: true
+     code-fold: true
+     code-tools: true
+     code-overflow: wrap
+     embed-resources: true
 editor: visual
 execute:
   warning: false
