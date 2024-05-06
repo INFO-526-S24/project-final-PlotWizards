@@ -81,14 +81,14 @@
     "href": "index.html#a.-scorecard-summary",
     "title": "Analyzing Trends in Cricket Games",
     "section": "1a. Scorecard Summary",
-    "text": "1a. Scorecard Summary\n\n\nShiny applications not supported in static R Markdown documents\n\n\nInsights : The “Scoring Rate Evolution” graph depicts the number of runs provided to the opponent per over throughout two different innings of a cricket match. The red line depicts the scoring rate in the first innings, while the blue line indicates the scoring rate in the second innings. The graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring."
+    "text": "1a. Scorecard Summary\n\n\nShiny applications not supported in static R Markdown documents\n\n\nInsights : The “Scoring Rate Evolution” graph depicts the number of runs provided to the opponent per over throughout two different innings of a cricket match. The red line depicts the scoring rate in the first innings, while the blue line indicates the scoring rate in the second innings. The graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring."
   },
   {
     "objectID": "index.html#b.-batting-performance",
     "href": "index.html#b.-batting-performance",
     "title": "Analyzing Trends in Cricket Games",
     "section": "1b. Batting Performance",
-    "text": "1b. Batting Performance\n\n\nShiny applications not supported in static R Markdown documents\n\n\nInsights : The bar chart depicts ranks for batsmen based on the total runs they scored during the selected cricket season (2023/24). The batsmen, including M. Labuschagne, D. Warner, and others, are displayed along the x-axis with their corresponding runs on the y-axis, highlighting M. Labuschagne as the highest scorer with around 380 runs, while the others have scored between 100 to 350 runs."
+    "text": "1b. Batting Performance\n\n\nShiny applications not supported in static R Markdown documents\n\n\nInsights : The bar chart depicts ranks for batsmen based on the total runs they scored during the selected cricket season (2023/24). The batsmen, including M. Labuschagne, D. Warner, and others, are displayed along the x-axis with their corresponding runs on the y-axis, highlighting M. Labuschagne as the highest scorer with around 380 runs, while the others have scored between 100 to 350 runs."
   },
   {
     "objectID": "index.html#question2",
@@ -109,14 +109,14 @@
     "href": "index.html#a.-partnerships-overview",
     "title": "Analyzing Trends in Cricket Games",
     "section": "2a. Partnerships Overview",
-    "text": "2a. Partnerships Overview\n\n\nShiny applications not supported in static R Markdown documents\n\n\nInsights : This bar chart represents the top 10 batting partnerships in terms of runs scored during the 2023/24 cricket season. Each pair of batsmen is represented by a different color and labeled under the chart. The pair of K. Klaasen and D.A. Miller leads with the highest number of runs, reaching around 160, while other partnerships, like Q. de Kock & T. Bavuma and M. Labuschagne & D.A. Warner, also have significant contributions, all scoring over 100 runs. The chart effectively shows the variability and success of different batting combinations in contributing significant runs to their teams totals."
+    "text": "2a. Partnerships Overview\n\n\nShiny applications not supported in static R Markdown documents\n\n\nInsights : This bar chart represents the top 10 batting partnerships in terms of runs scored during the 2023/24 cricket season. Each pair of batsmen is represented by a different color and labeled under the chart. The pair of K. Klaasen and D.A. Miller leads with the highest number of runs, reaching around 160, while other partnerships, like Q. de Kock & T. Bavuma and M. Labuschagne & D.A. Warner, also have significant contributions, all scoring over 100 runs. The chart effectively shows the variability and success of different batting combinations in contributing significant runs to their teams totals."
   },
   {
     "objectID": "index.html#b.-team-comparision",
     "href": "index.html#b.-team-comparision",
     "title": "Analyzing Trends in Cricket Games",
     "section": "2b. Team Comparision",
-    "text": "2b. Team Comparision\n\n\nShiny applications not supported in static R Markdown documents\n\n\nInsights : The donut chart represents the percentage distribution of total cricket runs scored by different teams in the 2023/24 season. The blue segment, representing 54% of the total runs, indicates a team that significantly outperformed others in terms of runs scored. The red segment, accounting for 30.6%, and the green segment, accounting for 15.4%, represent the second and third most scoring teams, respectively. This visualization highlights the dominance of the leading team in run-scoring compared to the others."
+    "text": "2b. Team Comparision\n\n\nShiny applications not supported in static R Markdown documents\n\n\nInsights : The donut chart represents the percentage distribution of total cricket runs scored by different teams in the 2023/24 season. The blue segment, representing 54% of the total runs, indicates a team that significantly outperformed others in terms of runs scored. The red segment, accounting for 30.6%, and the green segment, accounting for 15.4%, represent the second and third most scoring teams, respectively. This visualization highlights the dominance of the leading team in run-scoring compared to the others."
   },
   {
     "objectID": "about.html",
@@ -126,52 +126,87 @@
     "text": "This project was developed by PlotWizards For INFO 526 - Data Analysis & Visualization at the University of Arizona, taught by Dr. Greg Chism. The team is comprised of the following team members.\n\nAlexander Berliner: Phd student in statistics & data science\nAnjani Sowmya Bollapragada - Master’s Student in Data Science\nSrinivasan Poonkundran - Master’s Student in Data Science\nMohit T - Master’s Student in Data Science\nTejas Bhawari - Master’s Student in Data Science\nSai Navya Reddy Busireddy - Master’s Student in Data Science\nNandhini Anne - Master’s Student in Data Science"
   },
   {
+    "objectID": "presentation.html#introduction",
+    "href": "presentation.html#introduction",
+    "title": "Cricket Metrics",
+    "section": "Introduction",
+    "text": "Introduction\n\nOur project’s goal is to create a dynamic dashboard that simulates a live cricket match experience utilizing historical data.\nThe dashboard uses mocked live data updates to present vital insights into several areas of cricket matches and team dynamics.\nThe project uses automatic data refreshes and API-driven analytics to manage live dataset problems, improve comprehension of cricket trends, and showcase cost-effective real-time sports analytics."
+  },
+  {
+    "objectID": "presentation.html#understanding-the-data-set",
+    "href": "presentation.html#understanding-the-data-set",
+    "title": "Cricket Metrics",
+    "section": "Understanding the Data set",
+    "text": "Understanding the Data set\n\nExtracted data from the data-set “ODI Men’s Cricket Match Data (2002-2023)“ sourced from Kaggle.\nFrom the original data-set we extracted two subsets:-\n\nPast Data : Contains data for 5 years from 2018-2022.\nLive Data: Contains data for the year 2023 till date.\n\nThe data-set includes match details, innings data, player performance, match outcome, and umpire details."
+  },
+  {
     "objectID": "presentation.html#question-1",
     "href": "presentation.html#question-1",
     "title": "Cricket Metrics",
     "section": "Question 1:",
-    "text": "Question 1:\n‎How does the (A) Scoring evolution over the match and Top 10 batsman for each match (B) The runs scores by different countries over the years"
-  },
-  {
-    "objectID": "presentation.html#question-1---part-a",
-    "href": "presentation.html#question-1---part-a",
-    "title": "Cricket Metrics",
-    "section": "Question 1 - Part A",
-    "text": "Question 1 - Part A\n\nPlot APlot BInsights\n\n\n\n\n\nThe change in score based on each over for the whole match:\n\n\n\n\n\n\n\nThis plot shows the batting performance of Top 10 Batsman for the Match:\n\n\n\n\n\n\nThe “Scoring Rate Evolution” graph shows the number of runs provided to the opponent per over throughout two different innings of a cricket match. The red line shows the scoring rate in the first innings, while the blue line indicates the scoring rate in the second innings.\nThe graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring.\nThe bar chart shows ranks for batsmen based on the total runs they scored during the selected cricket season (2023/24).\nThe batsmen, including M. Labuschagne, D. Warner, and others, are displayed along the x-axis with their corresponding runs on the y-axis, highlighting M. Labuschagne as the highest scorer with around 380 runs, while the others have scored between 100 to 350 runs.\nThis could allow for inferences concerning whether specific genres of media are inherently built with introverted or extroverted characters (i.e. action should presumably comprise of more extroverts)."
-  },
-  {
-    "objectID": "presentation.html#question-1---part-b",
-    "href": "presentation.html#question-1---part-b",
-    "title": "Cricket Metrics",
-    "section": "Question 1 - Part B",
-    "text": "Question 1 - Part B\n\nPlot AInsights\n\n\n\n\n\nRuns scored by different countries:\n\n\n\n\n\nThe map illustrate the total runs scored by countries in the 2023/24 cricket season, using a color gradient to represent the data.\nThe color scale ranges from light yellow (1000 runs) to dark blue (2000 runs), indicating the volume of runs scored.\nAustralia is notably highlighted in dark blue, suggesting it has one of the highest totals, approximately 2000 runs, while other countries are in lighter shades, indicating fewer runs scored during the season."
+    "text": "Question 1:\nWhat is the performance of top 10 Batsmen?\nA. Scoring evolution over the match and top 10 batsman for each match?\nB. Top 10 batting percentage for each year?"
   },
   {
     "objectID": "presentation.html#question-2",
     "href": "presentation.html#question-2",
     "title": "Cricket Metrics",
     "section": "Question 2:",
-    "text": "Question 2:\n‎\nWhat is the (A) Total Runs scored by Countries (B) Top 10 Batting percentage for each year"
+    "text": "Question 2:\nHow do the running scores differ by countries over the years?\nA. The Total runs scored by each country?\nB. The runs scores by different countries over the years?"
   },
   {
-    "objectID": "presentation.html#question-2---part-a",
-    "href": "presentation.html#question-2---part-a",
+    "objectID": "presentation.html#question-1---a",
+    "href": "presentation.html#question-1---a",
     "title": "Cricket Metrics",
-    "section": "Question 2 - Part A",
-    "text": "Question 2 - Part A\n\nPlot AInsights\n\n\n\n\n\n\n\nThe Donut chart represents the percentage distribution of total cricket runs scored by different teams in the 2023/24 season.\nThe blue segment, representing 54% of the total runs, indicates a team that significantly outperformed others in terms of runs scored.\nThe red segment, accounting for 30.6%, and the green segment, accounting for 15.4%, represent the second and third most scoring teams, respectively.\nThis visualization highlights the dominance of the leading team in run-scoring compared to the others."
+    "section": "Question 1 - A",
+    "text": "Question 1 - A\n\nPlot AInsights\n\n\n\n\n\n\n\n\n\n\nThe “Scoring Rate Evolution” graph shows the number of runs provided to the opponent per over throughout two different innings of a cricket match.\nThe red line shows the scoring rate in the first innings, while the blue line indicates the scoring rate in the second innings.\nThe graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring."
   },
   {
-    "objectID": "presentation.html#question-2---part-b",
-    "href": "presentation.html#question-2---part-b",
+    "objectID": "presentation.html#question-1---b",
+    "href": "presentation.html#question-1---b",
     "title": "Cricket Metrics",
-    "section": "Question 2 - Part B",
-    "text": "Question 2 - Part B\n\nPlot BInsights\n\n\n\n\n\n\nThis bar chart represents the top 10 batting partnerships in terms of runs scored during the 2023/24 cricket season. Each pair of batsmen is represented by a different color and labeled under the chart.\nThe pair of K. Klaasen and D.A. Miller leads with the highest number of runs, reaching around 160, while other partnerships, like Q. de Kock & T. Bavuma and M. Labuschagne & D.A. Warner, also have significant contributions, all scoring over 100 runs.\nThe chart effectively shows the variability and success of different batting combinations in contributing significant runs to their teams’ totals."
+    "section": "Question 1 - B",
+    "text": "Question 1 - B\n\nPlot AInsights\n\n\n\n\n\n\n\n\n\n\nThe map illustrate the total runs scored by countries in the 2022/23 cricket season, using a color gradient to represent the data.\nThe color scale ranges from light yellow (1000 runs) to dark blue (2000 runs), indicating the volume of runs scored."
   },
   {
-    "objectID": "presentation.html#section-2",
-    "href": "presentation.html#section-2",
+    "objectID": "presentation.html#question-2---a",
+    "href": "presentation.html#question-2---a",
     "title": "Cricket Metrics",
-    "section": "",
-    "text": "🏏 Plot Wizards"
+    "section": "Question 2 - A",
+    "text": "Question 2 - A\n\nPlot AInsights\n\n\n\n\n\n\nThe Donut chart represents the percentage distribution of total cricket runs scored by different teams in the 2022/23 season.\nThis visualization highlights the dominance of the leading team in run-scoring compared to the others in different seasons."
+  },
+  {
+    "objectID": "presentation.html#question-2---b",
+    "href": "presentation.html#question-2---b",
+    "title": "Cricket Metrics",
+    "section": "Question 2 - B",
+    "text": "Question 2 - B\n\nPlot BInsights\n\n\n\n\n\n\nThis bar chart represents the top 10 batting partnerships in terms of runs scored during the 2022/23 cricket season.\nEach pair of batsmen is represented by a different color and labeled under the chart.\nThe chart effectively shows the variability and success of different batting combinations in contributing significant runs to their teams’ totals."
+  },
+  {
+    "objectID": "presentation.html#implementation",
+    "href": "presentation.html#implementation",
+    "title": "Cricket Metrics",
+    "section": "Implementation:",
+    "text": "Implementation:"
+  },
+  {
+    "objectID": "presentation.html#r-shiny-application",
+    "href": "presentation.html#r-shiny-application",
+    "title": "Cricket Metrics",
+    "section": "R Shiny Application:",
+    "text": "R Shiny Application:\nShiny App for Cricket Analysis"
+  },
+  {
+    "objectID": "presentation.html#conclusion",
+    "href": "presentation.html#conclusion",
+    "title": "Cricket Metrics",
+    "section": "Conclusion",
+    "text": "Conclusion\n\nOur project demonstrated the successful integration of data visualization tools and APIs to simulate a live cricket match experience.\n\nThrough rigorous data analysis, we provided deep insights into scoring rates, batting and bowling performances, and the strategic impacts of partnerships.\n\nBy mimicking live data updates, our project delivered a cost-effective yet realistic approach to sports analytics."
+  },
+  {
+    "objectID": "presentation.html#thank-you",
+    "href": "presentation.html#thank-you",
+    "title": "Cricket Metrics",
+    "section": "Thank you",
+    "text": "Thank you\n\n\n\n\n\n\n\n\n\n🏏 Plot Wizards"
   }
 ]
