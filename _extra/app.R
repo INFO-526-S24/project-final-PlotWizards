@@ -239,12 +239,12 @@ server <- function(input, output, session) {
     data <- partnership_data()
     
     # Create Plotly plot for top batting partnerships
-    plot_ly(data, x = ~reorder(paste(striker, non_striker, sep = " & "), -partnership_runs), y = ~partnership_runs, type = "bar", color = ~striker) %>%
+    plot_ly(data, x = ~reorder(paste(striker, non_striker, sep = " & "), -partnership_runs), y = ~partnership_runs, type = "bar", color = ~striker, colors = RColorBrewer::brewer.pal(8, "Set2")) %>%
       layout(title = paste("Top 10 Batting Partnerships in", input$season),
              xaxis = list(title = "Batsman Pair"),
              yaxis = list(title = "Partnership Runs"),
              barmode = "stack",
-             showlegend=FALSE  # Remove legend position
+             showlegend = FALSE  # Remove legend
       )
   })
   
