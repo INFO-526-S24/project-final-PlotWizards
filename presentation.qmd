@@ -10,7 +10,7 @@ title-slide-attributes:
   data-slide-number: none
 format:
   revealjs:
-    theme:  [white, 'data/customtheming.scss']
+    theme:  [Sky,data/customtheming.scss]
     transition: concave
     background-transition: fade
     logo: images/logo.jpg
@@ -59,99 +59,124 @@ mtcars$speed <- mtcars$hp / mtcars$wt
 data("penguins")
 ```
 
-# Understanding the Dataset
+## **Introduction**
 
-# 
+-   Our project's goal is to create a dynamic dashboard that simulates a live cricket match experience utilizing historical data.
+-   The dashboard uses mocked live data updates to present vital insights into several areas of cricket matches and team dynamics.
+-   The project uses automatic data refreshes and API-driven analytics to manage live dataset problems, improve comprehension of cricket trends, and showcase cost-effective real-time sports analytics.
 
--   
+## **Understanding the Data set**
 
-## 
+-   Extracted data from the data-set "**ODI Men's Cricket Match Data (2002-2023)"** sourced from Kaggle.
 
--   
+-   From the original data-set we extracted two subsets:-
 
-## Question 1:
+    -   Past Data : Contains data for 5 years from 2018-2022.
 
-‎How does the (A) Scoring evolution over the match and Top 10 batsman for each match (B) The runs scores by different countries over the years
+    -   Live Data: Contains data for the year 2023 till date.
 
-## Question 1 - Part A
+-   The data-set includes match details, innings data, player performance, match outcome, and umpire details.
+
+## **Question 1:**
+
+What is the performance of top 10 Batsmen?
+
+A. Scoring evolution over the match and top 10 batsman for each match?
+
+B. Top 10 batting percentage for each year?
+
+### **Question 2:**
+
+How do the running scores differ by countries over the years?
+
+A. The Total runs scored by each country?
+
+B. The runs scores by different countries over the years?
+
+## **Question 1 - Part A** {.smaller transition="slide-in convex-out"}
 
 ::: panel-tabset
 #### Plot A
 
-![The change in score based on each over for the whole match:](images/Plot_1.jpeg){fig-align="center" width="1234"}
+![Runs scored by different countries:](images/Plot_1.jpeg){fig-align="center" width="1078"}
 
-#### Plot B
+#### Insights {.smaller auto-animate="true"}
 
-![This plot shows the batting performance of Top 10 Batsman for the Match:](images/Plot_2.png){fig-align="center" width="750"}
-
-#### Insights
-
-::: {#smallerTxt}
--   The "Scoring Rate Evolution" graph shows the number of runs provided to the opponent per over throughout two different innings of a cricket match. The red line shows the scoring rate in the first innings, while the blue line indicates the scoring rate in the second innings.
+-   The "Scoring Rate Evolution" graph shows the number of runs provided to the opponent per over throughout two different innings of a cricket match.
+-   The red line shows the scoring rate in the first innings, while the blue line indicates the scoring rate in the second innings.
 -   The graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring.
--   The bar chart shows ranks for batsmen based on the total runs they scored during the selected cricket season (2023/24).
--   The batsmen, including M. Labuschagne, D. Warner, and others, are displayed along the x-axis with their corresponding runs on the y-axis, highlighting M. Labuschagne as the highest scorer with around 380 runs, while the others have scored between 100 to 350 runs.
--   This could allow for inferences concerning whether specific genres of media are inherently built with introverted or extroverted characters (i.e. action should presumably comprise of more extroverts).
-:::
 :::
 
-## Question 1 - Part B
-
-::: panel-tabset
-#### Plot A
-
-![Runs scored by different countries:](images/Plot_3.jpeg){fig-align="center" width="700"}
-
-#### Insights
-
--   The map illustrate the total runs scored by countries in the 2023/24 cricket season, using a color gradient to represent the data.
--   The color scale ranges from light yellow (1000 runs) to dark blue (2000 runs), indicating the volume of runs scored.
--   Australia is notably highlighted in dark blue, suggesting it has one of the highest totals, approximately 2000 runs, while other countries are in lighter shades, indicating fewer runs scored during the season.
-:::
-
-## Question 2:
-
-‎
-
-What is the (A) Total Runs scored by Countries (B) Top 10 Batting percentage for each year
-
-## Question 2 - Part A
-
-::: panel-tabset
-#### Plot A
-
-![](images/Plot_4.jpeg){width="850"}
-
-#### Insights
-
-<div>
-
--   The Donut chart represents the percentage distribution of total cricket runs scored by different teams in the 2023/24 season.
--   The blue segment, representing 54% of the total runs, indicates a team that significantly outperformed others in terms of runs scored.
--   The red segment, accounting for 30.6%, and the green segment, accounting for 15.4%, represent the second and third most scoring teams, respectively.
--   This visualization highlights the dominance of the leading team in run-scoring compared to the others.
-
-</div>
-:::
-
-## Question 2 - Part B
+## **Question 1**
 
 ::: panel-tabset
 #### Plot B
 
-![](images/Plot_5.jpeg){width="850"}
+![Runs scored by different countries:](images/Plot_2.jpeg){fig-align="center" width="1078"}
+
+#### Insights {.smaller auto-animate="true"}
+
+-   The bar chart shows ranks for batsmen based on the total runs they scored during the selected cricket season (2022/23).
+-   The batsmen are displayed along the x-axis with their corresponding runs on the y-axis.
+-   This could allow for inferences concerning whether specific genres of media are inherently built with introverted or extroverted characters.
+:::
+
+## **Question 1 - Part B**
+
+::: panel-tabset
+#### Plot A
+
+![Runs scored by different countries:](images/Plot_3.jpeg){fig-align="center" width="1078"}
+
+#### Insights {.smaller auto-animate="true"}
+
+-   The map illustrate the total runs scored by countries in the 2022/23 cricket season, using a color gradient to represent the data.
+-   The color scale ranges from light yellow (1000 runs) to dark blue (2000 runs), indicating the volume of runs scored.
+:::
+
+## **Question 2 - Part A**
+
+::: panel-tabset
+#### Plot A
+
+![](images/Plot_4.jpeg){width="1078"}
+
+#### Insights {.smaller auto-animate="true"}
+
+-   The Donut chart represents the percentage distribution of total cricket runs scored by different teams in the 2022/23 season.
+-   This visualization highlights the dominance of the leading team in run-scoring compared to the others in different seasons.
+:::
+
+## **Question 2 - Part B**
+
+::: panel-tabset
+#### Plot B
+
+![](images/Plot_5.jpeg){width="1078"}
 
 #### Insights
 
--   This bar chart represents the top 10 batting partnerships in terms of runs scored during the 2023/24 cricket season. Each pair of batsmen is represented by a different color and labeled under the chart.
--   The pair of K. Klaasen and D.A. Miller leads with the highest number of runs, reaching around 160, while other partnerships, like Q. de Kock & T. Bavuma and M. Labuschagne & D.A. Warner, also have significant contributions, all scoring over 100 runs.
+-   This bar chart represents the top 10 batting partnerships in terms of runs scored during the 2022/23 cricket season.
+-   Each pair of batsmen is represented by a different color and labeled under the chart.
 -   The chart effectively shows the variability and success of different batting combinations in contributing significant runs to their teams' totals.
 :::
 
-# Conclusion
+# **R Shiny Application:**
 
--   
+[Shiny App for Cricket Analysis](https://yq6ayj-srinivasan0poonkundran.shinyapps.io/CricketMetrics-PlotWizards/)
 
-## 
+# **Limitations**
+
+1.  Since we are using shiny application and publishing it in a free portal, it takes a little time for the plots to load.
+
+2.  For the live match, calling the API continuously is causing flickering
+
+# **Conclusion**
+
+-   Our project demonstrated the successful integration of data visualization tools and APIs to simulate a live cricket match experience.\
+-   Through rigorous data analysis, we provided deep insights into scoring rates, batting and bowling performances, and the strategic impacts of partnerships.\
+-   By mimicking live data updates, our project delivered a cost-effective yet realistic approach to sports analytics.
+
+# **Thank you** {transition="convex-in zoom-out"}
 
 ![](images/thanksfallon2.gif){fig-align="center"}
