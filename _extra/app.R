@@ -226,42 +226,61 @@ server <- function(input, output, session) {
   })
   
   
+  # Filter data for the selected season
   filtered_season_data <- reactive({
     odi_data %>%
-      filter(season == input$season) %>%
+      filter(season == input$selected_season) %>%
       group_by(team1) %>%
-      summarise(total_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop')
+      summarise(`Total Runs` = sum(as.numeric(runs_off_bat)), .groups = 'drop')
   })
-  
   
   # Create choropleth map using plotly
   output$choropleth_map <- renderPlotly({
     # Access filtered data
     data <- filtered_season_data()
     
-    # Load world map data using rnaturalearth package
-    world <- ne_countries(scale = "medium", returnclass = "sf")
+    # Load world map data
+    world_map <- map_data("world")
     
     # Merge data with world map
-    merged_data <- left_join(world, data, by = c("name" = "team1"))
+    merged_data <- merge(world_map, data, by.x = "region", by.y = "team1", all.x = TRUE)
     
-    # Create choropleth map using ggplot and geom_sf with customized colors
-    map_plot <- ggplot(merged_data) +
-      geom_sf(aes(fill = total_runs), color = "grey80") +  # Set country border color to light grey
-      scale_fill_viridis_c() +  # Use the Viridis color scale for total runs
-      labs(fill = "Total Runs") +
-      theme_minimal() +
-      theme(
-        panel.background = element_rect(fill = "lightblue"),  # Set background color to light blue (ocean)
-        legend.position = "bottom",  # Position legend at the bottom
-        panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank()
+    # Create choropleth map with a different color palette
+    plot_ly(merged_data, z = ~`Total Runs`, locations = ~region, locationmode = "country names",
+            type = "choropleth", colors = "YlGnBu",  # Changed color palette to YlGnBu
+            marker = list(line = list(color = "rgb(255,255,255)", width = 2))) %>%
+      layout(title = paste("Total Runs Scored by Countries in", input$selected_season),
+             geo = list(
+               scope = "world",
+               projection = list(type = "natural earth"),
+               showframe = FALSE,  # Remove frame around map
+               showcoastlines = TRUE,  # Show coastlines
+               showocean = TRUE,  # Show ocean
+               showland = TRUE,  # Show land
+               showcountries = TRUE,  # Show country borders
+               countrycolor = "rgb(255, 255, 255)",  # Country border color
+               countrywidth = 0.5,  # Country border width
+               dragmode = "select"  # Enable selection with cursor
+             ),
+             dragmode = "pan",  # Enable panning
+             margin = list(l = 0, r = 0, t = 30, b = 0),  # Adjust margins for better display
+             updatemenus = list(
+               list(
+                 buttons = list(
+                   list(args = list(zoom = 1), label = "+", method = "relayout"),
+                   list(args = list(zoom = -1), label = "-", method = "relayout")
+                 ),
+                 direction = "left",
+                 showactive = FALSE,
+                 type = "buttons",
+                 x = 0.05,
+                 xanchor = "right",
+                 y = 0.05,
+                 yanchor = "bottom"
+               )
+             )
       )
-    
-    # Convert ggplot to plotly for interactivity
-    ggplotly(map_plot)
   })
-}
 
   autoInvalidate <- reactiveTimer(500)
   
