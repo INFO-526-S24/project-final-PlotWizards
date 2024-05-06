@@ -53,13 +53,13 @@ knitr::opts_chunk$set(
 #| message: false
 ```
 
-### **Introduction**
+## **Introduction**
 
 -   Our project's goal is to create a dynamic dashboard that simulates a live cricket match experience utilizing historical data.
 -   The dashboard uses mocked live data updates to present vital insights into several areas of cricket matches and team dynamics.
 -   The project uses automatic data refreshes and API-driven analytics to manage live dataset problems, improve comprehension of cricket trends, and showcase cost-effective real-time sports analytics.
 
-### **Understanding the Data set**
+## **Understanding the Data set**
 
 -   Extracted data from the data-set "**ODI Men's Cricket Match Data (2002-2023)"** sourced from Kaggle.
 
@@ -71,7 +71,7 @@ knitr::opts_chunk$set(
 
 -   The data-set includes match details, innings data, player performance, match outcome, and umpire details.
 
-### **Question 1:**
+## **Question 1:**
 
 What is the performance of top 10 Batsmen?
 
@@ -79,7 +79,7 @@ A. Scoring evolution over the match and top 10 batsman for each match?
 
 B. Top 10 batting percentage for each year?
 
-### **Question 2:**
+## **Question 2:**
 
 How do the running scores differ by countries over the years?
 
@@ -87,7 +87,7 @@ A. The Total runs scored by each country?
 
 B. The runs scores by different countries over the years?
 
-### **Question 1 - Part A** {.smaller transition="slide-in convex-out"}
+## **Question 1 - Part A** {.smaller transition="slide-in convex-out"}
 
 ::: panel-tabset
 #### Plot A
@@ -101,7 +101,7 @@ B. The runs scores by different countries over the years?
 -   The graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring.
 :::
 
-### **Question 1**
+## **Question 1**
 
 ::: panel-tabset
 #### Plot B
@@ -115,7 +115,7 @@ B. The runs scores by different countries over the years?
 -   This could allow for inferences concerning whether specific genres of media are inherently built with introverted or extroverted characters.
 :::
 
-### **Question 1 - Part B**
+## **Question 1 - Part B**
 
 ::: panel-tabset
 #### Plot A
@@ -128,7 +128,7 @@ B. The runs scores by different countries over the years?
 -   The color scale ranges from light yellow (1000 runs) to dark blue (2000 runs), indicating the volume of runs scored.
 :::
 
-### **Question 2 - Part A**
+## **Question 2 - Part A**
 
 ::: panel-tabset
 #### Plot A
@@ -141,7 +141,7 @@ B. The runs scores by different countries over the years?
 -   This visualization highlights the dominance of the leading team in run-scoring compared to the others in different seasons.
 :::
 
-### **Question 2 - Part B**
+## **Question 2 - Part B**
 
 ::: panel-tabset
 #### Plot B
@@ -155,22 +155,22 @@ B. The runs scores by different countries over the years?
 -   The chart effectively shows the variability and success of different batting combinations in contributing significant runs to their teams' totals.
 :::
 
-# **R Shiny Application:**
+## **R Shiny Application:**
 
 [Shiny App for Cricket Analysis](https://yq6ayj-srinivasan0poonkundran.shinyapps.io/CricketMetrics-PlotWizards/)
 
-# **Limitations**
+## **Limitations**
 
 1.  Since we are using shiny application and publishing it in a free portal, it takes a little time for the plots to load.
 
 2.  For the live match, calling the API continuously is causing flickering
 
-# **Conclusion**
+## **Conclusion**
 
 -   Our project demonstrated the successful integration of data visualization tools and APIs to simulate a live cricket match experience.\
 -   Through rigorous data analysis, we provided deep insights into scoring rates, batting and bowling performances, and the strategic impacts of partnerships.\
 -   By mimicking live data updates, our project delivered a cost-effective yet realistic approach to sports analytics.
 
-# **Thank you** {transition="convex-in zoom-out"}
+## **Thank you** {transition="convex-in zoom-out"}
 
 ![](images/TT.gif){fig-align="center" width="900"}
