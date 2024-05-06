@@ -2,7 +2,6 @@
 title: "Cricket Metrics"
 subtitle: "INFO 526 - Spring 2024 - Project Final"
 author: "Anjani Sowmya, Alexander Berliner, Navya Reddy, Nandhani Anne, Srinivasan Poonkundran, Tejas Bhawari, Mohit Rakesh Taparia"
-
 title-slide-attributes:
   data-background-image: images/Background.jpg
   data-background-size: stretch
@@ -52,11 +51,6 @@ knitr::opts_chunk$set(
 #| label: load-data
 #| include: false
 #| message: false
-# Load data here
-data(mtcars)
-mtcars$speed <- mtcars$hp / mtcars$wt
-
-data("penguins")
 ```
 
 ## **Introduction**
