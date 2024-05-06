@@ -30,11 +30,14 @@ pacman::p_load(tidyverse,
                jsonlite,
                sf,
                rnaturalearth,
-               rnaturalearthdata)
+               rnaturalearthdata,
+               shinythemes,
+               bslib,
+               maps)
 
 
 # Read the complete dataset outside the reactive context to improve performance
-odi_data <- read.csv("../data/filtered_data_5years.csv")
+odi_data <- read.csv("data/filtered_data_5years.csv")
 
 y = read.csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vSd_HEZE5_vyvgzAcOIXqaCvgefTD-B8suE03j46W_pryfgcHBNAne_mVSKNHTIAbB03BkjxbvXFHlr/pub?gid=0&single=true&output=csv")
 
@@ -43,6 +46,7 @@ url = toString(y[1, "local"])
 apiUrl = paste0(url, "/analyzingtrends/getentirelivedata")
 
 ui <- fluidPage(
+  theme = bs_theme(version = 5, bootswatch = "sketchy"),
   titlePanel(title = "Cricket Metrics"),
   sidebarLayout(
     sidebarPanel(
@@ -78,17 +82,25 @@ ui <- fluidPage(
       tabsetPanel(
         type = "tabs",
         tabPanel("Score Evolution", 
+                 br(),
                  uiOutput("subCategorySelection"),
+                 br(),
                  plotOutput(outputId = "bowlingplot"),
+                 br(),
                  plotOutput(outputId = "scorePlot"),
                  ),
         tabPanel("Team Performance", 
+                 br(),
                  plotlyOutput(outputId = "choropleth_map"),
+                 br(),
                  plotlyOutput(outputId = "dougnut")),
         tabPanel("Batsmen Performance",
+                 br(),
                  highchartOutput(outputId = "batsmanPlot"),
+                 br(),
                  plotlyOutput(outputId = "partnership")),
         tabPanel("Live Match",
+                 br(),
                  plotOutput("livePlot", height = 800))
       )
     )
@@ -348,15 +360,14 @@ server <- function(input, output, session) {
   
   # Render the plot
   output$livePlot <- renderPlot({
-    
+
     data <- liveData()
     liveData <- data %>%
       mutate(over = floor(as.double(ball))) |>
       group_by(battingTeam) |>
       mutate(runs = cumsum(as.integer(runsOffBat) + as.integer(extras)))
-    
+
     ggplot(liveData, aes(x = as.double(ball), y = runs, color = battingTeam)) +
-      geom_point() +
       geom_line() +
       xlim(0, 50) +
       ylim(0, 500) +
@@ -375,6 +386,10 @@ server <- function(input, output, session) {
             legend.title = element_text(size = 14),
             legend.text = element_text(size=12))
   })
+
+
+
+  
 }
 
 # Create the Shiny app object --------------------------------------------------
