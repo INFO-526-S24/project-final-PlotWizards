@@ -53,13 +53,13 @@ knitr::opts_chunk$set(
 #| message: false
 ```
 
-## **Introduction**
+### **Introduction**
 
 -   Our project's goal is to create a dynamic dashboard that simulates a live cricket match experience utilizing historical data.
 -   The dashboard uses mocked live data updates to present vital insights into several areas of cricket matches and team dynamics.
 -   The project uses automatic data refreshes and API-driven analytics to manage live dataset problems, improve comprehension of cricket trends, and showcase cost-effective real-time sports analytics.
 
-## **Understanding the Data set**
+### **Understanding the Data set**
 
 -   Extracted data from the data-set "**ODI Men's Cricket Match Data (2002-2023)"** sourced from Kaggle.
 
@@ -71,7 +71,7 @@ knitr::opts_chunk$set(
 
 -   The data-set includes match details, innings data, player performance, match outcome, and umpire details.
 
-## **Question 1:**
+### **Question 1:**
 
 What is the performance of top 10 Batsmen?
 
@@ -87,12 +87,12 @@ A. The Total runs scored by each country?
 
 B. The runs scores by different countries over the years?
 
-## **Question 1 - Part A** {.smaller transition="slide-in convex-out"}
+### **Question 1 - Part A** {.smaller transition="slide-in convex-out"}
 
 ::: panel-tabset
 #### Plot A
 
-![Runs scored by different countries:](images/Plot_1.jpeg){fig-align="center" width="1078"}
+![](images/Plot_1.jpeg){fig-align="center" width="1078"}
 
 #### Insights {.smaller auto-animate="true"}
 
@@ -101,12 +101,12 @@ B. The runs scores by different countries over the years?
 -   The graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring.
 :::
 
-## **Question 1**
+### **Question 1**
 
 ::: panel-tabset
 #### Plot B
 
-![Runs scored by different countries:](images/Plot_2.jpeg){fig-align="center" width="1078"}
+![](images/Plot_2.jpeg){fig-align="center" width="1078"}
 
 #### Insights {.smaller auto-animate="true"}
 
@@ -115,12 +115,12 @@ B. The runs scores by different countries over the years?
 -   This could allow for inferences concerning whether specific genres of media are inherently built with introverted or extroverted characters.
 :::
 
-## **Question 1 - Part B**
+### **Question 1 - Part B**
 
 ::: panel-tabset
 #### Plot A
 
-![Runs scored by different countries:](images/Plot_3.jpeg){fig-align="center" width="1078"}
+![](images/Plot_3.jpeg){fig-align="center" width="1078"}
 
 #### Insights {.smaller auto-animate="true"}
 
@@ -128,7 +128,7 @@ B. The runs scores by different countries over the years?
 -   The color scale ranges from light yellow (1000 runs) to dark blue (2000 runs), indicating the volume of runs scored.
 :::
 
-## **Question 2 - Part A**
+### **Question 2 - Part A**
 
 ::: panel-tabset
 #### Plot A
@@ -141,7 +141,7 @@ B. The runs scores by different countries over the years?
 -   This visualization highlights the dominance of the leading team in run-scoring compared to the others in different seasons.
 :::
 
-## **Question 2 - Part B**
+### **Question 2 - Part B**
 
 ::: panel-tabset
 #### Plot B
@@ -173,4 +173,4 @@ B. The runs scores by different countries over the years?
 
 # **Thank you** {transition="convex-in zoom-out"}
 
-![](images/thanksfallon2.gif){fig-align="center"}
+![](images/TT.gif){fig-align="center" width="900"}
