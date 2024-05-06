@@ -7,14 +7,20 @@ title-slide-attributes:
   data-background-size: stretch
   data-background-opacity: "0.5"
   data-slide-number: none
+##format:
+##  revealjs:
+##    theme:  [white,data/customtheming.scss]
+##    transition: concave
+##    background-transition: fade
 format:
   revealjs:
-    theme:  [white,data/customtheming.scss]
+    theme: sky
     transition: concave
     background-transition: fade
     logo: images/logo.jpg
     footer: "[🏏 Plot Wizards](https://github.com/INFO-526-S24/project-final-PlotWizards/)"
     scrollable: true
+
 editor: visual
 execute:
   warning: false
@@ -28,6 +34,9 @@ execute:
 # Load packages here
 pacman::p_load(tidymodels,
                tidyverse)
+
+ggplot2::theme_set(ggplot2::theme_minimal(base_size = 11))
+
 
 
 ```
