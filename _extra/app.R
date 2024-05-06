@@ -27,7 +27,10 @@ pacman::p_load(tidyverse,
                shiny,
                knitr,
                httr,
-               jsonlite)
+               jsonlite,
+               sf,
+               rnaturalearth,
+               rnaturalearthdata)
 
 
 # Read the complete dataset outside the reactive context to improve performance
@@ -85,7 +88,7 @@ ui <- fluidPage(
                  plotlyOutput(outputId = "choropleth_map"),
                  plotlyOutput(outputId = "partnership")),
         tabPanel("Live",
-                 plotOutput("livePlot"))
+                 plotOutput("livePlot", height = 800))
       )
     )
   )
@@ -237,34 +240,30 @@ server <- function(input, output, session) {
     # Access filtered data
     data <- filtered_season_data()
     
-    # Load world map data
-    world_map <- map_data("world")
+    # Load world map data using rnaturalearth package
+    world <- ne_countries(scale = "medium", returnclass = "sf")
     
     # Merge data with world map
-    merged_data <- merge(world_map, data, by.x = "region", by.y = "team1", all.x = TRUE)
+    merged_data <- left_join(world, data, by = c("name" = "team1"))
     
-    # Create choropleth map with a different color palette
-    plot_ly(merged_data, z = ~total_runs, locations = ~region, locationmode = "country names",
-            type = "choropleth", colors = "YlGnBu",  # Changed color palette to YlGnBu
-            marker = list(line = list(color = "rgb(255,255,255)", width = 2))) %>%
-      layout(title = paste("Total Runs Scored by Countries in", input$season),
-             geo = list(
-               scope = "world",
-               projection = list(type = "natural earth"),
-               showframe = FALSE,  # Remove frame around map
-               showcoastlines = TRUE,  # Show coastlines
-               showocean = TRUE,  # Show ocean
-               showland = TRUE,  # Show land
-               showcountries = TRUE,  # Show country borders
-               countrycolor = "rgb(255, 255, 255)",  # Country border color
-               countrywidth = 0.5  # Country border width
-             ),
-             dragmode = "pan",  # Enable panning
-             margin = list(l = 0, r = 0, t = 30, b = 0)  # Adjust margins for better display
+    # Create choropleth map using ggplot and geom_sf with customized colors
+    map_plot <- ggplot(merged_data) +
+      geom_sf(aes(fill = total_runs), color = "grey80") +  # Set country border color to light grey
+      scale_fill_viridis_c() +  # Use the Viridis color scale for total runs
+      labs(fill = "Total Runs") +
+      theme_minimal() +
+      theme(
+        panel.background = element_rect(fill = "lightblue"),  # Set background color to light blue (ocean)
+        legend.position = "bottom",  # Position legend at the bottom
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank()
       )
+    
+    # Convert ggplot to plotly for interactivity
+    ggplotly(map_plot)
   })
-  
-  
+
+
   autoInvalidate <- reactiveTimer(500)
   
   # Function to generate random data
@@ -306,6 +305,7 @@ server <- function(input, output, session) {
   
   # Render the plot
   output$livePlot <- renderPlot({
+    
     data <- liveData()
     liveData <- data %>%
       mutate(over = floor(as.double(ball))) |>
@@ -313,6 +313,7 @@ server <- function(input, output, session) {
       mutate(runs = cumsum(as.integer(runsOffBat) + as.integer(extras)))
     
     ggplot(liveData, aes(x = as.double(ball), y = runs, color = battingTeam)) +
+      geom_point() +
       geom_line() +
       xlim(0, 50) +
       ylim(0, 500) +
@@ -322,7 +323,8 @@ server <- function(input, output, session) {
         title = "Scoring Rate Evolution",
         color = "Innings"
       ) +
-      theme_minimal()
+      theme_minimal() +
+      theme(plot.margin = margin(5, 5, 2, 2))
   })
   
 

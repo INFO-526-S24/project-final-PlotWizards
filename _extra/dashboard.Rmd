@@ -62,9 +62,21 @@ library(shiny)
 ## Tabset {.tabset}
 
 ### Tab Group 1
+<<<<<<< HEAD
 
 #### Column {data-width=550}
+=======
+<<<<<<< HEAD
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+#### Chart A
+=======
+#### Column {data-width=500}
+>>>>>>> f4aadecd2a39c913aaa14522d623d0cefecb2fb8
 -------------------------------------
+>>>>>>> 26f9fee0cd25feb08f18151c095d4d3b0b9d6e9b
 
 
 ```{r, echo=FALSE, .split-right}
@@ -113,6 +125,13 @@ shinyApp(ui = ui, server = server)
 #### Column {data-width=450}
 -------------------------------------
 
+<<<<<<< HEAD
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+#### Chart B
+=======
+>>>>>>> 26f9fee0cd25feb08f18151c095d4d3b0b9d6e9b
 
 ```{r}
 # Define the choices for the dropdowns
@@ -162,7 +181,11 @@ server_top_batsmen <- function(input, output) {
 shinyApp(ui = ui_top_batsmen, server = server_top_batsmen)
 ```
 
+<<<<<<< HEAD
 
+=======
+#### Chart C
+>>>>>>> f4aadecd2a39c913aaa14522d623d0cefecb2fb8
 
 ```{r}
 season_choices <- unique(odi_data$season)
@@ -215,6 +238,13 @@ shinyApp(ui, server)
 
 ### Tab Group 2
 
+<<<<<<< HEAD
+=======
+Column {data-width=550}
+-----------------------------------------------------------------------
+
+#### Chart D
+>>>>>>> f4aadecd2a39c913aaa14522d623d0cefecb2fb8
 
 ```{r}
 # Load necessary libraries
@@ -281,6 +311,13 @@ shinyApp(ui = ui, server = server)
 
 ```
 
+<<<<<<< HEAD
+=======
+Column {data-width=450}
+-----------------------------------------------------------------------
+
+#### Chart E
+>>>>>>> f4aadecd2a39c913aaa14522d623d0cefecb2fb8
 
 ```{r}
 # Define UI for the Shiny app
@@ -326,6 +363,10 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 
+<<<<<<< HEAD
+=======
+#### Chart F
+>>>>>>> f4aadecd2a39c913aaa14522d623d0cefecb2fb8
 
 ```{r}
 # Load the necessary libraries
