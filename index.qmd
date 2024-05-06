@@ -103,7 +103,7 @@ shinyApp(ui = ui, server = server)
 
 ```
 
-**Insights :** The "Scoring Rate Evolution" graph depicts the number of runs provided to the opponent per over throughout two different innings of a cricket match. The red line depicts the scoring rate in the first innings, while the blue line indicates the scoring rate in the second innings. The graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring.
+**Insights :** The "Scoring Rate Evolution" graph depicts the number of runs provided to the opponent per over throughout two different innings of a cricket match. The red line depicts the scoring rate in the first innings, while the blue line indicates the scoring rate in the second innings. The graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring.
 
 ## **1b. Batting Performance**
 
@@ -155,7 +155,7 @@ server_top_batsmen <- function(input, output) {
 shinyApp(ui = ui_top_batsmen, server = server_top_batsmen)
 ```
 
-**Insights :** The bar chart depicts ranks for batsmen based on the total runs they scored during the selected cricket season (2023/24). The batsmen, including M. Labuschagne, D. Warner, and others, are displayed along the x-axis with their corresponding runs on the y-axis, highlighting M. Labuschagne as the highest scorer with around 380 runs, while the others have scored between 100 to 350 runs.
+**Insights :** The bar chart depicts ranks for batsmen based on the total runs they scored during the selected cricket season (2023/24). The batsmen, including M. Labuschagne, D. Warner, and others, are displayed along the x-axis with their corresponding runs on the y-axis, highlighting M. Labuschagne as the highest scorer with around 380 runs, while the others have scored between 100 to 350 runs.
 
 ## Question2
 
@@ -217,7 +217,7 @@ shinyApp(ui = ui, server = server)
 
 ```
 
-**Insights :** This bar chart represents the top 10 batting partnerships in terms of runs scored during the 2023/24 cricket season. Each pair of batsmen is represented by a different color and labeled under the chart. The pair of K. Klaasen and D.A. Miller leads with the highest number of runs, reaching around 160, while other partnerships, like Q. de Kock & T. Bavuma and M. Labuschagne & D.A. Warner, also have significant contributions, all scoring over 100 runs. The chart effectively shows the variability and success of different batting combinations in contributing significant runs to their teams totals.
+**Insights :** This bar chart represents the top 10 batting partnerships in terms of runs scored during the 2023/24 cricket season. Each pair of batsmen is represented by a different color and labeled under the chart. The pair of K. Klaasen and D.A. Miller leads with the highest number of runs, reaching around 160, while other partnerships, like Q. de Kock & T. Bavuma and M. Labuschagne & D.A. Warner, also have significant contributions, all scoring over 100 runs. The chart effectively shows the variability and success of different batting combinations in contributing significant runs to their teams totals.
 
 ## 2b. Team Comparision
 
@@ -265,4 +265,4 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 
-**Insights :** The donut chart represents the percentage distribution of total cricket runs scored by different teams in the 2023/24 season. The blue segment, representing 54% of the total runs, indicates a team that significantly outperformed others in terms of runs scored. The red segment, accounting for 30.6%, and the green segment, accounting for 15.4%, represent the second and third most scoring teams, respectively. This visualization highlights the dominance of the leading team in run-scoring compared to the others.
+**Insights :** The donut chart represents the percentage distribution of total cricket runs scored by different teams in the 2023/24 season. The blue segment, representing 54% of the total runs, indicates a team that significantly outperformed others in terms of runs scored. The red segment, accounting for 30.6%, and the green segment, accounting for 15.4%, represent the second and third most scoring teams, respectively. This visualization highlights the dominance of the leading team in run-scoring compared to the others.
