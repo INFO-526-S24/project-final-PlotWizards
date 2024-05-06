@@ -87,7 +87,7 @@ A. The Total runs scored by each country?
 
 B. The runs scores by different countries over the years?
 
-## **Question 1 - Part A** {.smaller transition="slide-in convex-out"}
+## **Question 1 - A** {.smaller transition="slide-in convex-out"}
 
 ::: panel-tabset
 #### Plot A
@@ -101,21 +101,7 @@ B. The runs scores by different countries over the years?
 -   The graphic indicates that both innings have variable scoring rates, with many peaks indicating overs with very high scoring.
 :::
 
-## **Question 1**
-
-::: panel-tabset
-#### Plot B
-
-![](images/Plot_2.jpeg){fig-align="center" width="1078"}
-
-#### Insights {.smaller auto-animate="true"}
-
--   The bar chart shows ranks for batsmen based on the total runs they scored during the selected cricket season (2022/23).
--   The batsmen are displayed along the x-axis with their corresponding runs on the y-axis.
--   This could allow for inferences concerning whether specific genres of media are inherently built with introverted or extroverted characters.
-:::
-
-## **Question 1 - Part B**
+## **Question 1 - B**
 
 ::: panel-tabset
 #### Plot A
@@ -128,7 +114,7 @@ B. The runs scores by different countries over the years?
 -   The color scale ranges from light yellow (1000 runs) to dark blue (2000 runs), indicating the volume of runs scored.
 :::
 
-## **Question 2 - Part A**
+## **Question 2 - A**
 
 ::: panel-tabset
 #### Plot A
@@ -141,7 +127,7 @@ B. The runs scores by different countries over the years?
 -   This visualization highlights the dominance of the leading team in run-scoring compared to the others in different seasons.
 :::
 
-## **Question 2 - Part B**
+## **Question 2 - B**
 
 ::: panel-tabset
 #### Plot B
@@ -155,15 +141,13 @@ B. The runs scores by different countries over the years?
 -   The chart effectively shows the variability and success of different batting combinations in contributing significant runs to their teams' totals.
 :::
 
+## **Implementation:**
+
+![](images/BD.png){fig-align="center"}
+
 ## **R Shiny Application:**
 
 [Shiny App for Cricket Analysis](https://yq6ayj-srinivasan0poonkundran.shinyapps.io/CricketMetrics-PlotWizards/)
-
-## **Limitations**
-
-1.  Since we are using shiny application and publishing it in a free portal, it takes a little time for the plots to load.
-
-2.  For the live match, calling the API continuously is causing flickering
 
 ## **Conclusion**
 
