@@ -70,8 +70,8 @@ ui <- fluidPage(
       ),
       selectInput(inputId = "season",
                   label = "Select Season:",
-                  choices = unique(odi_data$season),
-                  selected = unique(odi_data$season)[1])
+                  choices = unique((odi_data %>% filter((season!= "2023/00") & (season!= "2023/24")))$season),
+                  selected = unique(odi_data$season)[3])
     ),
     mainPanel(
       tabsetPanel(
@@ -118,7 +118,13 @@ server <- function(input, output, session) {
            y = "Runs given to opponent / Over", 
            title = "Scoring Rate Evolution",
            color = "Innings") +
-      theme_minimal() 
+      scale_color_manual(values = c("red", "blue")) +
+      theme_minimal()+
+      theme(axis.text = element_text(size=12),
+            plot.title = element_text(size = 20,hjust = 0.5),
+            axis.title = element_text(size = 14),
+            legend.title = element_text(size = 14),
+            legend.text = element_text(size=12))
   })
   
   # Reactive expression to filter data based on selected season and calculate the top batsmen
@@ -140,7 +146,12 @@ server <- function(input, output, session) {
       hc_title(text = "Top Batsmen by Total Runs Scored") %>%
       hc_xAxis(categories = top_batsmen$striker) %>%
       hc_yAxis(title = list(text = "Total Runs Scored")) %>%
-      hc_add_series(name = "Total Runs", data = top_batsmen$Total_Runs, type = "column")
+      hc_add_series(
+        name = "Total Runs",
+        data = top_batsmen$Total_Runs,
+        type = "column",
+        color="lightgreen"
+      )
   })
   
   output$subCategorySelection <- renderUI({
@@ -172,7 +183,13 @@ server <- function(input, output, session) {
         title = "Scoring Rate Evolution",
         color = "Team"
       ) +
-      theme_minimal()
+      scale_color_manual(values = c("red", "blue")) +
+      theme_minimal()+
+      theme(axis.text = element_text(size=12),
+            plot.title = element_text(size = 20,hjust = 0.5),
+            axis.title = element_text(size = 14),
+            legend.title = element_text(size = 14),
+            legend.text = element_text(size=12))
   })
   
   # Filter data for the selected season
@@ -222,16 +239,16 @@ server <- function(input, output, session) {
       layout(title = paste("Top 10 Batting Partnerships in", input$season),
              xaxis = list(title = "Batsman Pair"),
              yaxis = list(title = "Partnership Runs"),
-             barmode = "stack")
+             barmode = "stack",
+             showlegend=FALSE  # Remove legend position
+      )
   })
   
-  
-  # Filter data for the selected season
   filtered_season_data <- reactive({
     odi_data %>%
-      filter(season == input$selected_season) %>%
+      filter(season == input$season) %>%
       group_by(team1) %>%
-      summarise(`Total Runs` = sum(as.numeric(runs_off_bat)), .groups = 'drop')
+      summarise(total_runs = sum(as.numeric(runs_off_bat)), .groups='drop')
   })
   
   # Create choropleth map using plotly
@@ -245,41 +262,45 @@ server <- function(input, output, session) {
     # Merge data with world map
     merged_data <- merge(world_map, data, by.x = "region", by.y = "team1", all.x = TRUE)
     
-    # Create choropleth map with a different color palette
-    plot_ly(merged_data, z = ~`Total Runs`, locations = ~region, locationmode = "country names",
+    plot_ly(merged_data, z = ~total_runs, locations = ~region, locationmode = "country names",
             type = "choropleth", colors = "YlGnBu",  # Changed color palette to YlGnBu
             marker = list(line = list(color = "rgb(255,255,255)", width = 2))) %>%
-      layout(title = paste("Total Runs Scored by Countries in", input$selected_season),
-             geo = list(
-               scope = "world",
-               projection = list(type = "natural earth"),
-               showframe = FALSE,  # Remove frame around map
-               showcoastlines = TRUE,  # Show coastlines
-               showocean = TRUE,  # Show ocean
-               showland = TRUE,  # Show land
-               showcountries = TRUE,  # Show country borders
-               countrycolor = "rgb(255, 255, 255)",  # Country border color
-               countrywidth = 0.5,  # Country border width
-               dragmode = "select"  # Enable selection with cursor
-             ),
-             dragmode = "pan",  # Enable panning
-             margin = list(l = 0, r = 0, t = 30, b = 0),  # Adjust margins for better display
-             updatemenus = list(
-               list(
-                 buttons = list(
-                   list(args = list(zoom = 1), label = "+", method = "relayout"),
-                   list(args = list(zoom = -1), label = "-", method = "relayout")
-                 ),
-                 direction = "left",
-                 showactive = FALSE,
-                 type = "buttons",
-                 x = 0.05,
-                 xanchor = "right",
-                 y = 0.05,
-                 yanchor = "bottom"
-               )
-             )
+      layout(
+        title = paste("Total Runs Scored by Countries in", input$selected_season),
+        geo = list(
+          scope = "world",
+          projection = list(type = "natural earth"),
+          showframe = FALSE,  # Remove frame around map
+          showcoastlines = TRUE,  # Show coastlines
+          showocean = TRUE,  # Show ocean
+          showland = TRUE,  # Show land
+          showcountries = TRUE,  # Show country borders
+          countrycolor = "rgb(255, 255, 255)",  # Country border color
+          countrywidth = 0.5,  # Country border width
+          dragmode = "select"  # Enable selection with cursor
+        ),
+        dragmode = "pan",  # Enable panning
+        margin = list(l = 0, r = 0, t = 30, b = 0),  # Adjust margins for better display
+        updatemenus = list(
+          list(
+            buttons = list(
+              list(args = list(zoom = 1), label = "+", method = "relayout"),
+              list(args = list(zoom = -1), label = "-", method = "relayout")
+            ),
+            direction = "left",
+            showactive = FALSE,
+            type = "buttons",
+            x = 0.05,
+            xanchor = "right",
+            y = 0.05,
+            yanchor = "bottom"
+          )
+        ),
+        legend = list(
+          title = list(text = "Total Runs")  # Rename legend title
+        )
       )
+    
   })
 
   autoInvalidate <- reactiveTimer(500)
@@ -339,10 +360,15 @@ server <- function(input, output, session) {
         title = "Scoring Rate Evolution",
         color = "Innings"
       ) +
-      theme_minimal()
+      theme_minimal() +
+      scale_color_manual(values = c("red", "blue")) +
+      theme_minimal()+
+      theme(axis.text = element_text(size=12),
+            plot.title = element_text(size = 20,hjust = 0.5),
+            axis.title = element_text(size = 14),
+            legend.title = element_text(size = 14),
+            legend.text = element_text(size=12))
   })
-  
-
 }
 
 # Create the Shiny app object --------------------------------------------------
