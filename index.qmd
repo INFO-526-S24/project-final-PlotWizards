@@ -29,11 +29,11 @@ Overall, this project showcases a comprehensive approach to data visualization, 
 
 ## Question1
 
-How did the (a) scoring rate, (b) player batting performances, and (c) bowlers’ economy rates, evolve throughout the match?
+How did the (a) scoring rate, (b) player batting performances, and (c) bowlers' economy rates, evolve throughout the match?
 
 ## Approach
 
-To analyze how scoring rates, player batting performances, and bowlers’ economy rates evolve throughout a cricket match, we'll start by importing and cleaning our datasets, ensuring data integrity and consistency. We'll then process the data to calculate runs per over, total runs by each batsman, and economy rates for bowlers, adjusting for factors like incomplete overs. Visualizations will be crafted to display these metrics effectively: scoring rates will be shown via line or bar charts, batting performances through bar charts, and bowlers' economy rates with box or violin plots. These visual tools will allow us to explore key performance trends and insights, providing a holistic view of the match's strategic dynamics.
+To analyze how scoring rates, player batting performances, and bowlers' economy rates evolve throughout a cricket match, we'll start by importing and cleaning our datasets, ensuring data integrity and consistency. We'll then process the data to calculate runs per over, total runs by each batsman, and economy rates for bowlers, adjusting for factors like incomplete overs. Visualizations will be crafted to display these metrics effectively: scoring rates will be shown via line or bar charts, batting performances through bar charts, and bowlers' economy rates with box or violin plots. These visual tools will allow us to explore key performance trends and insights, providing a holistic view of the match's strategic dynamics.
 
 ## 1a. Scorecard Summary
 
@@ -60,3 +60,7 @@ To explore the impact of batting partnerships on total runs and extract insights
 ## 2b. Team Comparision
 
 ![](images/clipboard-3079618900.png)**Insights :** The donut chart represents the percentage distribution of total cricket runs scored by different teams in the 2023/24 season. The blue segment, representing 54% of the total runs, indicates a team that significantly outperformed others in terms of runs scored. The red segment, accounting for 30.6%, and the green segment, accounting for 15.4%, represent the second and third most scoring teams, respectively. This visualization highlights the dominance of the leading team in run-scoring compared to the others.
+
+## Overall discussion/conclusion
+
+In this project we created a dynamic dashboard that visualizes a live cricket match experience by simulating historical data. The dashboard uses mocked live data updates to present vital insights into several areas of cricket matches, including as scoring rates, player performances, and team dynamics. While historical data is useful to sports fans and analytics to gauge the performance of a team, the real-time sports dashboard can confirm or disprove our prior judgements.
