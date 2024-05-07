@@ -1,0 +1,7 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+/.quarto/
+backend/AnalyzingTrendsInCricketGames/AnalyzingTrendsInCricketGames/data/cricket_merged_data.csv

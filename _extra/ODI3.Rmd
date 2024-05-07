@@ -1,0 +1,211 @@
+---
+title: "Cricket Match Dashboard"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(highcharter)
+library(htmltools)
+library(viridis)
+library(knitr)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(shiny)
+library(leaflet)
+library(quarto)
+library(RColorBrewer)
+
+# Read the complete dataset outside the reactive context to improve performance
+odi_data <- read.csv("../data/filtered_data_5years.csv")
+```
+
+Column {data-width=550}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+# Load necessary libraries
+library(shiny)
+library(plotly)
+library(dplyr)
+
+# Define UI for the Shiny app
+ui <- fluidPage(
+  # Dropdown menu for selecting seasons
+  selectInput(inputId = "selected_season", label = "Select Season:",
+              choices = unique(odi_data$season),
+              selected = NULL),
+  
+  # Plot output
+  plotlyOutput(outputId = "choropleth_map")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Filter data for the selected season
+  filtered_season_data <- reactive({
+    odi_data %>%
+      filter(season == input$selected_season) %>%
+      group_by(team1) %>%
+      summarise(total_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop')
+  })
+  
+  # Create choropleth map using plotly
+  output$choropleth_map <- renderPlotly({
+    # Access filtered data
+    data <- filtered_season_data()
+    
+    # Load world map data
+    world_map <- map_data("world")
+    
+    # Merge data with world map
+    merged_data <- merge(world_map, data, by.x = "region", by.y = "team1", all.x = TRUE)
+    
+# Create choropleth map with a different color palette
+    plot_ly(merged_data, z = ~total_runs, locations = ~region, locationmode = "country names",
+            type = "choropleth", colors = "YlGnBu",  # Changed color palette to YlGnBu
+            marker = list(line = list(color = "rgb(255,255,255)", width = 2))) %>%
+      layout(title = paste("Total Runs Scored by Countries in", input$selected_season),
+             geo = list(
+               scope = "world",
+               projection = list(type = "natural earth"),
+               showframe = FALSE,  # Remove frame around map
+               showcoastlines = TRUE,  # Show coastlines
+               showocean = TRUE,  # Show ocean
+               showland = TRUE,  # Show land
+               showcountries = TRUE,  # Show country borders
+               countrycolor = "rgb(255, 255, 255)",  # Country border color
+               countrywidth = 0.5  # Country border width
+             ),
+             dragmode = "pan",  # Enable panning
+             margin = list(l = 0, r = 0, t = 30, b = 0)  # Adjust margins for better display
+      )
+  })
+}
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+
+```
+
+Column {data-width=450}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+# Define UI for the Shiny app
+ui <- fluidPage(
+  # Dropdown menu for selecting seasons
+  selectInput(inputId = "selected_season", label = "Select Season:",
+              choices = unique(odi_data$season),
+              selected = NULL),
+  
+  # Plot output
+  plotlyOutput(outputId = "team_comparison_plot")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Filter data for the selected season
+  filtered_season_data <- reactive({
+    odi_data %>%
+      filter(season == input$selected_season) %>%
+      group_by(team1) %>%
+      summarise(total_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop')
+  })
+  
+  # Create pie chart or half eye plot using plotly
+  output$team_comparison_plot <- renderPlotly({
+    # Access filtered data
+    data <- filtered_season_data()
+    
+    # Create half eye plot using plotly
+    half_eye_plot <- plot_ly(data, labels = ~team1, values = ~total_runs, type = "pie",
+                             marker = list(colors = rainbow(nrow(data))),
+                             hole = 0.4) %>%
+      layout(title = paste("Total Runs Scored by Countries in", input$selected_season),
+             showlegend = FALSE)
+    
+    # Return the half eye plot
+    half_eye_plot
+  })
+}
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+```
+
+### Chart C
+
+```{r}
+# Load the necessary libraries
+library(shiny)
+library(dplyr)
+library(plotly)
+
+# Define UI for the Shiny app
+ui <- fluidPage(
+  # Dropdown menu for selecting the season
+  selectInput(inputId = "selected_season", label = "Select Season:",
+              choices = unique(odi_data$season), selected = NULL),
+  
+  # Plot output
+  plotlyOutput(outputId = "partnership_plot")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Reactive function to filter data based on selected season
+  partnership_data <- reactive({
+    selected_data <- odi_data %>%
+      filter(season == input$selected_season) %>%
+      group_by(striker, non_striker) %>%
+      summarise(partnership_runs = sum(as.numeric(runs_off_bat)), .groups = 'drop') %>%
+      arrange(desc(partnership_runs)) %>%
+      top_n(10)
+    return(selected_data)
+  })
+  
+  # Render the plot as an interactive Plotly plot
+  output$partnership_plot <- renderPlotly({
+    
+    # Filter data based on selected season
+    data <- partnership_data()
+    
+    # Create Plotly plot for top batting partnerships
+    plot_ly(data, x = ~reorder(paste(striker, non_striker, sep = " & "), -partnership_runs), y = ~partnership_runs, type = "bar", color = ~striker) %>%
+      layout(title = paste("Top 10 Batting Partnerships in", input$selected_season),
+             xaxis = list(title = "Batsman Pair"),
+             yaxis = list(title = "Partnership Runs"),
+             barmode = "stack")
+  })
+}
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+
+```
+
+
+```{r}
+
+library(bslib)
+
+bootswatch_themes(version = version_default(), full_path = FALSE)
+
+
+```
+
+
+

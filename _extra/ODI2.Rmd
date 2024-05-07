@@ -1,0 +1,208 @@
+---
+title: "Cricket Match Dashboard"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(highcharter)
+library(htmltools)
+library(viridis)
+library(knitr)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(shiny)
+library(jsonlite)
+
+library(httr)
+
+```
+
+## Column {data-width="500"}
+
+### Chart A
+
+```{r}
+
+library(shiny)
+
+apiUrl = "http://127.0.0.1:8100/analyzingtrends/getentirelivedata"
+# Define UI
+ui <- fluidPage(
+  titlePanel("Live Data Plot"),
+  
+  # Output for the plot
+  plotOutput("livePlot")
+)
+
+# Define server logic
+server <- function(input, output, session) {
+  
+
+  autoInvalidate <- reactiveTimer(300)
+  
+  # Function to generate random data
+  generateData <- function() {
+      
+      
+      # Make GET request to the API
+      response = GET(apiUrl) 
+      
+    
+      # Check if the request was successful
+      if (http_status(response)$category == "Success") {
+    
+        # Parse JSON content
+        jsonContent = content(response, "text", encoding = "UTF-8")
+        
+        # Convert JSON to list
+        dataList = fromJSON(jsonContent, simplifyVector = FALSE)
+         
+        # Flatten the nested lists
+        flatten_list <- lapply(dataList, unlist)
+        
+        # Convert to dataframe
+        liveData <- as.data.frame(do.call(rbind, flatten_list))
+        return(liveData)
+        
+      } else {
+      # Print error message if request failed
+        print("Failed to retrieve data from the API.")
+        return(NULL)
+      }
+  }
+  
+  # Reactive expression to update data at fixed intervals
+  liveData <- reactive({
+    autoInvalidate()
+    generateData()
+  })
+  
+  # Render the plot
+  output$livePlot <- renderPlot({
+    data <- liveData()
+    liveData <- data %>%
+      mutate(over = floor(as.double(ball))) |>
+      group_by(battingTeam) |>
+      mutate(runs = cumsum(as.integer(runsOffBat) + as.integer(extras)))
+    
+    ggplot(liveData, aes(x = as.double(ball), y = runs, color = battingTeam)) +
+      geom_line() +
+      xlim(0, 50) +
+      ylim(0, 500) +
+      labs(
+        x = "Overs",
+        y = "Runs",
+        title = "Scoring Rate Evolution",
+        color = "Innings"
+      ) +
+      theme_minimal()
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+
+
+```
+
+```{r}
+
+funA = function(){
+  # Define the user interface
+ui <- fluidPage(
+  titlePanel("Cricket Match Dashboard"),
+  
+  # Dropdown selection for countries
+  selectInput(inputId = "bowling_team",
+              label = "Choose a Country:",
+              choices = c("India", "Australia", "England", "South Africa","Pakistan","West Indies","Ireland","Scotland","Nepal","Canada","United States","Oman","United Arab Emirates","Zimbabwe","Afghanistan","Netherlands"), 
+              selected = "India"),
+  
+  # Output plot
+  plotOutput(outputId = "scorePlot")
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+  # Read the complete dataset outside the reactive context to improve performance
+  odi_data <- read.csv("../data/filtered_data_5years.csv")
+
+  # Assume 'odi_data' has a 'Country' column. If not, add it to your dataset accordingly.
+  
+  # Reactive expression to filter the data based on selected country
+  filteredData <- reactive({
+    odi_data %>%
+      filter(bowling_team == input$bowling_team) %>%
+      group_by(innings, ball) %>%
+      summarise(Runs_Scored = mean(runs_off_bat), .groups = "drop") %>%
+      group_by(innings, over = floor(ball)) %>%
+      summarise(Total_Runs = sum(Runs_Scored), .groups = "drop")
+  })
+  
+  # Render the plot based on the filtered data
+  output$scorePlot <- renderPlot({
+    ggplot(filteredData(), aes(x = over, y = Total_Runs, color = factor(innings))) +
+      geom_line() +
+      labs(x = "Overs", 
+           y = "Runs given to opponent / Over", 
+           title = "Scoring Rate Evolution",
+           color = "Innings") +
+      theme_minimal() 
+  })
+}
+}
+
+```
+
+```{r}
+library(shiny)
+library(shinydashboard)
+
+# Define UI
+ui <- dashboardPage(
+  dashboardHeader(title = "My Dashboard"),
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Tab 1", tabName = "tab1"),
+      menuItem("Tab 2", tabName = "tab2")
+      # Add more menu items for additional tabs if needed
+    )
+  ),
+  dashboardBody(
+    tabItems(
+      tabItem(tabName = "tab1",
+              fluidRow(
+                box(title = "Tab 1 Content",
+                    "This is the content for Tab 1.")
+                funA()
+                
+              )
+      ),
+      tabItem(tabName = "tab2",
+              fluidRow(
+                box(title = "Tab 2 Content",
+                    "This is the content for Tab 2.")
+              )
+      )
+      # Add more tabItems for additional tabs if needed
+    )
+  )
+)
+
+# Define server logic
+server <- function(input, output) {
+  
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+
+```

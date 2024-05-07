@@ -1,0 +1,13 @@
+name: CricketMetrics
+title: CricketMetrics
+username: yq6ayj-srinivasan0poonkundran
+account: yq6ayj-srinivasan0poonkundran
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11940556
+bundleId: 8579774
+url: https://yq6ayj-srinivasan0poonkundran.shinyapps.io/CricketMetrics/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: code.qmd|dashboard.html|dashboard.Rmd|ODI.html|ODI.Rmd|ODI2.html|ODI2.Rmd|ODI3.html|ODI3.Rmd|README.md
